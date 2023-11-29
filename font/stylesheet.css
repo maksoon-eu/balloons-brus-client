@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'Myra 4F Caps';
+    src: url('Myra4FCaps.eot');
+    src: local('Myra 4F Caps'), local('Myra4FCaps'),
+        url('Myra4FCaps.eot?#iefix') format('embedded-opentype'),
+        url('Myra4FCaps.woff2') format('woff2'),
+        url('Myra4FCaps.woff') format('woff'),
+        url('Myra4FCaps.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Myra 4F Caps';
+    src: url('Myra4FCaps-Bold.eot');
+    src: local('Myra 4F Caps Bold'), local('Myra4FCaps-Bold'),
+        url('Myra4FCaps-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Myra4FCaps-Bold.woff2') format('woff2'),
+        url('Myra4FCaps-Bold.woff') format('woff'),
+        url('Myra4FCaps-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Myra 4F Caps';
+    src: url('Myra4FCaps-Light.eot');
+    src: local('Myra 4F Caps Light'), local('Myra4FCaps-Light'),
+        url('Myra4FCaps-Light.eot?#iefix') format('embedded-opentype'),
+        url('Myra4FCaps-Light.woff2') format('woff2'),
+        url('Myra4FCaps-Light.woff') format('woff'),
+        url('Myra4FCaps-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+

@@ -1,0 +1,27 @@
+@import '../../style/variables.scss';
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    max-width: 650px;
+    width: 100%;
+    margin: 0 auto;
+
+    &__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        height: 40px;
+        padding-top: 2px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+        transition: .15s linear;
+        cursor: pointer;
+
+        &:hover {
+            border-color: $secondary-color;
+            transform: translateY(-4px);
+        }
+    }
+}

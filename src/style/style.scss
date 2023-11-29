@@ -1,0 +1,146 @@
+@import './variables';
+@import '../../font/stylesheet';
+
+body {
+    margin: 0;
+    line-height: 1.4;
+
+    background-color: $background-color;
+
+    font-family: 'Myra 4F Caps', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #000;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*:before,
+*:after {
+    font-family: 'Myra 4F Caps', sans-serif;
+    box-sizing: border-box ;
+}
+
+ul,
+li,
+dl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input {
+    outline: none;
+    border: none;
+    font-family: 'Myra 4F Caps', sans-serif;
+    &::placeholder {
+        font-family: 'Myra 4F Caps', sans-serif;
+    }
+}
+
+button {
+    outline: none;
+    border: none;
+}
+
+.img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.app {
+    transition: .2s linear;
+    position: relative;
+    width: 100%;
+    max-width: 1270px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+
+
+@keyframes paddles {
+    0% { box-shadow: -25px -10px, 25px 10px}
+    50% { box-shadow: -25px 8px, 25px -10px }
+    100% { box-shadow: -25px -10px, 25px 10px}
+}
+
+@keyframes ballbounce {
+    0% { transform: translateX(-20px) scale(1, 1.2) }
+    25% { transform: scale(1.2, 1) }
+    50% { transform: translateX(15px) scale(1, 1.2) }
+    75% { transform: scale(1.2, 1) }
+    100% { transform: translateX(-20px) }
+}
+        
+
+// .light-theme {
+//     background-color: #fff;
+//     color: $light-theme-text-color;
+// }
+
+// .dark-theme {
+//     background-color: $background-color;
+//     color: $dart-theme-text-color;
+// }
+  
+.slick-next {
+    width: 80px;
+    height: 80px;
+    right: -17px;
+    z-index: 3;
+    &:before {
+        transition: .1s linear;
+        // content: url(../resourses/img/arrow_next.svg) !important;
+    }
+}
+
+.slick-prev {
+    width: 80px;
+    height: 80px;
+    left: -17px;
+    z-index: 3;
+    &:before {
+        transition: .1s linear;
+        // content: url(../resourses/img/arrow_prev.svg) !important;
+    }
+}
