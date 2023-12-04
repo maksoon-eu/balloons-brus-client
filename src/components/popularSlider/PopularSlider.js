@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../..";
 import { fetchItems, changeSliderType } from "../../http/itemsApi";
-import PopularSliderItem from "./PopularSliderItem";
+import PopularSliderItem from '../catalogItem/CatalogItem';
 import { observer } from "mobx-react-lite";
 
 import downArrow from '../../resources/down-arrow.svg';
@@ -74,11 +74,11 @@ const PopularSlider = observer(({id}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!items.typesLoading) {
+        if (items.sliderTypes.length !== 0) {
             setTypeId(items.sliderTypes.filter(item => item.id === id)[0].typeId)
             setSubTypeId(items.sliderTypes.filter(item => item.id === id)[0].subTypeId)
         }
-    }, [items.typesLoading])
+    }, [items.sliderTypes])
 
     useEffect(() => {
         if (typeId && subTypeId) {
@@ -92,14 +92,20 @@ const PopularSlider = observer(({id}) => {
                                 items.setSliderTypes(items.sliderTypes)
                             }
                         })
-                })
+                    })
+                    .catch(e => {
+                    })
             }
             
             setLoading(true)
-            fetchItems(typeId, subTypeId, 1, 4).then(data => {
-                items[`setItemsSlider${id}`](data.rows)
-                setLoading(false)
-            })
+            fetchItems(typeId, subTypeId, null, 1, 4)
+                .then(data => {
+                    items[`setItemsSlider${id}`](data.rows)
+                    setLoading(false)
+                })
+                .catch(e => {
+                    setLoading(false)
+                })
         }
     }, [typeId, subTypeId, user.isAuth])
 

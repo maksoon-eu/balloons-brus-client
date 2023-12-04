@@ -10,13 +10,21 @@ const MainPage = () => {
     const {items} = useContext(Context)
 
     useEffect(() => {
-        fetchTypes().then(data => {
-            items.setTypes(data)
-        })
-        fetchSliderType().then(data => {
-            items.setSliderTypes(data)
-            items.setTypesLoading(false)
-        })
+        items.setTypesLoading(true)
+        fetchTypes()
+            .then(data => {
+                items.setTypes(data)
+                items.setTypesLoading(false)
+            })
+            .catch(e => {
+                items.setTypesLoading(false)
+            })
+        fetchSliderType()
+            .then(data => {
+                items.setSliderTypes(data)
+            })
+            .catch(e => {
+            })
     }, [])
 
     return (

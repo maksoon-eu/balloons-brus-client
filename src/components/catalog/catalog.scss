@@ -1,0 +1,25 @@
+@import '../../style/variables.scss';
+
+.market {
+    display: flex;
+    margin-left: 70px;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.load__more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $secondary-color;
+    border-radius: 10px;
+    width: 160px;
+    height: 40px;
+    color: #fff;
+    padding-top: 2px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 40px;
+}

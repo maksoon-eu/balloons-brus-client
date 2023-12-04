@@ -8,10 +8,12 @@ import downArrow from '../../resources/down-arrow.svg';
 
 import './sideBar.scss'
 
-const LiItems = ({name, i, expanded, setExpanded, price = false, subType = false}) => {
+const LiItems = ({typeId = null, name, i, expanded, setExpanded, price = false, subType = false}) => {
     const isOpen = i === expanded;
     const [priceInputs, setPriceInputs] = useState(['', '']);
     const [inputError, setInputError] = useState(false);
+
+    const {items} = useContext(Context) 
 
     const onPriceInputs = (e) => {
         if (e.target.value.charAt(0) === ' ') {
@@ -21,11 +23,17 @@ const LiItems = ({name, i, expanded, setExpanded, price = false, subType = false
         setInputError(false)
     }
 
+    const changeFilters = (typeId, subTypeId) => {
+        items.setSelectedType(typeId)
+        items.setSelectedSubType(subTypeId)
+    }
+
     const onSubmit = () => {
         if (priceInputs.some(item => item === '') || +priceInputs[0] > +priceInputs[1]) {
             setInputError(true)
         } else {
             setInputError(false)
+            items.setSelectedPrice({priceLow: priceInputs[0], priceMax: priceInputs[1]})
         }
     }
 
@@ -71,6 +79,7 @@ const LiItems = ({name, i, expanded, setExpanded, price = false, subType = false
                                         whileHover={{ scale: 1.04 }} 
                                         whileTap={{ scale: 1 }} 
                                         className="catalog__list-text"
+                                        onClick={() => changeFilters(typeId, item.id)}
                                     >
                                         <div className="catalog__list-name">{item.name}</div>
                                     </motion.div>
@@ -168,6 +177,7 @@ const Path = props => (
 const Sidebar = observer(() => {
     const [sideOpened, setSideOpened] = useState(false);
     const [expanded, setExpanded] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const ref = useRef(null);
     const refBtn = useRef(null);
@@ -176,11 +186,14 @@ const Sidebar = observer(() => {
     const {items} = useContext(Context) 
 
     useEffect(() => {
-        items.setTypesLoading(true)
-        fetchTypes().then(data => {
-            items.setTypes(data)
-            items.setTypesLoading(false)
-        })
+        fetchTypes()
+            .then(data => {
+                items.setTypes(data)
+                setLoading(false)
+            })
+            .catch(e => {
+                setLoading(false)
+            })
     }, [])
     
     useEffect(() => {
@@ -203,14 +216,14 @@ const Sidebar = observer(() => {
     }, [sideOpened])
 
     const onOpenSidebar = () => {
-        if (!items.typesLoading) {
+        if (!loading) {
             setSideOpened(sideOpened => !sideOpened)
         }
     }
 
     const typeList = items.types.map((item, i) => {
         return (
-            <LiItems subType={item.subType.length ? item.subType : false} key={item.id} name={item.name} i={i} setExpanded={setExpanded} expanded={expanded}/>
+            <LiItems typeId={item.id} subType={item.subType.length ? item.subType : false} key={item.id} name={item.name} i={i} setExpanded={setExpanded} expanded={expanded}/>
         )
     })
 

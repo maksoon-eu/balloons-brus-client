@@ -8,6 +8,7 @@ export default class ItemStore {
         this._itemsSlider2 = []
         this._itemsSlider3 = []
         this._selectedType = {}
+        this._selectedSubType = {}
         this._selectedPrice = {}
         this._sliderTypes = []
         this._updateTypes = false
@@ -50,6 +51,10 @@ export default class ItemStore {
         this.setPage(1)
         this._selectedType = type
     }
+    setSelectedSubType(subType) {
+        this.setPage(1)
+        this._selectedSubType = subType
+    }
     setSelectedPrice(price) {
         this.setPage(1)
         this._selectedPrice = price
@@ -90,6 +95,9 @@ export default class ItemStore {
     }
     get selectedType() {
         return this._selectedType
+    }
+    get selectedSubType() {
+        return this._selectedSubType
     }
     get selectedPrice() {
         return this._selectedPrice
