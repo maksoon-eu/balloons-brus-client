@@ -1,0 +1,48 @@
+.skeleton {
+    &__item {
+        border-radius: 15px;
+        max-width: 230px;
+        width: 100%;
+        height: 342px;
+        margin: 0 15px;
+        margin-bottom: 20px;
+    }
+
+    &--wave {
+        position: relative;
+        overflow: hidden;
+        background-color: rgb(231 231 231);
+
+        &:after {
+            animation: 2s linear 0.5s infinite normal none running animation-wave;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.09), transparent);
+            content: "";
+            position: absolute;
+            transform: translateX(-100%);
+            inset: 0px;
+        }
+    }
+
+    @keyframes animation-wave {
+        0% {
+            -webkit-transform: translateX(-100%);
+            -moz-transform: translateX(-100%);
+            -ms-transform: translateX(-100%);
+            transform: translateX(-100%);
+        }
+
+        50% {
+            -webkit-transform: translateX(100%);
+            -moz-transform: translateX(100%);
+            -ms-transform: translateX(100%);
+            transform: translateX(100%);
+        }
+
+        100% {
+            -webkit-transform: translateX(100%);
+            -moz-transform: translateX(100%);
+            -ms-transform: translateX(100%);
+            transform: translateX(100%);
+        }
+    }
+}

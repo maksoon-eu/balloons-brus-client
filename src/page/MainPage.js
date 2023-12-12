@@ -10,6 +10,7 @@ const MainPage = () => {
     const {items} = useContext(Context)
 
     useEffect(() => {
+        if (items.types.length === 0) {
         items.setTypesLoading(true)
         fetchTypes()
             .then(data => {
@@ -19,12 +20,15 @@ const MainPage = () => {
             .catch(e => {
                 items.setTypesLoading(false)
             })
+        }
+        if (items.sliderTypes.length === 0) {
         fetchSliderType()
             .then(data => {
                 items.setSliderTypes(data)
             })
             .catch(e => {
             })
+        }
     }, [])
 
     return (

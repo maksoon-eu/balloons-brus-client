@@ -1,0 +1,48 @@
+@import '../../style/variables.scss';
+
+.sort {
+    &__btn {
+        position: absolute;
+        right: 0;
+        top: -33px;
+        cursor: pointer;
+    }
+
+    &__modal {
+        background-color: rgb(197 171 255 / 89%);
+        position: absolute;
+        top: 0px;
+        right: 0;
+        z-index: 5;
+        border-radius: 10px;
+        min-width: 200px;
+        padding: 10px;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+
+        .alphabet {
+            width: 16px;
+            height: 16px;
+        }
+
+        &:not(:last-of-type) {
+            padding-bottom: 5px;
+            border-bottom: 1px solid #fff;
+        }
+
+        &:not(:first-of-type) {
+            margin-top: 5px;
+        }
+
+        span {
+            font-size: 12px;
+            color: #fff;
+            padding-top: 2px;
+        }
+    }
+}

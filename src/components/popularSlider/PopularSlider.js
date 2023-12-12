@@ -2,15 +2,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../..";
 import { fetchItems, changeSliderType } from "../../http/itemsApi";
-import PopularSliderItem from '../catalogItem/CatalogItem';
 import { observer } from "mobx-react-lite";
+
+import SkeletonItem from '../skeleton/SkeletonItem';
+import CatalogItem from '../catalogItem/CatalogItem';
 
 import downArrow from '../../resources/down-arrow.svg';
 
 import './popularSlider.scss';
 
-const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, subTypeId = null, setSubTypeId = null}) => {
+const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, subTypeId = null, setSubTypeId = null, setUpdateList}) => {
     const [dropdownToggle, setDropdownToggle] = useState(false);
+
+    const {items} = useContext(Context);
 
     const ref = useRef(null)
 
@@ -29,7 +33,7 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
     }, [dropdownToggle])
 
     const onDropdownActive = () => {
-        if (!loading) {
+        if (!loading && !items.typeLoading) {
             setDropdownToggle(dropdownToggle => !dropdownToggle)
         }
     }
@@ -39,6 +43,7 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
             setSubTypeId(null)
         }
         setState(state => state === id ? null : id)
+        setUpdateList(true)
         setDropdownCurrent(dropdownCurrent === e.currentTarget.textContent ? false : e.currentTarget.textContent)
         setDropdownToggle(false)
     }
@@ -71,7 +76,11 @@ const PopularSlider = observer(({id}) => {
     const [subType, setSubType] = useState([]);
     const [dropdownTypeCurrent, setDropdownTypeCurrent] = useState(false);
     const [dropdownSubTypeCurrent, setDropdownSubTypeCurrent] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [updateList, setUpdateList] = useState(false);
+
+    const skeletonArr = ['', '', '', ''];
+    let itemList = [];
 
     useEffect(() => {
         if (items.sliderTypes.length !== 0) {
@@ -81,7 +90,8 @@ const PopularSlider = observer(({id}) => {
     }, [items.sliderTypes])
 
     useEffect(() => {
-        if (typeId && subTypeId) {
+        // console.log(typeId, subTypeId, itemList.length)
+        if (typeId && subTypeId && (itemList.length === 0 || updateList)) {
             if (user.isAuth) {
                 changeSliderType(id, {typeId, subTypeId})
                     .then(data => {
@@ -96,12 +106,14 @@ const PopularSlider = observer(({id}) => {
                     .catch(e => {
                     })
             }
-            
+
             setLoading(true)
             fetchItems(typeId, subTypeId, null, 1, 4)
                 .then(data => {
+                    setTimeout(() => {
                     items[`setItemsSlider${id}`](data.rows)
                     setLoading(false)
+                    }, 2000)
                 })
                 .catch(e => {
                     setLoading(false)
@@ -129,9 +141,15 @@ const PopularSlider = observer(({id}) => {
         }
     }, [typeId])
 
-    const itemList = items[`itemsSlider${id}`].map(item => {
+    itemList = items[`itemsSlider${id}`].map(item => {
         return (
-            <PopularSliderItem key={item.id} item={item} />
+            <CatalogItem key={item.id} item={item} />
+        )
+    })
+
+    const skeletonList = skeletonArr.map((item, i) => {
+        return (
+            <SkeletonItem key={i}/>
         )
     })
 
@@ -143,22 +161,24 @@ const PopularSlider = observer(({id}) => {
                 <Dropdown 
                     type="Категория" 
                     typeList={items.types} 
-                    loading={items.typesLoading} 
+                    loading={loading} 
                     setState={setTypeId} 
                     state={typeId}
                     dropdownCurrent={dropdownTypeCurrent}
                     setDropdownCurrent={setDropdownTypeCurrent}
                     setSubTypeId={setSubTypeId} 
                     subTypeId={subTypeId}
+                    setUpdateList={setUpdateList}
                 />
                 <Dropdown 
                     type="Подкатегория" 
                     typeList={subType} 
-                    loading={items.typesLoading} 
+                    loading={loading} 
                     setState={setSubTypeId} 
                     state={subTypeId}
                     dropdownCurrent={dropdownSubTypeCurrent}
                     setDropdownCurrent={setDropdownSubTypeCurrent}
+                    setUpdateList={setUpdateList}
                 />
             </div>}
             <AnimatePresence mode="wait">
@@ -169,7 +189,7 @@ const PopularSlider = observer(({id}) => {
                     key={loading}
                     className="slider__flex"
                 >
-                    {loading ? 'Loading...' : itemList}
+                    {loading ? skeletonList : itemList}
                 </motion.div>
             </AnimatePresence>
         </div>

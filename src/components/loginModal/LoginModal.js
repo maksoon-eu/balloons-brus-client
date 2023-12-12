@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion';
 import { login } from '../../http/userApi';
@@ -7,7 +7,7 @@ import { Context } from "../..";
 import './loginModal.scss';
 import { observer } from 'mobx-react-lite';
 
-const LoginModal = observer(({loginModal, setLoginModal}) => {
+const LoginModal = observer(({loginModal, setLoginModal, refLogin}) => {
     const [userLogin, setUserLogin] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [loginError, setLoginError] = useState('');
@@ -16,6 +16,20 @@ const LoginModal = observer(({loginModal, setLoginModal}) => {
     const navigate = useNavigate();
 
     const {user} = useContext(Context);
+
+    useEffect(() => {
+        const clickOutElement = (e) => {
+            if (loginModal && refLogin.current && !refLogin.current.contains(e.target)) {
+                setLoginModal(false)
+            }
+        }
+    
+        document.addEventListener("mousedown", clickOutElement)
+    
+        return function() {
+          document.removeEventListener("mousedown", clickOutElement)
+        }
+    }, [loginModal])
 
     const signIn = async () => {
         if (userLogin !== '' && userPassword !== '') {
@@ -37,7 +51,7 @@ const LoginModal = observer(({loginModal, setLoginModal}) => {
         <motion.div 
             className="modal" 
             initial={{ opacity: 0 }}
-            variants={{open: {opacity: 1, zIndex: 10}, closed: {opacity: 0, zIndex: -10, transition: {zIndex: {delay: .2}}}}}
+            variants={{open: {opacity: 1, display: 'block'}, closed: {opacity: 0, display: 'none', transition: {display: {delay: .2}}}}}
             animate={loginModal ? "open" : "closed"}
             transition={{ duration: 0.2 }}
         >

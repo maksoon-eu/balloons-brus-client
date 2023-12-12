@@ -30,8 +30,8 @@ export const createItem = async (item) => {
     return data
 }
 
-export const fetchItems = async (typeId, subTypeId, price, page, limit = 4) => {
-    const {data} = await $host.get('api/item', {params: {typeId, subTypeId, price, page, limit}})
+export const fetchItems = async (typeId, subTypeId, price, page, limit = 4, sort) => {
+    const {data} = await $host.get('api/item', {params: {typeId, subTypeId, price, page, limit, sort}})
     return data
 }
 

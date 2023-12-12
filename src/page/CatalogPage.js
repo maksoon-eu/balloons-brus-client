@@ -1,25 +1,12 @@
 import { motion } from "framer-motion";
 import Sidebar from "../components/sideBar/SideBar";
 import Catalog from "../components/catalog/Catalog";
-import { useEffect, useContext } from "react";
+import { useEffect, useState } from "react";
 import { Context } from "..";
 import { observer } from "mobx-react-lite";
 
 const CatalogPage = observer(() => {
-    const {items} = useContext(Context)
-    
-    useEffect(() => {
-        console.log(items.itemsLoading)
-        if (!items.itemsLoading) {
-            const scrollPosition = sessionStorage.getItem('scrollPosition');
-            if (scrollPosition) {
-                setTimeout(() => {
-                    window.scrollTo(0, parseInt(scrollPosition, 10));
-                    sessionStorage.removeItem('scrollPosition');
-                }, 350)
-            }
-        }
-    }, [items.itemsLoading]);
+    const [updateList, setUpdateList] = useState(false);
 
     return (
         <motion.div
@@ -29,8 +16,8 @@ const CatalogPage = observer(() => {
         transition={{ duration: 0.4 }}
         className="catalog"
         >
-            <Sidebar/>
-            <Catalog/>
+            <Sidebar setUpdateList={setUpdateList}/>
+            <Catalog updateList={updateList} setUpdateList={setUpdateList}/>
         </motion.div>
     )
 })

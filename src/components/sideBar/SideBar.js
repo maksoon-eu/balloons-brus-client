@@ -8,7 +8,7 @@ import downArrow from '../../resources/down-arrow.svg';
 
 import './sideBar.scss'
 
-const LiItems = ({typeId = null, name, i, expanded, setExpanded, price = false, subType = false}) => {
+const LiItems = observer(({setUpdateList, typeId = null, name, i, expanded, setExpanded, price = false, subType = false}) => {
     const isOpen = i === expanded;
     const [priceInputs, setPriceInputs] = useState(['', '']);
     const [inputError, setInputError] = useState(false);
@@ -21,11 +21,21 @@ const LiItems = ({typeId = null, name, i, expanded, setExpanded, price = false, 
         }
         setPriceInputs(priceInputs.map((item, i) => i === +e.target.name ? e.target.value : item))
         setInputError(false)
+        setUpdateList(true)
     }
 
     const changeFilters = (typeId, subTypeId) => {
-        items.setSelectedType(typeId)
-        items.setSelectedSubType(subTypeId)
+        if (!items.itemsLoading) {
+            if (items.selectedSubType === subTypeId) {
+                items.setSelectedType(null)
+                items.setSelectedSubType(null)
+                setUpdateList(true)
+            } else {
+                items.setSelectedType(typeId)
+                items.setSelectedSubType(subTypeId)
+                setUpdateList(true)
+            }
+        }
     }
 
     const onSubmit = () => {
@@ -74,7 +84,7 @@ const LiItems = ({typeId = null, name, i, expanded, setExpanded, price = false, 
                     {subType ? 
                         subType.map((item, i) => {
                             return (
-                                <div className="catalog__list-item" key={i}>
+                                <div className="catalog__list-item" key={i} style={{background: items.selectedSubType === item.id ? '#8d59fe' : '#794bb5bf'}}>
                                     <motion.div 
                                         whileHover={{ scale: 1.04 }} 
                                         whileTap={{ scale: 1 }} 
@@ -116,7 +126,7 @@ const LiItems = ({typeId = null, name, i, expanded, setExpanded, price = false, 
             </AnimatePresence>
         </motion.li>
     )
-}
+})
 
 const sidebar = {
     open: (height = 1000) => ({
@@ -174,7 +184,7 @@ const Path = props => (
     />
 );
 
-const Sidebar = observer(() => {
+const Sidebar = observer(({setUpdateList}) => {
     const [sideOpened, setSideOpened] = useState(false);
     const [expanded, setExpanded] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -186,6 +196,7 @@ const Sidebar = observer(() => {
     const {items} = useContext(Context) 
 
     useEffect(() => {
+        if (items.types.length === 0) {
         fetchTypes()
             .then(data => {
                 items.setTypes(data)
@@ -194,6 +205,7 @@ const Sidebar = observer(() => {
             .catch(e => {
                 setLoading(false)
             })
+        }
     }, [])
     
     useEffect(() => {
@@ -216,14 +228,12 @@ const Sidebar = observer(() => {
     }, [sideOpened])
 
     const onOpenSidebar = () => {
-        if (!loading) {
-            setSideOpened(sideOpened => !sideOpened)
-        }
+        setSideOpened(sideOpened => !sideOpened)
     }
 
     const typeList = items.types.map((item, i) => {
         return (
-            <LiItems typeId={item.id} subType={item.subType.length ? item.subType : false} key={item.id} name={item.name} i={i} setExpanded={setExpanded} expanded={expanded}/>
+            <LiItems setUpdateList={setUpdateList} typeId={item.id} subType={item.subType.length ? item.subType : false} key={item.id} name={item.name} i={i} setExpanded={setExpanded} expanded={expanded}/>
         )
     })
 
@@ -260,8 +270,8 @@ const Sidebar = observer(() => {
             variants={{
                 closed: { transition: {
                     delay: 0.7
-                },zIndex:-1 },
-                open: { zIndex:10 }
+                }, zIndex: -1 },
+                open: { zIndex: 10 }
             }}
             animate={sideOpened ? "open" : "closed"}
             custom={height.current}
@@ -270,7 +280,7 @@ const Sidebar = observer(() => {
             <motion.div className="background" variants={sidebar} />
             <motion.ul variants={variantsUl} className="catalog__ul">
                 {typeList}
-                <LiItems name={'Цена'} price={true} i={items.types.length} setExpanded={setExpanded} expanded={expanded}/>
+                <LiItems setUpdateList={setUpdateList} name={'Цена'} price={true} i={items.types.length} setExpanded={setExpanded} expanded={expanded}/>
             </motion.ul>
         </motion.aside>
         </>

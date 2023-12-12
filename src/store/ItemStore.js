@@ -11,6 +11,7 @@ export default class ItemStore {
         this._selectedSubType = {}
         this._selectedPrice = {}
         this._sliderTypes = []
+        this._itemsSort = ["updatedAt", "DESC"]
         this._updateTypes = false
         this._page = 1
         this._totalCount = 0
@@ -25,6 +26,9 @@ export default class ItemStore {
     }
     setUpdateTypes(type) {
         this._updateTypes = type
+    }
+    setItemsSort(sort) {
+        this._itemsSort = sort
     }
     setSliderTypes(types) {
         this._sliderTypes = types
@@ -71,6 +75,9 @@ export default class ItemStore {
     }
     get updateTypes() {
         return this._updateTypes
+    }
+    get itemsSort() {
+        return this._itemsSort
     }
     get sliderTypes() {
         return this._sliderTypes
