@@ -4,6 +4,8 @@ export default class ItemStore {
     constructor() {
         this._types = []
         this._items = []
+        this._item = []
+        this._itemsSimilar = []
         this._itemsSlider1 = []
         this._itemsSlider2 = []
         this._itemsSlider3 = []
@@ -13,6 +15,7 @@ export default class ItemStore {
         this._sliderTypes = []
         this._itemsSort = ["updatedAt", "DESC"]
         this._updateTypes = false
+        this._updateList = false
         this._page = 1
         this._totalCount = 0
         this._limit = 4
@@ -27,6 +30,9 @@ export default class ItemStore {
     setUpdateTypes(type) {
         this._updateTypes = type
     }
+    setUpdateList(bool) {
+        this._updateList = bool
+    }
     setItemsSort(sort) {
         this._itemsSort = sort
     }
@@ -35,6 +41,12 @@ export default class ItemStore {
     }
     setItems(items) {
         this._items = items
+    }
+    setItem(item) {
+        this._item = item
+    }
+    setSimilarItems(items) {
+        this._itemsSimilar = items
     }
     setItemsSlider1(items) {
         this._itemsSlider1 = items
@@ -76,6 +88,9 @@ export default class ItemStore {
     get updateTypes() {
         return this._updateTypes
     }
+    get updateList() {
+        return this._updateList
+    }
     get itemsSort() {
         return this._itemsSort
     }
@@ -84,6 +99,12 @@ export default class ItemStore {
     }
     get items() {
         return this._items
+    }
+    get item() {
+        return this._item
+    }
+    get similarItems() {
+        return this._itemsSimilar
     }
     get itemsSlider1() {
         return this._itemsSlider1

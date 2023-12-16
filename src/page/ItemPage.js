@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import ChooseItem from "../components/choosePage/ChooseItem";
 
 const ItemPage = () => {
     return (
@@ -8,7 +9,7 @@ const ItemPage = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }}
         >
-            Item
+            <ChooseItem/>
         </motion.div>
     )
 }

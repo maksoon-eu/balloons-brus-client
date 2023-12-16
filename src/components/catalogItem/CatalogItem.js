@@ -6,8 +6,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Context } from "../..";
 import { observer } from "mobx-react-lite";
 
-import './catalogItem.scss';
 import ChangeModal from "../changeModal/ChangeModal";
+
+import loading from '../../resources/loading.svg'
+
+import 'react-lazy-load-image-component/src/effects/opacity.css';
+import './catalogItem.scss';
 
 const CatalogItem = observer(({item}) => {
     const [count, setCount] = useState(1);
@@ -75,14 +79,15 @@ const CatalogItem = observer(({item}) => {
                 <div className="market__item-top">
                     <LazyLoadImage 
                         width='100%' height='100%'
-                        // placeholderSrc={}
-                        effect="blur"
+                        placeholderSrc={loading}
+                        effect="opacity"
                         src={`http://localhost:4000/${item.img}`}
+                        crossOrigin="anonymous"
                         alt='img'
                     />
                 </div>
                 <div className="market__item-bottom">
-                    <div className="market__item-name">{item.name}</div>
+                    <div className="market__item-name">{item.name.length > 15 ? item.name.slice(0, 15)+ '...' : item.name}</div>
                     <div className="market__item-price">{`${item.price} ₽`}</div>
                     <div className="market__item-group">
                         <div className="market__item-counter">

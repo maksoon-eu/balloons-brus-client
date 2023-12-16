@@ -113,6 +113,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
             items.setItemsLoading(true)
             createItem(formData)
                 .then(data => {
+                    setTimeout(() => {
                     items.setItemsLoading(false)
                     setModalOpen(false)
                     setInputs(['', '', ''])
@@ -120,9 +121,11 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setSubTypeId(false)
                     setSubType([])
                     setImgFile()
-                    refImg.current.setAttribute("src", '')
+                    refImg.current.setAttribute("src", "")
                     refImg.current.style.opacity = 0;
                     setDropdownTypeCurrent(false)
+                    document.querySelector('.create__label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
+                    }, 3000)
                 })
                 .catch(e => {
                     console.log(e.message)
@@ -133,6 +136,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
     }
 
     const previewFile = (e, inputImg) => {
+        console.log(1)
         const file = e.target.files[0];
         setImgFile(e.target.files[0])
     
@@ -173,7 +177,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
             transition={{duration: .4}}
         >
             <div className="create__modal-content" ref={refModal}>
-                <div className="create__modal-img" onClick={() => document.querySelector('.create__input-file').click()}>
+                <div className="create__modal-img" onClick={() => document.querySelector('.create__input-file').click(() => console.log('click'))}>
                     <img ref={refImg} src="" alt="" className="create__img"/>
                     <input className='create__input-file' type="file" onInput={(e) => previewFile(e, refImg)} id='img'/>
                     <div className="create__choose">

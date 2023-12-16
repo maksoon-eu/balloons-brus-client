@@ -29,7 +29,7 @@ const SortModal = observer(({setUpdateList, sortModal, setSortModal, refSort}) =
             } else {
                 items.setItemsSort([category, trend])
             }
-            setUpdateList(true)
+            items.setUpdateList(true)
         }
     }
 

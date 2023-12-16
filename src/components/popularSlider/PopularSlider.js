@@ -90,7 +90,6 @@ const PopularSlider = observer(({id}) => {
     }, [items.sliderTypes])
 
     useEffect(() => {
-        // console.log(typeId, subTypeId, itemList.length)
         if (typeId && subTypeId && (itemList.length === 0 || updateList)) {
             if (user.isAuth) {
                 changeSliderType(id, {typeId, subTypeId})
@@ -190,6 +189,7 @@ const PopularSlider = observer(({id}) => {
                     className="slider__flex"
                 >
                     {loading ? skeletonList : itemList}
+                    {!loading && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span>: null}
                 </motion.div>
             </AnimatePresence>
         </div>

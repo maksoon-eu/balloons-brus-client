@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { createSubType } from "../../http/itemsApi";
-import { v4 as uuidv4 } from 'uuid';
 
 import downArrow from '../../resources/down-arrow.svg';
 
@@ -93,7 +92,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setInput('')
                     setTypeId(false)
                     setDropdownCurrent(false)
-                    items.setUpdateTypes(uuidv4())
+                    items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
                     console.log(e.message)

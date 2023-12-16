@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { deleteSubType } from "../../http/itemsApi";
 import downArrow from '../../resources/down-arrow.svg';
-import { v4 as uuidv4 } from 'uuid';
 
 import './create.scss';
 
@@ -94,7 +93,7 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setSubType([])
                     setDropdownTypeCurrent(false)
                     setDropdownSubTypeCurrent(false)
-                    items.setUpdateTypes(uuidv4())
+                    items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
                     console.log(e.message)

@@ -18,6 +18,7 @@ const AdminPage = observer(() => {
             items.setTypes(data)
             items.setTypesLoading(false)
         })
+        items.setUpdateList(true)
     }, [items.updateTypes])
 
     return (

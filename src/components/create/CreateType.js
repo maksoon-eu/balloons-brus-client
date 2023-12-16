@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { createType } from "../../http/itemsApi";
-import { v4 as uuidv4 } from 'uuid';
 
 import './create.scss';
 
@@ -34,7 +33,7 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     items.setTypesLoading(false)
                     setModalOpen(false)
                     setInput('')
-                    items.setUpdateTypes(uuidv4())
+                    items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
                     items.setTypesLoading(false)

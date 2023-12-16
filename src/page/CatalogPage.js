@@ -1,13 +1,9 @@
 import { motion } from "framer-motion";
 import Sidebar from "../components/sideBar/SideBar";
 import Catalog from "../components/catalog/Catalog";
-import { useEffect, useState } from "react";
-import { Context } from "..";
 import { observer } from "mobx-react-lite";
 
 const CatalogPage = observer(() => {
-    const [updateList, setUpdateList] = useState(false);
-
     return (
         <motion.div
         initial={{ opacity: 0 }}
@@ -16,8 +12,8 @@ const CatalogPage = observer(() => {
         transition={{ duration: 0.4 }}
         className="catalog"
         >
-            <Sidebar setUpdateList={setUpdateList}/>
-            <Catalog updateList={updateList} setUpdateList={setUpdateList}/>
+            <Sidebar/>
+            <Catalog/>
         </motion.div>
     )
 })

@@ -8,7 +8,7 @@ import downArrow from '../../resources/down-arrow.svg';
 
 import './sideBar.scss'
 
-const LiItems = observer(({setUpdateList, typeId = null, name, i, expanded, setExpanded, price = false, subType = false}) => {
+const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price = false, subType = false}) => {
     const isOpen = i === expanded;
     const [priceInputs, setPriceInputs] = useState(['', '']);
     const [inputError, setInputError] = useState(false);
@@ -21,7 +21,7 @@ const LiItems = observer(({setUpdateList, typeId = null, name, i, expanded, setE
         }
         setPriceInputs(priceInputs.map((item, i) => i === +e.target.name ? e.target.value : item))
         setInputError(false)
-        setUpdateList(true)
+        items.setUpdateList(true)
     }
 
     const changeFilters = (typeId, subTypeId) => {
@@ -29,12 +29,11 @@ const LiItems = observer(({setUpdateList, typeId = null, name, i, expanded, setE
             if (items.selectedSubType === subTypeId) {
                 items.setSelectedType(null)
                 items.setSelectedSubType(null)
-                setUpdateList(true)
             } else {
                 items.setSelectedType(typeId)
                 items.setSelectedSubType(subTypeId)
-                setUpdateList(true)
             }
+            items.setUpdateList(true)
         }
     }
 
