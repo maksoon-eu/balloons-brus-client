@@ -175,6 +175,10 @@
         transition: .15s linear;
         cursor: pointer;
         border-radius: 15px;
+
+        &--opacity {
+            opacity: 1;
+        }
     }
 
     &__label {
@@ -190,6 +194,10 @@
             top: 165px;
             left: 50%;
             transform: translateX(-50%);
+        }
+
+        &--opacity {
+            transform: translateY(-965%) translateX(-125%) scale(.7);
         }
     }
 

@@ -10,9 +10,13 @@
 
     &-icon {
         position: absolute;
-        right: 10px;
+        right: 40px;
         top: 10px;
         z-index: 20;
+
+        &--trash {
+            right: 10px;
+        }
     }
 
     &-hover {

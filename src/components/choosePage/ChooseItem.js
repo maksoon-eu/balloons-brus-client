@@ -7,7 +7,9 @@ import { Context } from "../..";
 import { Link } from "react-router-dom";
 
 import SimilarSlider from "../similarSlider/SimilarSlider";
+import loading from '../../resources/loading.svg'
 
+import 'react-lazy-load-image-component/src/effects/opacity.css';
 import loadingImg from '../../resources/loading.svg';
 import sklad from '../../resources/sklad.svg';
 import car from '../../resources/car.svg';

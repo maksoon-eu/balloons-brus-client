@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 import './sortModal.scss';
 
-const SortModal = observer(({setUpdateList, sortModal, setSortModal, refSort}) => {
+const SortModal = observer(({sortModal, setSortModal, refSort}) => {
     const {items} = useContext(Context);
 
     useEffect(() => {

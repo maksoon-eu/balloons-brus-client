@@ -136,7 +136,6 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
     }
 
     const previewFile = (e, inputImg) => {
-        console.log(1)
         const file = e.target.files[0];
         setImgFile(e.target.files[0])
     
