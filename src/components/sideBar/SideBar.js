@@ -8,7 +8,7 @@ import downArrow from '../../resources/down-arrow.svg';
 
 import './sideBar.scss'
 
-const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price = false, subType = false}) => {
+const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price = false, subType = false, clear = false}) => {
     const isOpen = i === expanded;
     const [priceInputs, setPriceInputs] = useState(['', '']);
     const [inputError, setInputError] = useState(false);
@@ -46,10 +46,19 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
         }
     }
 
+    const clearAllFilters = () => {
+        if (!items.itemsLoading && items.selectedType && items.selectedSubType) {
+            items.setSelectedType(null)
+            items.setSelectedSubType(null)
+            items.setUpdateList(true)
+        }
+    }
+
     return (
         <motion.li
             variants={variantsLi}
             className="catalog__li"
+            onClick={clear ? clearAllFilters : null}
         >
             <motion.div 
                 className="catalog__slide-item" 
@@ -66,7 +75,7 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
                     </div> : null}
                 </motion.div>
             </motion.div>
-            <AnimatePresence initial={false}>
+            {!clear && <AnimatePresence initial={false}>
                 {isOpen && (price || subType) ? 
                 <motion.section
                     key="content"
@@ -122,7 +131,7 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
                         </div>
                     : null}
                 </motion.section> : null}
-            </AnimatePresence>
+            </AnimatePresence>}
         </motion.li>
     )
 })
@@ -186,7 +195,7 @@ const Path = props => (
 const Sidebar = observer(({setUpdateList}) => {
     const [sideOpened, setSideOpened] = useState(false);
     const [expanded, setExpanded] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const ref = useRef(null);
     const refBtn = useRef(null);
@@ -227,7 +236,7 @@ const Sidebar = observer(({setUpdateList}) => {
     }, [sideOpened])
 
     const onOpenSidebar = () => {
-        setSideOpened(sideOpened => !sideOpened)
+        setSideOpened(sideOpened => !sideOpened && loading ? sideOpened : !sideOpened)
     }
 
     const typeList = items.types.map((item, i) => {
@@ -235,7 +244,6 @@ const Sidebar = observer(({setUpdateList}) => {
             <LiItems setUpdateList={setUpdateList} typeId={item.id} subType={item.subType.length ? item.subType : false} key={item.id} name={item.name} i={i} setExpanded={setExpanded} expanded={expanded}/>
         )
     })
-
   
     return (
         <>
@@ -280,6 +288,8 @@ const Sidebar = observer(({setUpdateList}) => {
             <motion.ul variants={variantsUl} className="catalog__ul">
                 {typeList}
                 <LiItems setUpdateList={setUpdateList} name={'Цена'} price={true} i={items.types.length} setExpanded={setExpanded} expanded={expanded}/>
+                <LiItems setUpdateList={setUpdateList} name={'Отчистить все'} clear={true} i={items.types.length+1} setExpanded={setExpanded} expanded={expanded}/>
+                {/* <div className="catalog__clean" onClick={clearAllFilters}>Отчистить все <img src={clean} alt="" /></div> */}
             </motion.ul>
         </motion.aside>
         </>

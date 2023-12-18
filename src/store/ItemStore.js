@@ -5,6 +5,7 @@ export default class ItemStore {
         this._types = []
         this._items = []
         this._item = []
+        this._cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []
         this._itemsSimilar = []
         this._itemsSlider1 = []
         this._itemsSlider2 = []
@@ -44,6 +45,9 @@ export default class ItemStore {
     }
     setItem(item) {
         this._item = item
+    }
+    setCart(item) {
+        this._cart = item
     }
     setSimilarItems(items) {
         this._itemsSimilar = items
@@ -102,6 +106,9 @@ export default class ItemStore {
     }
     get item() {
         return this._item
+    }
+    get cart() {
+        return this._cart
     }
     get similarItems() {
         return this._itemsSimilar

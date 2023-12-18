@@ -1,7 +1,8 @@
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Context } from '../..';
+import { observer } from 'mobx-react-lite';
 
 import LoginModal from '../loginModal/LoginModal';
 
@@ -12,9 +13,11 @@ import tel from '../../resources/tel.svg';
 
 import './header.scss';
 
-const Header = () => {
+const Header = observer(() => {
     const [loginModal, setLoginModal] = useState(false);
-    const {user} = useContext(Context)
+    const [price, setPrice] = useState(0)
+
+    const {items, user} = useContext(Context)
 
     const refLogin = useRef(null);
 
@@ -25,6 +28,14 @@ const Header = () => {
             setLoginModal(loginModal => !loginModal)
         }
     }
+
+    useEffect(() => {
+        let tempPrice = 0;
+        items.cart.forEach(item => {
+            tempPrice += item[2] * item[1]
+        })
+        setPrice(tempPrice)
+    }, [items.cart])
 
     return (
         <header className="header">
@@ -79,19 +90,19 @@ const Header = () => {
                     <NavLink to='/cart' className={({ isActive }) => isActive ? "header__icons-cart active" : "header__icons-cart"}>
                         <div className="header__cart-img">
                             <svg width="20" height="20" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="17" cy="2" r="2" fill="#DC2626"/>
+                                {items.cart.length > 0 && <circle cx="17" cy="2" r="2" fill="#DC2626"/>}
                                 <path fillRule="evenodd" clipRule="evenodd" d="M3.75739 5.16649V5.01204C3.80914 3.66519 4.37608 2.39088 5.33931 1.45643C6.30255 0.521977 7.58725 0 8.92385 0C10.2604 0 11.5451 0.521977 12.5083 1.45643C13.4715 2.39088 14.0385 3.66519 14.0902 5.01204V5.16649H14.5959C15.1188 5.16662 15.6357 5.27651 16.1131 5.48901C16.5904 5.70151 17.0176 6.01186 17.3666 6.39983C17.7156 6.7878 17.9786 7.24469 18.1386 7.74074C18.2986 8.23679 18.352 8.76087 18.2953 9.27884L17.4181 17.3135C17.3289 18.2315 16.8998 19.0835 16.2145 19.7033C15.5291 20.3231 14.6366 20.6662 13.7111 20.6657H5.04632C4.16193 20.669 3.30562 20.3565 2.63256 19.7847C1.9595 19.213 1.51421 18.4199 1.37745 17.5491L0.0579117 9.51448C-0.0386893 8.97795 -0.014201 8.4267 0.129606 7.90078C0.273412 7.37485 0.532902 6.88745 0.889281 6.47393C1.23915 6.06439 1.67406 5.73541 2.16394 5.50968C2.65382 5.28395 3.18707 5.16686 3.72678 5.16649H3.75739ZM12.5399 5.01204H5.30771C5.35078 4.07411 5.75055 3.18898 6.42398 2.54059C7.09742 1.89221 7.99276 1.53042 8.92385 1.53042C9.85493 1.53042 10.7502 1.89221 11.4236 2.54059C12.0971 3.18898 12.4968 4.07411 12.5399 5.01204ZM2.80397 6.92777C3.09314 6.79419 3.40806 6.72493 3.72678 6.72478L14.5807 6.69437C14.8885 6.69589 15.1926 6.76167 15.4734 6.88745C15.7542 7.01323 16.0055 7.19623 16.211 7.42467C16.4165 7.65311 16.5717 7.92192 16.6666 8.21377C16.7615 8.50562 16.7941 8.81406 16.7621 9.11921L15.9002 17.1919C15.8418 17.7294 15.5859 18.2264 15.1817 18.5871C14.7775 18.9478 14.2537 19.1467 13.7111 19.1454H5.04632C4.5245 19.1464 4.01948 18.9616 3.62231 18.6243C3.22513 18.2871 2.96195 17.8195 2.88014 17.3059L1.5605 9.27123C1.50849 8.95786 1.5256 8.63696 1.6105 8.33081C1.6954 8.02466 1.84611 7.74059 2.05221 7.49831C2.25831 7.25603 2.51481 7.06134 2.80397 6.92777ZM5.63607 11.2722C6.15485 11.2722 6.57542 10.8517 6.57542 10.3329C6.57542 9.8141 6.15485 9.39354 5.63607 9.39354C5.11728 9.39354 4.69672 9.8141 4.69672 10.3329C4.69672 10.8517 5.11728 11.2722 5.63607 11.2722ZM13.1508 10.3329C13.1508 10.8517 12.7303 11.2722 12.2115 11.2722C11.6927 11.2722 11.2722 10.8517 11.2722 10.3329C11.2722 9.8141 11.6927 9.39354 12.2115 9.39354C12.7303 9.39354 13.1508 9.8141 13.1508 10.3329Z" fill="#4B5563"/>
                             </svg>
                         </div>
                         <div className="header__cart-text">
-                            <div className="header__cart-title">Товаров <span>1</span></div>
-                            <div className="header__cart-cost">1 934.15 ₽</div>
+                            <div className="header__cart-title">Товаров <span>{items.cart.length}</span></div>
+                            <div className="header__cart-cost">{`${price} ₽`}</div>
                         </div>
                     </NavLink>
                 </div>
             </div>
         </header>
     )
-}
+})
 
 export default Header;

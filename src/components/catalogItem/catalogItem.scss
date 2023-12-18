@@ -4,18 +4,36 @@
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    height: 342px;
+    height: 350px;
     margin-bottom: 20px;
     position: relative;
 
-    &-icon {
-        position: absolute;
-        right: 40px;
-        top: 10px;
-        z-index: 20;
+    &:hover  &-icons {
+        transform: translateY(-5px);
+    }
 
-        &--trash {
-            right: 10px;
+    &:hover &-hover {
+        transform: translateY(-5px);
+        box-shadow: 6px 6px 15px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    &-icons {
+        background-color: #fff;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 9;
+        display: flex;
+        border-top-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        padding: 1px 10px;
+        padding-top: 5px;
+        transition: .2s linear;
+    }
+
+    &-icon {
+        &:not(:last-of-type) {
+            margin-right: 20px;
         }
     }
 
@@ -26,11 +44,6 @@
         border: 1px solid $secondary-color;
         border-radius: 15px;
         overflow: hidden;
-    }
-
-    &-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 6px 6px 15px 0px rgba(0, 0, 0, 0.2);
     }
     
     &-price {
@@ -47,7 +60,7 @@
         justify-content: center;
         align-items: center;
         color: #fff;
-        background-color: $secondary-color;
+        // background-color: $secondary-color;
         padding-top: 3px;
         cursor: pointer;
     }

@@ -11,9 +11,9 @@
     &__modal {
         background-color: rgb(197 171 255 / 89%);
         position: absolute;
-        top: 0px;
+        top: 0;
         right: 0;
-        z-index: 5;
+        z-index: 10;
         border-radius: 10px;
         min-width: 200px;
         padding: 10px;
