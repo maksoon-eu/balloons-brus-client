@@ -15,13 +15,13 @@ import './header.scss';
 
 const Header = observer(() => {
     const [loginModal, setLoginModal] = useState(false);
-    const [price, setPrice] = useState(0)
+    const [price, setPrice] = useState(0);
 
     const {items, user} = useContext(Context)
 
     const refLogin = useRef(null);
 
-    const location = useLocation()
+    const location = useLocation();
 
     const toggleLoginModal = () => {
         if (!user.isAuth) {
@@ -30,11 +30,11 @@ const Header = observer(() => {
     }
 
     useEffect(() => {
-        let tempPrice = 0;
+        let totalPrice = 0;
         items.cart.forEach(item => {
-            tempPrice += item[2] * item[1]
+            totalPrice += item[2] * item[1]
         })
-        setPrice(tempPrice)
+        setPrice(totalPrice)
     }, [items.cart])
 
     return (

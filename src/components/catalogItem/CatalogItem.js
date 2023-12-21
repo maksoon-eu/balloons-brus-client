@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useOnScreen } from "../../hooks/screen.hook";
+import { addToCart } from "../../helpers/Helpers";
 import { Link } from "react-router-dom";
 import { motion, useAnimation } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -49,29 +50,29 @@ const CatalogItem = observer(({item}) => {
     }
 
     const calcPlus = () => {
-        if (count > 0 && flag === -1) {
-            setCount(count => count + 1)
+        if (flag !== -1) {
+            if (items.cart[flag][1] > 0) {
+                setCount(items.cart[flag][1] + 1)
+                addToCart(item.id, items.cart[flag][1]+1, item.price, items)
+            }
+        } else {
+            if (count > 0) {
+                setCount(count => count + 1)
+            }
         }
     }
 
     const calcMinus = () => {
-        if (count > 1 && flag === -1) {
-            setCount(count => count - 1)
-        }
-    }
-
-    const addToCart = (id, count, price) => {
-        const cart = localStorage.getItem('cart')
-        if (!cart) {
-            localStorage.setItem('cart', JSON.stringify([[id, count, price]]))
+        if (flag !== -1) {
+            if (items.cart[flag][1] > 1) {
+                setCount(items.cart[flag][1] - 1)
+                addToCart(item.id, items.cart[flag][1]-1, item.price, items)
+            }
         } else {
-            if (JSON.parse(cart).some(item => item[0] === id)) {
-                localStorage.setItem('cart', JSON.stringify(JSON.parse(cart).filter(item => item[0] !== id)));
-            } else {
-                localStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), [id, count, price]]))
+            if (count > 1) {
+                setCount(count => count - 1)
             }
         }
-        items.setCart(JSON.parse(localStorage.getItem('cart')))
     }
 
     return (
@@ -141,7 +142,7 @@ const CatalogItem = observer(({item}) => {
                             className="market__item-btn"
                             whileHover={{ scale: 1.04 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => addToCart(item.id, count, item.price)}
+                            onClick={() => addToCart(item.id, count, item.price, items)}
                             style={{backgroundColor: flag !== -1 ? '#8d59fe' : '#c5abff'}}
                         >В корзину</motion.div>
                     </div>
