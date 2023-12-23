@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import ChooseItem from "../components/choosePage/ChooseItem";
+import ChooseItem from "../components/chooseItem/ChooseItem";
 
 const ItemPage = () => {
     return (

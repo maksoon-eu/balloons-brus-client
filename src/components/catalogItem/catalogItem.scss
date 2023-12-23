@@ -3,10 +3,17 @@
 .market__item {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
     cursor: pointer;
     height: 350px;
     margin-bottom: 20px;
     position: relative;
+    max-width: 230px;
+    width: 100%;
+
+    &-slider {
+        margin-top: 20px;
+    }
 
     &:hover  &-icons {
         transform: translateY(-5px);
@@ -38,8 +45,6 @@
     }
 
     &-hover {
-        max-width: 230px;
-        width: 100%;
         transition: .2s linear;
         border: 1px solid $secondary-color;
         border-radius: 15px;

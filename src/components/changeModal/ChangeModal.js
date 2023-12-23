@@ -15,7 +15,6 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
     const [loading, setLoading] = useState(false);
 
     const refChange = useRef(null);
-    const refImg = useRef(null);
 
     const {items} = useContext(Context);
 
@@ -112,10 +111,10 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
             }}
             initial={{opacity: 0, y: -100}}
             animate={showAnimation ? "open" : "closed"}
-            className="create__modal"
+            className="change__modal"
             transition={{duration: .4}}
         >
-            <div className="create__modal-content" ref={refChange}>
+            <div className="change__modal-content" ref={refChange}>
                 <div className="create__modal-img" onClick={() => document.querySelector('.create__input-file').click()}>
                     <LazyLoadImage
                         key={userImageSrc}

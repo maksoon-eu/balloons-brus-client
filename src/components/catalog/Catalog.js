@@ -7,11 +7,16 @@ import { observer } from "mobx-react-lite";
 import SkeletonItem from "../skeleton/SkeletonItem";
 import CatalogItem from "../catalogItem/CatalogItem";
 import SortModal from "../sortModal/SortModal";
+import ChangeModal from "../changeModal/ChangeModal";
 
 import './catalog.scss';
 
 const Catalog = observer(() => {
     const [sortModal, setSortModal] = useState(false);
+
+    const [changeModal, setChangeModal] = useState(false);
+    const [showAnimation, setShowAnimation] = useState(false);
+    const [activeItem, setActiveItem] = useState({});
 
     const refSort = useRef(null);
 
@@ -81,7 +86,7 @@ const Catalog = observer(() => {
 
     itemList = items.items.map(item => {
         return (
-            <CatalogItem key={item.id} item={item} />
+            <CatalogItem key={item.id} item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
         )
     })
 
@@ -94,6 +99,7 @@ const Catalog = observer(() => {
     return (
         <>
             <div className="minHeight-market">
+            {changeModal && <ChangeModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} item={activeItem} />}
             <div className="sort" ref={refSort}>
                 <div className="sort__btn">
                     <svg width="25" height="25" viewBox="0 0 45 39" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={onSortModal}>

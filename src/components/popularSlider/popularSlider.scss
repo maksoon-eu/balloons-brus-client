@@ -1,6 +1,6 @@
 .slider {
     margin-top: 30px;
-    min-height: 416px;
+    min-height: 424px;
 
     &__title {
         font-size: 20px;
@@ -11,12 +11,5 @@
         display: flex;
         justify-content: flex-end;
         margin-top: -35px;
-    }
-
-    &__flex {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
 }

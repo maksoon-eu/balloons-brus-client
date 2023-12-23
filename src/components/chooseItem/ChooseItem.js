@@ -117,7 +117,7 @@ const ChooseItem = observer(() => {
                                             whileTap={{ scale: 0.9 }}
                                             onClick={() => addToCart(items.item.id, count, items.item.price, items)}
                                             style={{backgroundColor: flag !== -1 ? '#8d59fe' : '#c5abff'}}
-                                        >В корзину</motion.div>
+                                        >{flag !== -1 ? 'В корзине' : 'В корзину'}</motion.div>
                                     </div>
                                     <div className="chooseItem__item-dop">
                                         <div>
