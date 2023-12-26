@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import CartList from "../components/cartList/CartList";
 
 const CartPage = () => {
     return (
@@ -8,7 +9,7 @@ const CartPage = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }}
         >
-           Cart 
+           <CartList />
         </motion.div>
     )
 }

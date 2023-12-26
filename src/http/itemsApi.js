@@ -40,6 +40,11 @@ export const fetchOneItem = async (id) => {
     return data
 }
 
+export const fetchIdsItem = async (ids) => {
+    const {data} = await $host.get(`api/item/ids`, {params: {ids}})
+    return data
+}
+
 export const changeItem = async (id, item) => {
     const {data} = await $authHost.put(`api/item/${id}`, item)
     return data

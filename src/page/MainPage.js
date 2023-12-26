@@ -14,8 +14,10 @@ const MainPage = () => {
         items.setTypesLoading(true)
         fetchTypes()
             .then(data => {
-                items.setTypes(data)
-                items.setTypesLoading(false)
+                setTimeout(() => {
+                    items.setTypes(data)
+                    items.setTypesLoading(false)
+                }, 5000)
             })
             .catch(e => {
                 items.setTypesLoading(false)
@@ -24,7 +26,9 @@ const MainPage = () => {
         if (items.sliderTypes.length === 0) {
         fetchSliderType()
             .then(data => {
-                items.setSliderTypes(data)
+                setTimeout(() => {
+                    items.setSliderTypes(data)
+                }, 1000)
             })
             .catch(e => {
             })

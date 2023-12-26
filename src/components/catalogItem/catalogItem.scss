@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    cursor: pointer;
     height: 350px;
     margin-bottom: 20px;
     position: relative;
@@ -112,7 +111,7 @@
             padding-top: 2px;
         }
     
-        .catalog__counter-btn {
+        .market__counter-btn {
             outline: none;
             border: none;
             background: none;

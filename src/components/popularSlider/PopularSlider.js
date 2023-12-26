@@ -80,7 +80,7 @@ const PopularSlider = observer(({id}) => {
     const [subType, setSubType] = useState([]);
     const [dropdownTypeCurrent, setDropdownTypeCurrent] = useState(false);
     const [dropdownSubTypeCurrent, setDropdownSubTypeCurrent] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [updateList, setUpdateList] = useState(false);
 
     const [changeModal, setChangeModal] = useState(false);
@@ -102,13 +102,15 @@ const PopularSlider = observer(({id}) => {
             if (user.isAuth) {
                 changeSliderType(id, {typeId, subTypeId})
                     .then(data => {
-                        items.sliderTypes.forEach(item => {
-                            if (item.id === id) {
-                                item.typeId = typeId
-                                item.subTypeId = subTypeId
-                                items.setSliderTypes(items.sliderTypes)
-                            }
-                        })
+                        setTimeout(() => {
+                            items.sliderTypes.forEach(item => {
+                                if (item.id === id) {
+                                    item.typeId = typeId
+                                    item.subTypeId = subTypeId
+                                    items.setSliderTypes(items.sliderTypes)
+                                }
+                            })
+                        }, 1000)
                     })
                     .catch(e => {
                     })
@@ -125,6 +127,8 @@ const PopularSlider = observer(({id}) => {
                 .catch(e => {
                     setLoading(false)
                 })
+        } else if (itemList.length > 0) {
+            setLoading(false)
         }
     }, [typeId, subTypeId, user.isAuth])
 
@@ -146,7 +150,7 @@ const PopularSlider = observer(({id}) => {
                 }
             })
         }
-    }, [typeId])
+    }, [typeId, items.typesLoading])
 
     itemList = items[`itemsSlider${id}`].map(item => {
         return (
@@ -188,7 +192,7 @@ const PopularSlider = observer(({id}) => {
 
     return (
         <div className="slider">
-            <div className="slider__title">{loading ? 'Loading...' : `${dropdownTypeCurrent} ${dropdownSubTypeCurrent}`}</div>
+            <div className="slider__title">{loading || items.typesLoading ? 'Загрузка...' : `${dropdownTypeCurrent} ${dropdownSubTypeCurrent}`}</div>
 
             {user.isAuth && <div className="slider__btn">
                 <Dropdown 
@@ -220,10 +224,10 @@ const PopularSlider = observer(({id}) => {
                     initial={{ opacity: 0}}
                     animate={{ opacity: 1}}
                     exit={{opacity: 0}}
-                    key={loading}
+                    key={loading || items.typesLoading}
                 >
                     <Slider {...settings}>
-                        {loading ? skeletonList : !loading && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : itemList}
+                        {loading || items.typesLoading ? skeletonList : !loading && !items.typesLoading && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : itemList}
                     </Slider>
                 </motion.div>
             </AnimatePresence>

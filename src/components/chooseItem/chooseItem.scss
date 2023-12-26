@@ -1,6 +1,8 @@
 @import '../../style/variables.scss';
 
 .chooseItem {
+    min-height: 710px;
+
     &__item {
         display: flex;
         justify-content: space-between;
@@ -23,6 +25,7 @@
 
         &-img {
             max-width: 500px;
+            width: 100%;
             height: auto;
             max-height: 700px;
             margin-right: 20px;
@@ -60,7 +63,7 @@
             }
         }
 
-        &-dop {
+        &-about {
             margin: 20px 0;
             padding: 20px 0;
             border-bottom: 1px solid #E5E7EB;

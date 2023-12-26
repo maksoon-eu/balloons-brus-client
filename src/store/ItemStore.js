@@ -6,6 +6,8 @@ export default class ItemStore {
         this._items = []
         this._item = []
         this._cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []
+        this._cartItems = []
+        this._updateCart = false
         this._itemsSimilar = []
         this._itemsSlider1 = []
         this._itemsSlider2 = []
@@ -34,6 +36,9 @@ export default class ItemStore {
     setUpdateList(bool) {
         this._updateList = bool
     }
+    setUpdateCart(bool) {
+        this._updateCart = bool
+    }
     setItemsSort(sort) {
         this._itemsSort = sort
     }
@@ -48,6 +53,9 @@ export default class ItemStore {
     }
     setCart(item) {
         this._cart = item
+    }
+    setCartItems(items) {
+        this._cartItems = items
     }
     setSimilarItems(items) {
         this._itemsSimilar = items
@@ -95,6 +103,9 @@ export default class ItemStore {
     get updateList() {
         return this._updateList
     }
+    get updateCart() {
+        return this._updateCart
+    }
     get itemsSort() {
         return this._itemsSort
     }
@@ -109,6 +120,9 @@ export default class ItemStore {
     }
     get cart() {
         return this._cart
+    }
+    get cartItems() {
+        return this._cartItems
     }
     get similarItems() {
         return this._itemsSimilar

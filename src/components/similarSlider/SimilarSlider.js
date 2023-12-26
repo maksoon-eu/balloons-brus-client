@@ -15,7 +15,7 @@ import "slick-carousel/slick/slick-theme.css";
 const SimilarSlider = observer(({typeId, subTypeId}) => {
     const {items} = useContext(Context);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [changeModal, setChangeModal] = useState(false);
     const [showAnimation, setShowAnimation] = useState(false);
     const [activeItem, setActiveItem] = useState({});
@@ -79,7 +79,7 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
 
     return (
         <div className="slider">
-            <div className="slider__title">{loading ? 'Loading...' : 'Похожие товары'}</div>
+            <div className="slider__title">{loading ? 'Загрузка...' : 'Похожие товары'}</div>
             {changeModal && <ChangeModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} item={activeItem} />}
             <AnimatePresence mode="wait">
                 <motion.div

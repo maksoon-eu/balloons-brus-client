@@ -116,8 +116,7 @@ const Catalog = observer(() => {
                     key={items.itemsLoading === 'loading'}
                     className="market"
                 >
-                    {items.itemsLoading === 'loading' ? skeletonList : itemList}
-                    {items.itemsLoading !== 'loading' && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span>: null}
+                    {items.itemsLoading === 'loading' ? skeletonList : items.itemsLoading !== 'loading' && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : itemList}
                 </motion.div>
             </AnimatePresence>
             </div>
