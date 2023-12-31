@@ -66,8 +66,8 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
         >
             <div className="create__modal-content create__modal-content-min" ref={refModal}>
                 <div className="create__modal-name">
-                    <input className='create__input-default' type="text" id='type' required value={input} onChange={onInputsChange}/>
-                    <label className="create__label" htmlFor="type">Название категории</label>
+                    <input className='input-default' type="text" id='type' required value={input} onChange={onInputsChange}/>
+                    <label className="input-label" htmlFor="type">Название категории</label>
                 </div>
                 <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните поле</span>
                 <motion.div

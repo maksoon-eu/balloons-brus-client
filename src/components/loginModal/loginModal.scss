@@ -14,33 +14,19 @@
     box-shadow: 6px 8px 35px 0px rgba(0, 0, 0, 0.2);
     z-index: 10;
 
+    &__form {
+        &-login, &-password {
+            position: relative;
+        }
+
+        &-login {
+            margin-bottom: 20px;
+        }
+    }
+
     &__title {
         text-align: center;
         margin-bottom: 10px;
-    }
-
-    &__input {
-        border-radius: 10px;
-        border: 1px solid $secondary-color;
-        height: 35px;
-        width: 100%;
-        margin-bottom: 20px;
-        padding: 2px 10px;
-        padding-top: 3px;
-        font-size: 10px;
-        transition: .1s linear;
-
-        &:last-of-type {
-            margin-bottom: 0;
-        }
-
-        &:hover {
-            border-width: 2px;
-        }
-
-        &:focus {
-            border-width: 2px;
-        }
     }
 
     &__btn {

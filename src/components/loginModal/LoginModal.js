@@ -57,20 +57,28 @@ const LoginModal = observer(({loginModal, setLoginModal, refLogin}) => {
         >
             <form action="" className="modal__form">
                 <div className="modal__title">Админ панель</div>
-                <input 
-                    type="text" 
-                    className="modal__input" 
-                    placeholder='Логин' 
-                    value={userLogin}
-                    onChange={e => {setUserLogin(e.target.value); setToggleError(false)}}
-                />
-                <input 
-                    type="password" 
-                    className="modal__input" 
-                    placeholder='Пароль' 
-                    value={userPassword}
-                    onChange={e => {setUserPassword(e.target.value); setToggleError(false)}}
-                />
+                <div className="modal__form-login">
+                    <input 
+                        type="text" 
+                        required
+                        className="input-default"
+                        value={userLogin}
+                        onChange={e => {setUserLogin(e.target.value); setToggleError(false)}}
+                        id='login'
+                    />
+                    <label className="input-label" htmlFor="login">Логин</label>
+                </div>
+                <div className="modal__form-password">
+                    <input 
+                        type="password" 
+                        required
+                        className="input-default"
+                        value={userPassword}
+                        onChange={e => {setUserPassword(e.target.value); setToggleError(false)}}
+                        id='password'
+                    />
+                    <label className="input-label" htmlFor="password">Пароль</label>
+                </div>
                 <div className='modal__error' style={{color: toggleError ? '#E84D4D' : 'transparent'}}>{loginError}</div>
                 <motion.div
                     className="modal__btn"

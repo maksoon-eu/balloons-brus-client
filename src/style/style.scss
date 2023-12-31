@@ -76,6 +76,60 @@ input {
     }
 }
 
+.input {
+    &-default {
+        border-radius: 10px;
+        height: 35px;
+        width: 100%;
+        border: 1px solid $secondary-color;
+        margin-bottom: 20px;
+        padding: 2px 10px;
+        padding-top: 3px;
+        font-size: 10px;
+        transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        &:hover {
+            border-width: 2px;
+        }
+
+        &:focus {
+            border-width: 2px;
+        }
+
+        &:is(&:focus, &:valid) ~ .input-label {
+            transform: translateY(-90%) scale(.7);
+            background-color: #fff;
+        }
+    }
+
+    &-file {
+        display: none;
+    }
+
+    &-label {
+        position: absolute;
+        top: 9px;
+        left: 10px;
+        font-size: 12px;
+        transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: text;
+
+        &-img {
+            top: 165px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        &--opacity {
+            transform: translateY(-965%) translateX(-125%) scale(.7);
+        }
+    }
+}
+
 button {
     outline: none;
     border: none;
@@ -96,8 +150,6 @@ button {
     padding: 0 10px;
 }
 
-
-
 @keyframes paddles {
     0% { box-shadow: -25px -10px, 25px 10px}
     50% { box-shadow: -25px 8px, 25px -10px }
@@ -111,17 +163,6 @@ button {
     75% { transform: scale(1.2, 1) }
     100% { transform: translateX(-20px) }
 }
-        
-
-// .light-theme {
-//     background-color: #fff;
-//     color: $light-theme-text-color;
-// }
-
-// .dark-theme {
-//     background-color: $background-color;
-//     color: $dart-theme-text-color;
-// }
   
 .slick-next {
     width: 50px;

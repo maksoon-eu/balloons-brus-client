@@ -124,7 +124,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     refImg.current.setAttribute("src", "")
                     refImg.current.style.opacity = 0;
                     setDropdownTypeCurrent(false)
-                    document.querySelector('.create__label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
+                    document.querySelector('.input-label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
                     }, 3000)
                 })
                 .catch(e => {
@@ -148,7 +148,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
         
             reader.readAsDataURL(file);
             inputImg.current.style.opacity = 1;
-            document.querySelector('.create__label').style.transform = 'translateY(-965%) translateX(-125%) scale(.7)'
+            document.querySelector('.input-label').style.transform = 'translateY(-965%) translateX(-125%) scale(.7)'
             setInputError(false)
         }
     }
@@ -176,9 +176,9 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
             transition={{duration: .4}}
         >
             <div className="create__modal-content" ref={refModal}>
-                <div className="create__modal-img" onClick={() => document.querySelector('.create__input-file').click(() => console.log('click'))}>
+                <div className="create__modal-img" onClick={() => document.querySelector('.input-file').click(() => console.log('click'))}>
                     <img ref={refImg} src="" alt="" className="create__img"/>
-                    <input className='create__input-file' type="file" onInput={(e) => previewFile(e, refImg)} id='img'/>
+                    <input className='input-file' type="file" onInput={(e) => previewFile(e, refImg)} id='img'/>
                     <div className="create__choose">
                         <svg width="30px" height="26px" viewBox="0 0 22 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
                             <g id="Icons" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -195,19 +195,19 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                             </g>
                         </svg>
                     </div>
-                    <label className="create__label create__label-img" htmlFor="img">Выберите файл</label>
+                    <label className="input-label input-label-img" htmlFor="img">Выберите файл</label>
                 </div>
                 <div className="create__modal-name">
-                    <input className='create__input-default' type="text" id='name' required value={inputs[0]} name='0' onChange={onInputsChange}/>
-                    <label className="create__label" htmlFor="name">Название товара</label>
+                    <input className='input-default' type="text" id='name' required value={inputs[0]} name='0' onChange={onInputsChange}/>
+                    <label className="input-label" htmlFor="name">Название товара</label>
                 </div>
                 <div className="create__modal-price">
-                    <input className='create__input-default' type="number" id='price' required value={inputs[1]} name='1' onChange={onInputsChange} />
-                    <label className="create__label" htmlFor="price">Цена товара</label>
+                    <input className='input-default' type="number" id='price' required value={inputs[1]} name='1' onChange={onInputsChange} />
+                    <label className="input-label" htmlFor="price">Цена товара</label>
                 </div>
                 <div className="create__modal-description">
-                    <input className='create__input-default create__input-big' required type="text" id='description' value={inputs[2]} name='2' onChange={onInputsChange}/>
-                    <label className="create__label" htmlFor="description">Описание товара</label>
+                    <input className='input-default input-big' required type="text" id='description' value={inputs[2]} name='2' onChange={onInputsChange}/>
+                    <label className="input-label" htmlFor="description">Описание товара</label>
                 </div>
                 <Dropdown 
                     type="Выберите категорию" 

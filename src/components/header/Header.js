@@ -17,7 +17,7 @@ const Header = observer(() => {
     const [loginModal, setLoginModal] = useState(false);
     const [price, setPrice] = useState(0);
 
-    const {items, user} = useContext(Context)
+    const {items, user} = useContext(Context);
 
     const refLogin = useRef(null);
 

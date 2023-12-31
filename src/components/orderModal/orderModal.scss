@@ -1,0 +1,116 @@
+@import '../../style/variables.scss';
+
+.order {
+    border: 1px solid #000;
+    max-width: 350px;
+    width: 100%;
+    border-radius: 10px;
+    padding: 25px 20px;
+    padding-bottom: 10px;
+    height: 410px;
+    
+    &__input {
+        position: relative;
+        margin-bottom: 20px;
+
+        &--custom {
+            height: 35px;
+            width: 100%;
+            border: 1px solid $secondary-color;
+            font-size: 10px;
+            border-radius: 10px;
+            padding: 2px 10px;
+            // padding-top: 3px;
+        }
+    }
+
+    &__date {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__btn {
+        margin-left: auto;
+        max-width: 150px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    &__price {
+        span {
+            font-weight: 900;
+        }
+    }
+
+    &__error {
+        font-size: 12px;
+        text-align: center;
+        transition: .15s linear;
+        margin-top: 10px;
+        cursor: default;
+        margin-bottom: 10px;
+    }
+}
+
+.info__modal {
+    &-inner {
+        max-width: 330px;
+        width: 100%;
+        padding: 10px 15px;
+        min-height: 150px;
+        background-color: #fff;
+        position: absolute;
+        left: 50%;
+        top: calc(50% - 80px);
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 15px;
+        border: 2px solid $secondary-color;
+        box-shadow: 0px 0px 37px rgba(113, 22, 155, 0.61);
+        text-align: center;
+    }
+
+    &-title {
+        font-weight: 900;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    &-text {
+    }
+}
+
+
+.rw-widget-picker, .rw-time-input {
+    min-height: 35px !important;
+    border: $secondary-color 1px solid !important;
+    font-size: 12px !important;
+    grid-template: 1fr/1fr 3em !important;
+    transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 10px !important;
+
+    &:hover {
+        border-width: 2px !important;
+    }
+}
+
+.rw-input-addon, .rw-input-addon.rw-picker-btn {
+    border-left: $secondary-color 1px solid !important;
+    font-size: 18px !important;
+}
+
+.rw-state-focus .rw-widget-picker {
+    border: $secondary-color 1px solid !important;
+    border-width: 2px !important;
+    box-shadow: none !important;
+}
+
+.rw-cell.rw-state-selected {
+    background-color: $secondary-color !important;
+    border-color: $secondary-color !important;
+}
+
+.rw-widget-input {
+    &::placeholder {
+        color: #000 !important;
+    }
+}

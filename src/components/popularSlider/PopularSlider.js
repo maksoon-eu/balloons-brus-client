@@ -98,7 +98,7 @@ const PopularSlider = observer(({id}) => {
     }, [items.sliderTypes])
 
     useEffect(() => {
-        if (typeId && subTypeId && (itemList.length === 0 || updateList)) {
+        if (typeId && subTypeId && (itemList.length === 0 || updateList || items.updateList)) {
             if (user.isAuth) {
                 changeSliderType(id, {typeId, subTypeId})
                     .then(data => {
@@ -122,15 +122,17 @@ const PopularSlider = observer(({id}) => {
                     setTimeout(() => {
                     items[`setItemsSlider${id}`](data.rows)
                     setLoading(false)
+                    items.setUpdateList(false)
                     }, 2000)
                 })
                 .catch(e => {
                     setLoading(false)
+                    items.setUpdateList(false)
                 })
         } else if (itemList.length > 0) {
             setLoading(false)
         }
-    }, [typeId, subTypeId, user.isAuth])
+    }, [typeId, subTypeId, user.isAuth, items.updateList])
 
     useEffect(() => {
         setDropdownSubTypeCurrent(false)

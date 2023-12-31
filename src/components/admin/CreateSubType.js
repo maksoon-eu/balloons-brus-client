@@ -135,8 +135,8 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setInputError={setInputError}
                 />
                 <div className="create__modal-name">
-                    <input className='create__input-default' type="text" id='subType' required value={input} onChange={onInputsChange}/>
-                    <label className="create__label" htmlFor="subType">Название подкатегории</label>
+                    <input className='input-default' type="text" id='subType' required value={input} onChange={onInputsChange}/>
+                    <label className="input-label" htmlFor="subType">Название подкатегории</label>
                 </div>
                 <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните все поля</span>
                 <motion.div

@@ -1,4 +1,23 @@
 .cart {
-    max-width: 800px;
-    width: 100%;
+   display: flex;
+   justify-content: space-between;
+   
+   &__inner {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+   }
+
+   &__title {
+      margin-bottom: 10px;
+      font-size: 20px;
+      font-weight: 900;
+   }
+
+   &__void {
+      font-weight: 900;
+      font-size: 24px;
+      text-align: center;
+      margin-top: 50px;
+   }
 }

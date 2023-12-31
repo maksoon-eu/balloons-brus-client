@@ -3,11 +3,11 @@ import { Context } from "..";
 import { fetchTypes } from "../http/itemsApi";
 import { motion } from "framer-motion";
 
-import CreateItem from "../components/create/CreateItem";
-import CreateType from "../components/create/CreateType";
-import CreateSubType from "../components/create/CreateSubType";
-import DeleteType from "../components/create/DeleteCategory";
-import DeleteSubType from "../components/create/DeleteSubType";
+import CreateItem from "../components/admin/CreateItem";
+import CreateType from "../components/admin/CreateType";
+import CreateSubType from "../components/admin/CreateSubType";
+import DeleteType from "../components/admin/DeleteCategory";
+import DeleteSubType from "../components/admin/DeleteSubType";
 import { observer } from "mobx-react-lite";
 
 const AdminPage = observer(() => {

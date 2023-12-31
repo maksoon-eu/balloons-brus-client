@@ -51,19 +51,19 @@ const CartList = observer(() => {
 
     return (
         <AnimatePresence mode="wait">
-                <motion.div
-                    initial={{ opacity: 0}}
-                    animate={{ opacity: 1}}
-                    exit={{opacity: 0}}
-                    key={items.itemsLoading === 'loading'}
-                    className='cart'
-                >
-                    {loading ? 'Загрузка...' : 
-                    <AnimatePresence mode='popLayout'>
-                        {cartList}
-                    </AnimatePresence>}
-                </motion.div>
-            </AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0}}
+                animate={{ opacity: 1}}
+                exit={{opacity: 0}}
+                key={items.itemsLoading === 'loading' || items.cartItems.length === 0}
+                className='cart__inner'
+            >
+                {loading ? 'Загрузка...' : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
+                <AnimatePresence mode='popLayout'>
+                    {cartList}
+                </AnimatePresence>}
+            </motion.div>
+        </AnimatePresence>
     )
 })
 

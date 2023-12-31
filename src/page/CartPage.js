@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import CartList from "../components/cartList/CartList";
+import OrderModal from "../components/orderModal/OrderModal";
 
 const CartPage = () => {
     return (
@@ -9,7 +10,11 @@ const CartPage = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }}
         >
-           <CartList />
+            <div className="cart__title">Корзина</div>
+            <div className="cart">
+                <CartList />
+                <OrderModal />
+            </div>
         </motion.div>
     )
 }

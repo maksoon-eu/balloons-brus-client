@@ -80,7 +80,10 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
             changeItem(item.id, formData)
                 .then(data => {
                     setTimeout(() => {
-                    setChangeModal(false)
+                    setShowAnimation(false)
+                    setTimeout(() => {
+                        setChangeModal(false)
+                    }, 400)
                     items.setUpdateList(true)
                     setLoading(false)
                     }, 3000)
@@ -115,7 +118,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
             transition={{duration: .4}}
         >
             <div className="change__modal-content" ref={refChange}>
-                <div className="create__modal-img" onClick={() => document.querySelector('.create__input-file').click()}>
+                <div className="create__modal-img" onClick={() => document.querySelector('.input-file').click()}>
                     <LazyLoadImage
                         key={userImageSrc}
                         width='100%' height='100%'
@@ -126,20 +129,20 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                         alt='img'
                         className="create__img create__img--opacity"
                     />
-                    <input className='create__input-file' type="file" onInput={previewFile} id={`img${item.id}`}/>
+                    <input className='input-file' type="file" onInput={previewFile} id={`img${item.id}`}/>
                     <label className="create__label create__label-img create__label--opacity" htmlFor={`img${item.id}`}>Выберите файл</label>
                 </div>
                 <div className="create__modal-name">
-                    <input className='create__input-default' type="text" id={`name${item.id}`} required value={inputs[0]} name='0' onChange={onInputsChange}/>
-                    <label className="create__label" htmlFor={`name${item.id}`}>Название товара</label>
+                    <input className='input-default' type="text" id={`name${item.id}`} required value={inputs[0]} name='0' onChange={onInputsChange}/>
+                    <label className="input-label" htmlFor={`name${item.id}`}>Название товара</label>
                 </div>
                 <div className="create__modal-price">
-                    <input className='create__input-default' type="number" id={`price${item.id}`} required value={inputs[1]} name='1' onChange={onInputsChange} />
-                    <label className="create__label" htmlFor={`price${item.id}`}>Цена товара</label>
+                    <input className='input-default' type="number" id={`price${item.id}`} required value={inputs[1]} name='1' onChange={onInputsChange} />
+                    <label className="input-label" htmlFor={`price${item.id}`}>Цена товара</label>
                 </div>
                 <div className="create__modal-description">
-                    <input className='create__input-default create__input-big' required type="text" id={`description${item.id}`} value={inputs[2]} name='2' onChange={onInputsChange}/>
-                    <label className="create__label" htmlFor={`description${item.id}`}>Описание товара</label>
+                    <input className='input-default input-big' required type="text" id={`description${item.id}`} value={inputs[2]} name='2' onChange={onInputsChange}/>
+                    <label className="input-label" htmlFor={`description${item.id}`}>Описание товара</label>
                 </div>
                 <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните все поля</span>
                 <motion.div
@@ -147,7 +150,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{loading ? "Loading..." : "Изменить"}</motion.div>
+                >{loading ? "Загрузка..." : "Изменить"}</motion.div>
             </div>
         </motion.div>
     )

@@ -21,7 +21,6 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
     const [activeItem, setActiveItem] = useState({});
 
     const skeletonArr = ['', '', '', ''];
-    let itemList = [];
 
     useEffect(() => {
         if (typeId && subTypeId) {
@@ -39,7 +38,7 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
         }
     }, [typeId, subTypeId])
 
-    itemList = items.similarItems.map(item => {
+    const itemList = items.similarItems.map(item => {
         return (
             <div key={item.id} className="market__item-slider">
                 <CatalogItem item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
