@@ -7,10 +7,13 @@ import { fetchIdsItem } from '../../http/itemsApi';
 import CartItem from '../cartItem/CartItem';
 
 import './cartList.scss';
+import SkeletonCart from '../skeleton/SkeletonCart';
 
 const CartList = observer(() => {
     const [loading, setLoading] = useState(false)
     const {items} = useContext(Context);
+
+    const skeleton = ['', '', '', ''];
 
     useEffect(() => {
         if ((items.updateCart || items.cartItems.length === 0) && items.cart.length > 0) {
@@ -49,6 +52,12 @@ const CartList = observer(() => {
         )
     })
 
+    const skeletonList = skeleton.map((item, i) => {
+        return (
+            <SkeletonCart key={i} />
+        )
+    })
+
     return (
         <AnimatePresence mode="wait">
             <motion.div
@@ -58,7 +67,7 @@ const CartList = observer(() => {
                 key={items.itemsLoading === 'loading' || items.cartItems.length === 0}
                 className='cart__inner'
             >
-                {loading ? 'Загрузка...' : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
+                {loading ? skeletonList : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
                 <AnimatePresence mode='popLayout'>
                     {cartList}
                 </AnimatePresence>}

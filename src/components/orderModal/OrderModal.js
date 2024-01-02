@@ -89,8 +89,11 @@ const OrderModal = observer(() => {
     }
 
     const placeOrder = () => {
+        const date = new Date()
         if (inputs[0].length < 2 || inputs[1].includes('_') || inputs[2].length < 2 || !startDate || !startTime) {
-            setInputError(true)
+            setInputError('Заполните все поля')
+        } else if (startTime.getHours() < date.getHours() + 3) {
+            setInputError(`Доставка не раньше ${date.getHours() + 3} часов`)
         } else {
             moment.locale('ru');
             const formData = new FormData()
@@ -106,6 +109,9 @@ const OrderModal = observer(() => {
             sendOrder(formData)
                 .then(data => {
                     setOpenModal(true)
+                    setInputs(['', '', '', ''])
+                    setStartDate(null)
+                    setStartTime(null)
                     setTimeout(() => {
                         setOpenModal(false)
                     }, 4000)
@@ -133,6 +139,7 @@ const OrderModal = observer(() => {
     const changeDate = value => {
         setStartDate(value)
         setIsCalendarOpen(false)
+        setInputError(false)
     }
 
     return (
@@ -190,7 +197,7 @@ const OrderModal = observer(() => {
                 />
                 <TimeInput
                     value={startTime}
-                    onChange={value => setStartTime(value)}
+                    onChange={value => {setStartTime(value); setInputError(false)}}
                     className="w-3/5"
                 />
             </div>
@@ -207,7 +214,7 @@ const OrderModal = observer(() => {
                 <label className="input-label" htmlFor="comment">Комментарий</label>
             </div>
             <div className="order__price">Итоговая стоимость: <span>{`${price} ₽`}</span></div>
-            <div className='order__error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните все поля</div>
+            <div className='order__error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</div>
             <motion.button
                 className="market__item-btn order__btn"
                 whileHover={{ scale: 1.04 }}
