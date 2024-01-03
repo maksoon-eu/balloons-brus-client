@@ -80,7 +80,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
 
     const onSubmit = () => {
         if (input === '' || !typeId) {
-            setInputError(true)
+            setInputError('Заполните все поля')
         } else {
             setInputError(false)
 
@@ -97,7 +97,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 .catch(e => {
                     console.log(e.message)
                     items.setItemsLoading(false)
-                    setInputError(true)
+                    setInputError('Ошибка сервера')
                 })
         }
     }
@@ -138,13 +138,13 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     <input className='input-default' type="text" id='subType' required value={input} onChange={onInputsChange}/>
                     <label className="input-label" htmlFor="subType">Название подкатегории</label>
                 </div>
-                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните все поля</span>
+                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
                 <motion.div
                     className="create__modal-btn"
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{items.typesLoading ? "Loading..." : "Создать"}</motion.div>
+                >{items.typesLoading ? "Загрузка..." : "Создать"}</motion.div>
             </div>
         </motion.div>
     )

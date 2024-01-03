@@ -150,6 +150,29 @@ button {
     padding: 0 10px;
 }
 
+.slider {
+    margin-top: 30px;
+    min-height: 424px;
+
+    &__title {
+        font-size: 20px;
+        font-weight: 900;
+    }
+
+    &__btn {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -35px;
+    }
+}
+
+.nothing__found {
+    margin: 0 auto;
+    font-size: 27px;
+    font-weight: 700;
+    margin-top: 50px;
+}
+
 @keyframes paddles {
     0% { box-shadow: -25px -10px, 25px 10px}
     50% { box-shadow: -25px 8px, 25px -10px }

@@ -12,6 +12,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
     const [userImageSrc, setUserImageSrc] = useState(false);
     const [imgFile, setImgFile] = useState()
     const [inputs, setInputs] = useState([item.name, item.price, item.description]);
+    const [available, setAvailable] = useState(item.available)
     const [loading, setLoading] = useState(false);
 
     const refChange = useRef(null);
@@ -44,6 +45,9 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
 
         setInputs(inputs => inputs.map((item, i) => i === +e.target.name ? e.target.value : item))
     }
+    const onAvailableChange = (bool) => {
+        setAvailable(bool)
+    }
 
     const previewFile = (event) => {
         const file = event.target.files[0];
@@ -64,7 +68,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
 
     const onSubmit = () => {
         if (inputs[0] === '' || inputs[1] === '' || inputs[2] === '') {
-            setInputError(true)
+            setInputError('Заполните все поля')
         } else {
             setInputError(false)
 
@@ -72,6 +76,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
             formData.append('name', inputs[0])
             formData.append('price', inputs[1])
             formData.append('description', inputs[2])
+            formData.append('available', available)
             if (userImageSrc) {
                 formData.append('img', imgFile)
             }
@@ -90,7 +95,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                 })
                 .catch(e => {
                     setLoading(false)
-                    setInputError(true)
+                    setInputError('Ошибка сервера')
                 })
         }
     }
@@ -144,7 +149,26 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                     <input className='input-default input-big' required type="text" id={`description${item.id}`} value={inputs[2]} name='2' onChange={onInputsChange}/>
                     <label className="input-label" htmlFor={`description${item.id}`}>Описание товара</label>
                 </div>
-                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните все поля</span>
+                <div className="create__modal-available">
+                    <div className="create__available">Наличие товара</div>
+                    <div className="create__available-btns">
+                        <motion.div 
+                            className="create__available-btn"
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.9 }}
+                            style={{backgroundColor: available ? '#8d59fe' : '#c5abff'}}
+                            onClick={() => onAvailableChange(true)}
+                        >Да</motion.div>
+                        <motion.div 
+                            className="create__available-btn"
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.9 }}
+                            style={{backgroundColor: !available ? '#8d59fe' : '#c5abff'}}
+                            onClick={() => onAvailableChange(false)}
+                        >Нет</motion.div>
+                    </div>
+                </div>
+                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
                 <motion.div
                     className="create__modal-btn"
                     whileHover={{ scale: 1.05, translateY: -3 }}

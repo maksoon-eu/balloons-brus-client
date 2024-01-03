@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import NavBar from "../components/navBar/NavBar";
 import PopularSlider from "../components/popularSlider/PopularSlider";
+import InfoSlider from "../components/infoSlider/InfoSlider";
 
 const MainPage = () => {
     const {items} = useContext(Context)
@@ -46,6 +47,8 @@ const MainPage = () => {
             <PopularSlider id={1}/>
             <PopularSlider id={2}/>
             <PopularSlider id={3}/>
+            <InfoSlider title={'Отзывы клиентов'} store={'reviews'} />
+            <InfoSlider title={'Наши работы'} store={'works'} />
         </motion.div>
     )
 }

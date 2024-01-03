@@ -13,6 +13,7 @@ import SkeletonChoose from "../skeleton/SkeletonChoose";
 
 import loadingImg from '../../resources/loading.svg';
 import storage from '../../resources/storage.svg';
+import available from '../../resources/available.svg';
 import car from '../../resources/car.svg';
 import card from '../../resources/card.svg';
 
@@ -70,8 +71,8 @@ const ChooseItem = observer(() => {
                                 <div className="chooseItem__item-inner">
                                     <div className="chooseItem__item-price">{`${items.item.price} ₽`}</div>
                                     <div className="chooseItem__item-info">
-                                        <img src={storage} alt="" />
-                                        <span>Есть в наличии</span>
+                                        <img src={items.item.available ? storage : available} alt="" />
+                                        <span>{items.item.available ? 'Есть в наличии' : 'Нет в наличии'}</span>
                                     </div>
                                     <div className="chooseItem__item-group">
                                         <div className="chooseItem__item-counter">
@@ -91,8 +92,8 @@ const ChooseItem = observer(() => {
                                             className="chooseItem__item-btn"
                                             whileHover={{ scale: 1.04 }}
                                             whileTap={{ scale: 0.9 }}
-                                            onClick={() => addToCart(items.item.id, count, items.item.price, items)}
-                                            style={{backgroundColor: flag !== -1 ? '#8d59fe' : '#c5abff'}}
+                                            onClick={() => addToCart(items.item.id, items.item.available, count, items.item.price, items)}
+                                            style={{backgroundColor: flag !== -1 ? '#8d59fe' : !items.item.available ? '#F3F4F6' : '#c5abff'}}
                                         >{flag !== -1 ? 'В корзине' : 'В корзину'}</motion.div>
                                     </div>
                                     <div className="chooseItem__item-about">

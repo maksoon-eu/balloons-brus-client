@@ -68,7 +68,7 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
 
     const onSubmit = () => {
         if (!typeId) {
-            setInputError(true)
+            setInputError('Заполните все поля')
         } else {
             setInputError(false)
             items.setTypesLoading(true)
@@ -82,7 +82,7 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 })
                 .catch(e => {
                     items.setTypesLoading(false)
-                    setInputError(true)
+                    setInputError('Ошибка сервера')
                 })
         }
     }
@@ -120,13 +120,13 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setDropdownCurrent={setDropdownCurrent}
                     setInputError={setInputError}
                 />
-                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните поле</span>
+                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
                 <motion.div
                     className="create__modal-btn"
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{items.typesLoading ? "Loading..." : "Удалить"}</motion.div>
+                >{items.typesLoading ? "Загрузка..." : "Удалить"}</motion.div>
             </div>
         </motion.div>
     )

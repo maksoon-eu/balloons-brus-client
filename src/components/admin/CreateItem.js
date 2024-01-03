@@ -96,7 +96,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
 
     const onSubmit = () => {
         if (inputs[0] === '' || inputs[1] === '' || inputs[2] === '' || refImg.current.currentSrc === '' || !typeId || !subType) {
-            setInputError(true)
+            setInputError('Заполните все поля')
         } else {
             setInputError(false)
 
@@ -130,7 +130,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 .catch(e => {
                     console.log(e.message)
                     items.setItemsLoading(false)
-                    setInputError(true)
+                    setInputError('Ошибка сервера')
                 })
         }
     }
@@ -176,7 +176,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
             transition={{duration: .4}}
         >
             <div className="create__modal-content" ref={refModal}>
-                <div className="create__modal-img" onClick={() => document.querySelector('.input-file').click(() => console.log('click'))}>
+                <div className="create__modal-img" onClick={() => document.querySelector('.input-file').click()}>
                     <img ref={refImg} src="" alt="" className="create__img"/>
                     <input className='input-file' type="file" onInput={(e) => previewFile(e, refImg)} id='img'/>
                     <div className="create__choose">
@@ -229,13 +229,13 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setDropdownCurrent={setDropdownSubTypeCurrent}
                     setInputError={setInputError}
                 />
-                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>Заполните все поля</span>
+                <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
                 <motion.div
                     className="create__modal-btn"
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{items.itemsLoading ? "Loading..." : "Создать"}</motion.div>
+                >{items.itemsLoading ? "Загрузка..." : "Создать"}</motion.div>
             </div>
         </motion.div>
     )

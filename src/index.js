@@ -5,6 +5,8 @@ import App from './components/app/App';
 
 import ItemStore from './store/ItemStore';
 import UserStore from './store/UserStore';
+import WorkStore from './store/WorkStore';
+import ReviewStore from './store/ReviewStore';
 
 import './style/style.scss';
 
@@ -16,10 +18,11 @@ root.render(
     // <React.StrictMode>
     <Context.Provider value={{
       user: new UserStore(),
-      items: new ItemStore()
+      items: new ItemStore(),
+      works: new WorkStore(),
+      reviews: new ReviewStore(),
     }}>
       <Root/>
     </Context.Provider>
     // </React.StrictMode>
-
 );
