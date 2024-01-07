@@ -174,7 +174,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{loading ? "Загрузка..." : "Изменить"}</motion.div>
+                >{loading ? <span className="loader"></span> : "Изменить"}</motion.div>
             </div>
         </motion.div>
     )

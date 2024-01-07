@@ -14,6 +14,7 @@ import CartPage from "../../page/CartPage";
 import CatalogPage from "../../page/CatalogPage";
 import ItemPage from "../../page/ItemPage";
 import AboutPage from "../../page/AboutPage";
+import Footer from "../footer/Footer";
 
 import '../../style/style.scss';
 
@@ -33,18 +34,19 @@ const App = observer(() => {
     return (
         <div className="app">
           <Header/>
-            <AnimatePresence mode="wait">
-              <Routes>
-                {user.isAuth && <Route path="/admin" element={<AdminPage/>}/>}
-                {/* <Route path="/admin" element={<AdminPage/>}/> */}
-                <Route path="/" element={<MainPage/>}/>
-                <Route path="/cart" element={<CartPage/>}/>
-                <Route path="/catalog" element={<CatalogPage/>}/>
-                <Route path="/catalog/:id" element={<ItemPage/>}/>
-                <Route path="/info" element={<AboutPage/>}/>
-                <Route path="*" element={<Navigate to="/" replace />}/>
-              </Routes>
-            </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <Routes>
+              {user.isAuth && <Route path="/admin" element={<AdminPage/>}/>}
+              {/* <Route path="/admin" element={<AdminPage/>}/> */}
+              <Route path="/" element={<MainPage/>}/>
+              <Route path="/cart" element={<CartPage/>}/>
+              <Route path="/catalog" element={<CatalogPage/>}/>
+              <Route path="/catalog/:id" element={<ItemPage/>}/>
+              <Route path="/info" element={<AboutPage/>}/>
+              <Route path="*" element={<Navigate to="/" replace />}/>
+            </Routes>
+          </AnimatePresence>
+          <Footer/>
         </div>
     );
 });

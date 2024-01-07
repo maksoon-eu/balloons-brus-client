@@ -75,7 +75,7 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{items.typesLoading ? "Загрузка..." : "Создать"}</motion.div>
+                >{items.typesLoading ? <span className="loader"></span> : "Создать"}</motion.div>
             </div>
         </motion.div>
     )

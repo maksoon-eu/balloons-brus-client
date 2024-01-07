@@ -487,7 +487,7 @@ const OrderModal = observer(() => {
                 style={{backgroundColor: '#c5abff'}}
                 onClick={placeOrder}
                 disabled={items.cart.length === 0}
-            >{loading ? 'Проверяем товары' : 'Оформить'}</motion.button>
+            >{loading ? <span className="loader"></span> : 'Оформить'}</motion.button>
         </div>
         </>
     )
