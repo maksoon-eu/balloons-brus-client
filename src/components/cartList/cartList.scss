@@ -1,6 +1,7 @@
 .cart {
    display: flex;
    justify-content: space-between;
+   min-height: calc(100vh - 506px);
    
    &__inner {
       display: flex;

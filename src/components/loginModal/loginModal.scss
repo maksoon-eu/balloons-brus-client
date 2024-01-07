@@ -1,18 +1,20 @@
 @import '../../style/variables.scss';
 
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 468px);
+}
+
 .modal {
-    position: absolute;
-    bottom: -250px;
-    left: 50%;
-    transform: translateX(-50%);
     border-radius: 15px;
     border: 1px solid #000;
-    width: 200px;
-    padding: 10px 15px;
+    width: 400px;
+    padding: 15px 60px;
     background-color: #fff;
     padding-bottom: 15px;
     box-shadow: 6px 8px 35px 0px rgba(0, 0, 0, 0.2);
-    z-index: 10;
 
     &__form {
         &-login, &-password {
@@ -26,7 +28,7 @@
 
     &__title {
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 50px;
     }
 
     &__btn {

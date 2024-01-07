@@ -106,7 +106,7 @@ const VerificationModal = ({openModal, setOpenModal}) => {
             transition={{duration: .4}}
         >
             <div className="info__modal-inner info__modal-inner--center" ref={refModal}>
-                <div className="info__modal-text">Товары в вашей корзине были изменены, проверьте их еще раз перед заказом</div>
+                <div className="info__modal-text">Товары в вашей корзине были изменены или удалены администратором, проверьте их еще раз перед заказом</div>
                 <div className="info__modal-close" onClick={() => setOpenModal(false)}>
                     <img src={close} alt="" />
                 </div>
@@ -275,6 +275,16 @@ const OrderModal = observer(() => {
             }
         }
     }, [items.cartItems, items.cartLoading])
+
+    useEffect(() => {
+        if (items.cart.length === items.cartItems.length) {
+            for (let i = 0; i < items.cart.length; i++) {
+                if (items.cartItems[i].id === items.cart[i][0] && items.cartItems[i].price !== items.cart[i][2]) {
+                    addToCart(items.cartItems[i].id, items.cartItems[i].available, items.cart[i][1], items.cartItems[i].price, items)
+                }
+            }
+        }
+    }, [items.cartItems])
 
     const onInputsChange = (e) => {
         setInputError(false)

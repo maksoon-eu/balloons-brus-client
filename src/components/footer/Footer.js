@@ -44,7 +44,7 @@ const Footer = () => {
             </div>
             <div className="footer__line"></div>
             <div className="footer__second">
-                <div className="footer__under-title">{`© 2003–${new Date().getFullYear()} «Shary ot Brusa»`}</div>
+                <div className="footer__under-title">{`© 2022–${new Date().getFullYear()} «Shary ot Brusa»`}</div>
                 <div className="footer__under-text">При полном или частичном использовании материалов с сайта ссылка на источник обязательна.</div>
                 <div className="footer__under-text">Продолжая работу с сайтом, вы даете согласие на использование сайтом cookies и обработку персональных данных в целях функционирования сайта, проведения ретаргетинга, статистических исследований, улучшения сервиса и предоставления релевантной рекламной информации на основе ваших предпочтений и интересов.</div>
             </div>

@@ -39,16 +39,6 @@ const CartList = observer(() => {
         }
     }, [items.updateCart]);
 
-    useEffect(() => {
-        if (items.cart.length === items.cartItems.length) {
-            for (let i = 0; i < items.cart.length; i++) {
-                if (items.cartItems[i].id === items.cart[i][0] && items.cartItems[i].price !== items.cart[i][2]) {
-                    addToCart(items.cartItems[i].id, items.cartItems[i].available, items.cart[i][1], items.cartItems[i].price, items)
-                }
-            }
-        }
-    }, [items.cartItems])
-
     const cartList = items.cartItems.map(item => {
         return (
             <motion.li

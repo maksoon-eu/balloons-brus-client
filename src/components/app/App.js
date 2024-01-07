@@ -14,6 +14,7 @@ import CartPage from "../../page/CartPage";
 import CatalogPage from "../../page/CatalogPage";
 import ItemPage from "../../page/ItemPage";
 import AboutPage from "../../page/AboutPage";
+import LoginPage from "../../page/LoginPage";
 import Footer from "../footer/Footer";
 
 import '../../style/style.scss';
@@ -43,6 +44,7 @@ const App = observer(() => {
               <Route path="/catalog" element={<CatalogPage/>}/>
               <Route path="/catalog/:id" element={<ItemPage/>}/>
               <Route path="/info" element={<AboutPage/>}/>
+              <Route path="/login" element={<LoginPage/>}/>
               <Route path="*" element={<Navigate to="/" replace />}/>
             </Routes>
           </AnimatePresence>
