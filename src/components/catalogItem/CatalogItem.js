@@ -45,6 +45,12 @@ const CatalogItem = observer(({item, setShowAnimation, setChangeModal, setActive
             })
     }
 
+    const onAddToBag = () => {
+        if (!items.cartLoading) {
+            addToCart(item.id, item.available, flag === -1 ? count : items.cart[flag][1], item.price, items)
+        }
+    }
+
     return (
         <>
         <motion.div
@@ -111,7 +117,7 @@ const CatalogItem = observer(({item, setShowAnimation, setChangeModal, setActive
                             className="market__item-btn"
                             whileHover={{ scale: 1.04 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => addToCart(item.id, item.available, flag === -1 ? count : items.cart[flag][1], item.price, items)}
+                            onClick={onAddToBag}
                             style={{backgroundColor: flag !== -1 ? '#8d59fe' : !item.available ? '#F3F4F6' : '#c5abff'}}
                         >{flag !== -1 ? 'В корзине' : 'В корзину'}</motion.div>
                     </div>

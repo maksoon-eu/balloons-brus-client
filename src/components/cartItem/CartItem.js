@@ -7,6 +7,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import loading from '../../resources/loading.svg';
 import storage from '../../resources/storage.svg';
+import available from '../../resources/available.svg';
 
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 import './cartItems.scss';
@@ -38,8 +39,8 @@ const CartItem = ({item}) => {
                 <div>
                     <div className="cartItem__right-price">{`${item.price} ₽`}</div>
                     <div className="cartItem__right-availability">
-                        <img src={storage} alt="" />
-                        <span>Есть в наличии</span>
+                        <img src={item.available ? storage : available} alt="" />
+                        <span>{item.available ? 'Есть в наличии' : 'Нет в наличии'}</span>
                     </div>
                 </div>
                 <div className="market__item-group">
@@ -60,7 +61,7 @@ const CartItem = ({item}) => {
                         className="market__item-btn cartItem__btn"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => addToCart(item.id, items.cart[flag][1], item.price, items, true)}
+                        onClick={() => addToCart(item.id, true, items.cart[flag][1], item.price, items, true)}
                         style={{backgroundColor: '#8d59fe'}}
                     >В корзине</motion.div>
                 </div>

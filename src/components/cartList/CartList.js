@@ -1,41 +1,53 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fetchIdsItem } from '../../http/itemsApi';
+import SkeletonCart from '../skeleton/SkeletonCart';
+import { addToCart } from '../../helpers/Helpers';
 
 import CartItem from '../cartItem/CartItem';
 
 import './cartList.scss';
-import SkeletonCart from '../skeleton/SkeletonCart';
 
 const CartList = observer(() => {
-    const [loading, setLoading] = useState(false)
     const {items} = useContext(Context);
 
     const skeleton = ['', '', '', ''];
 
     useEffect(() => {
         if ((items.updateCart || items.cartItems.length === 0) && items.cart.length > 0) {
-            setLoading(true)
+            items.setCartLoading(true);
             const itemsCart = items.cart.map(item => {
-                return item[0]
-            })
-
+                return item[0];
+            });
+    
             fetchIdsItem(itemsCart)
                 .then(data => {
                     setTimeout(() => {
-                    items.setCartItems(data)
-                    setLoading(false)
-                    items.setUpdateCart(false)
-                    }, 3000)
+                        items.setCartItems(data);
+                        items.setCartLoading(false);
+                        items.setUpdateCart(false);
+                    }, 3000);
                 })
                 .catch(e => {
-                    setLoading(false)
-                    items.setUpdateCart(false)
-                })
+                    items.setCartLoading(false);
+                    items.setUpdateCart(false);
+                });
+        } else {
+            items.setCartLoading(false);
         }
-    }, [items.updateCart])
+    }, [items.updateCart]);
+
+    useEffect(() => {
+        if (items.cart.length === items.cartItems.length) {
+            for (let i = 0; i < items.cart.length; i++) {
+                if (items.cartItems[i].id === items.cart[i][0] && items.cartItems[i].price !== items.cart[i][2]) {
+                    addToCart(items.cartItems[i].id, items.cartItems[i].available, items.cart[i][1], items.cartItems[i].price, items)
+                }
+            }
+        }
+    }, [items.cartItems])
 
     const cartList = items.cartItems.map(item => {
         return (
@@ -64,10 +76,10 @@ const CartList = observer(() => {
                 initial={{ opacity: 0}}
                 animate={{ opacity: 1}}
                 exit={{opacity: 0}}
-                key={items.itemsLoading === 'loading' || items.cartItems.length === 0}
+                key={items.cartLoading}
                 className='cart__inner'
             >
-                {loading ? skeletonList : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
+                {items.cartLoading ? skeletonList : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
                 <AnimatePresence mode='popLayout'>
                     {cartList}
                 </AnimatePresence>}

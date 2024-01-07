@@ -5,13 +5,23 @@ export const addToCart = (id, available, count, price, items, bag = false) => {
             localStorage.setItem('cart', JSON.stringify([[id, count, price]]))
         } else {
             if (JSON.parse(cart).some(item => item[0] === id)) {
-                if (JSON.parse(cart).some(item => item[0] === id && item[1] === count)) {
+                if (JSON.parse(cart).some(item => item[0] === id && item[1] === count && item[2] === price)) {
                     localStorage.setItem('cart', JSON.stringify(JSON.parse(cart).filter(item => item[0] !== id)));
                     if (bag) {
                         items.setCartItems(items.cartItems.filter(item => item.id !== id))
                         items.setCart(JSON.parse(localStorage.getItem('cart')))
                         return;
                     }
+                } else if (JSON.parse(cart).some(item => item[0] === id && item[2] !== price)) {
+                    const data = JSON.parse(cart);
+                    data.forEach(item => {
+                        if (item[0] === id) {
+                            item[2] = price;
+                        }
+                    });
+                    localStorage.setItem('cart', JSON.stringify(data));
+                    items.setCart(JSON.parse(localStorage.getItem('cart')))
+                    return;
                 } else {
                     const data = JSON.parse(cart);
                     data.forEach(item => {

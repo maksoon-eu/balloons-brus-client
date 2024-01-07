@@ -24,6 +24,7 @@ export default class ItemStore {
         this._limit = 4
         this._typesLoading = true
         this._itemsLoading = true
+        this._cartLoading = false
         makeAutoObservable(this)
     }
 
@@ -74,6 +75,9 @@ export default class ItemStore {
     }
     setItemsLoading(bool) {
         this._itemsLoading = bool
+    }
+    setCartLoading(bool) {
+        this._cartLoading = bool
     }
     setSelectedType(type) {
         this.setPage(1)
@@ -141,6 +145,9 @@ export default class ItemStore {
     }
     get itemsLoading() {
         return this._itemsLoading
+    }
+    get cartLoading() {
+        return this._cartLoading
     }
     get selectedType() {
         return this._selectedType

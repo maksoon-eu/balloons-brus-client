@@ -43,6 +43,12 @@ const ChooseItem = observer(() => {
         })
     }, [id])
 
+    const onAddToBag = () => {
+        if (!items.cartLoading) {
+            addToCart(items.item.id, items.item.available, count, items.item.price, items)
+        }
+    }
+
     return (
         <>
         <AnimatePresence mode="wait">
@@ -92,7 +98,7 @@ const ChooseItem = observer(() => {
                                             className="chooseItem__item-btn"
                                             whileHover={{ scale: 1.04 }}
                                             whileTap={{ scale: 0.9 }}
-                                            onClick={() => addToCart(items.item.id, items.item.available, count, items.item.price, items)}
+                                            onClick={onAddToBag}
                                             style={{backgroundColor: flag !== -1 ? '#8d59fe' : !items.item.available ? '#F3F4F6' : '#c5abff'}}
                                         >{flag !== -1 ? 'В корзине' : 'В корзину'}</motion.div>
                                     </div>
