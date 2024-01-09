@@ -1,0 +1,23 @@
+.message {
+    background-color: #e2d5ff8a;
+    margin: 0 -10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    &__inner {
+        padding: 20px 30px;
+        max-width: 550px;
+        width: 100%;
+
+        &-title {
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        &-text {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    }
+}

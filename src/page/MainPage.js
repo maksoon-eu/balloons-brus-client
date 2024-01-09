@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useRef } from "react";
 import { Context } from "..";
 import { fetchTypes, fetchSliderType } from "../http/itemsApi";
 import { motion } from "framer-motion";
@@ -6,9 +6,15 @@ import { motion } from "framer-motion";
 import NavBar from "../components/navBar/NavBar";
 import PopularSlider from "../components/popularSlider/PopularSlider";
 import InfoSlider from "../components/infoSlider/InfoSlider";
+import SendMessage from "../components/sendMessage/SendMessage";
 
 const MainPage = () => {
-    const {items} = useContext(Context)
+    const worksRef = useRef(null);
+    const contactRef = useRef(null);
+    const aboutRef = useRef(null);
+    const reviewsRef = useRef(null);
+
+    const {items} = useContext(Context);
 
     useEffect(() => {
         if (items.types.length === 0) {
@@ -36,6 +42,12 @@ const MainPage = () => {
         }
     }, [])
 
+    const scrollToComponent = (ref) => {
+        if (ref.current) {
+            ref.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <motion.div
         initial={{ opacity: 0 }}
@@ -43,12 +55,13 @@ const MainPage = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }}
         >
-            <NavBar/>
+            <NavBar scrollToComponent={scrollToComponent} worksRef={worksRef} reviewsRef={reviewsRef}/>
             <PopularSlider id={1}/>
             <PopularSlider id={2}/>
             <PopularSlider id={3}/>
-            <InfoSlider title={'Отзывы клиентов'} store={'reviews'} />
-            <InfoSlider title={'Наши работы'} store={'works'} />
+            <SendMessage />
+            <InfoSlider title={'Отзывы клиентов'} store={'reviews'} refs={reviewsRef}/>
+            <InfoSlider title={'Наши работы'} store={'works'} refs={worksRef}/>
         </motion.div>
     )
 }

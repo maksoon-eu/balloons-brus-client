@@ -31,7 +31,7 @@ const CatalogItem = observer(({item, setShowAnimation, setChangeModal, setActive
                 y: 0,
                 opacity: 1,
                 transition: {
-                duration: 0.6,
+                duration: 0.4,
                 ease: "easeOut"
                 }
             });

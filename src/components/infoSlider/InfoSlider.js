@@ -166,7 +166,7 @@ const AddInfoModal = observer(({changeModal, setChangeModal, showAnimation, setS
     )
 })
 
-const InfoSlider = observer(({title, store}) => {
+const InfoSlider = observer(({title, store, refs}) => {
     const [changeModal, setChangeModal] = useState(false);
     const [showAnimation, setShowAnimation] = useState(false);
     
@@ -296,7 +296,7 @@ const InfoSlider = observer(({title, store}) => {
     return (
         <>
         {changeModal && <AddInfoModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} store={store} />}
-        <div className="slider">
+        <div className="slider" ref={refs}>
             <div className="slider__title">{item[store][`${store}Loading`] ? 'Загрузка...' : title}</div>
 
             {item.user.isAuth && <div className="slider__btn">
