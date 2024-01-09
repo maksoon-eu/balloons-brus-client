@@ -1,10 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Route, Routes, Navigate } from "react-router-dom";
-
 import { observer } from "mobx-react-lite";
 import { check } from "../../http/userApi";
-
 import { Context } from "../..";
 
 import Header from "../header/Header";
@@ -20,7 +18,7 @@ import Footer from "../footer/Footer";
 import '../../style/style.scss';
 
 const App = observer(() => {
-    const {user} = useContext(Context)
+    const {items, user} = useContext(Context)
 
     useEffect(() => {
       check()
@@ -31,6 +29,14 @@ const App = observer(() => {
         console.log(e.message)
       })
     }, [])
+
+    useEffect(() => {
+      let totalPrice = 0;
+      items.cart.forEach(item => {
+          totalPrice += item[2] * item[1]
+      })
+      items.setTotalPrice(totalPrice)
+  }, [items.cart])
 
     return (
         <div className="app">

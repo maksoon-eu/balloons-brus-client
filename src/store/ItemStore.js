@@ -25,6 +25,7 @@ export default class ItemStore {
         this._typesLoading = true
         this._itemsLoading = true
         this._cartLoading = false
+        this._totalPrice = false
         makeAutoObservable(this)
     }
 
@@ -97,6 +98,9 @@ export default class ItemStore {
     setTotalCount(count) {
         this._totalCount = count
     }
+    setTotalPrice(price) {
+        this._totalPrice = price
+    }
 
     get types() {
         return this._types
@@ -160,6 +164,9 @@ export default class ItemStore {
     }
     get totalCount() {
         return this._totalCount
+    }
+    get totalPrice() {
+        return this._totalPrice
     }
     get page() {
         return this._page

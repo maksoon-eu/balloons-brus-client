@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fetchIdsItem } from '../../http/itemsApi';
 import SkeletonCart from '../skeleton/SkeletonCart';
-import { addToCart } from '../../helpers/Helpers';
 
 import CartItem from '../cartItem/CartItem';
 

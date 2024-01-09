@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { deleteType } from "../../http/itemsApi";
+
 import downArrow from '../../resources/down-arrow.svg';
 
 import './create.scss';

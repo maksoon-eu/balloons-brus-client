@@ -1,17 +1,18 @@
 import { useState, useContext, useEffect, useRef } from 'react';
 import { Context } from '../..';
-import InputMask from 'react-input-mask';
-import DatePicker from "react-widgets/DatePicker";
-import TimeInput from "react-widgets/TimeInput";
 import { observer } from 'mobx-react-lite';
 import { motion } from 'framer-motion';
-import moment from 'moment';
-import 'moment/locale/ru';
 import { sendOrder } from '../../http/orderApi';
 import { fetchIdsItem } from '../../http/itemsApi';
 import { addToCart } from '../../helpers/Helpers';
+import InputMask from 'react-input-mask';
+import DatePicker from "react-widgets/DatePicker";
+import TimeInput from "react-widgets/TimeInput";
+import moment from 'moment';
 
-import close from '../../resources/close.svg'
+import close from '../../resources/close.svg';
+
+import 'moment/locale/ru';
 
 import './orderModal.scss';
 import "react-widgets/scss/styles.scss";
@@ -115,7 +116,7 @@ const VerificationModal = ({openModal, setOpenModal}) => {
     )
 }
 
-const AvailableModal = ({openModal, setOpenModal, setClientAnswer}) => {
+const AvailableModal = ({openModal, setOpenModal, constructOrder}) => {
     const refModal = useRef(null);
 
     useEffect(() => {
@@ -167,7 +168,7 @@ const AvailableModal = ({openModal, setOpenModal, setClientAnswer}) => {
                         className="info__modal-btn"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => setClientAnswer(true)}
+                        onClick={constructOrder}
                     >Да</motion.div>
                 </div>
                 <div className="info__modal-close" onClick={() => setOpenModal(false)}>
@@ -232,38 +233,22 @@ const OrderModal = observer(() => {
     const [loading, setLoading] = useState(false);
     const [startDate, setStartDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
-    const [price, setPrice] = useState(0);
     const [inputError, setInputError] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openVerification, setOpenVerification] = useState(false);
     const [openAvailable, setOpenAvailable] = useState(false);
     const [openNotAvailable, setOpenNotAvailable] = useState(false);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-    const [clientAnswer, setClientAnswer] = useState(false);
 
     const {items} = useContext(Context);
 
-    useEffect(() => {
-        let totalPrice = 0;
-        items.cart.forEach(item => {
-            totalPrice += item[2] * item[1]
-        })
-        setPrice(totalPrice)
-    }, [items.cart])
-
-    useEffect(() => {
-        if (clientAnswer) {
-            constructOrder()
-        }
-    }, [clientAnswer])
-
-    useEffect(() => {
-        if (!items.cartLoading) {
-            if (items.cartItems.length === 0) {
-                localStorage.removeItem('cart')
-                items.setCart([])
-            } else if (items.cartItems.length !== items.cart.length) {
-                const firstIds = items.cartItems.map(item => item.id);
+    const removeItem = (data) => {
+        if (data.length === 0) {
+            localStorage.removeItem('cart')
+            items.setCart([])
+        } else {
+            if (data.length !== items.cart.length) {
+                const firstIds = data.map(item => item.id);
                 const secondIds = items.cart.map(item => item[0]);
                 let i = 0;
                 for (let itemId of secondIds) {
@@ -273,18 +258,17 @@ const OrderModal = observer(() => {
                     i++;
                 }
             }
+            changePrice(data)
         }
-    }, [items.cartItems, items.cartLoading])
+    }
 
-    useEffect(() => {
-        if (items.cart.length === items.cartItems.length) {
-            for (let i = 0; i < items.cart.length; i++) {
-                if (items.cartItems[i].id === items.cart[i][0] && items.cartItems[i].price !== items.cart[i][2]) {
-                    addToCart(items.cartItems[i].id, items.cartItems[i].available, items.cart[i][1], items.cartItems[i].price, items)
-                }
+    const changePrice = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === items.cart[i][0] && data[i].price !== items.cart[i][2]) {
+                addToCart(data[i].id, data[i].available, items.cart[i][1], data[i].price, items)
             }
         }
-    }, [items.cartItems])
+    }
 
     const onInputsChange = (e) => {
         setInputError(false)
@@ -306,8 +290,6 @@ const OrderModal = observer(() => {
     const checkVerification = (data) => {
         let flag = 0;
         if (data.length === 0) {
-            localStorage.removeItem('cart')
-            items.setCart([])
             return 'info';
         } else if (data.length !== items.cart.length) {
             return 'info';
@@ -348,14 +330,13 @@ const OrderModal = observer(() => {
         formData.append('date', moment(startDate).format('LL'))
         formData.append('time', moment(startTime).format('LT'))
         formData.append('comment', inputs[3])
-        formData.append('price', price)
+        formData.append('price', items.totalPrice)
         sendOrder(formData)
             .then(data => {
                 setOpenModal(true)
                 setInputs(['', '', '', ''])
                 setStartDate(null)
                 setStartTime(null)
-                setClientAnswer(false)
             })
             .catch(e => {
                 console.log(e.message)
@@ -377,6 +358,7 @@ const OrderModal = observer(() => {
                         if (checkVerification(data) === 'info') {
                             setOpenVerification(true)
                             items.setUpdateCart(true)
+                            removeItem(data)
                             setLoading(false)
                         } else if (checkAvailable() === 'notAll') {
                             setOpenAvailable(true)
@@ -418,7 +400,7 @@ const OrderModal = observer(() => {
         <>
         <InfoModal openModal={openModal} setOpenModal={setOpenModal} />
         <VerificationModal openModal={openVerification} setOpenModal={setOpenVerification} />
-        <AvailableModal openModal={openAvailable} setOpenModal={setOpenAvailable} setClientAnswer={setClientAnswer} />
+        <AvailableModal openModal={openAvailable} setOpenModal={setOpenAvailable} constructOrder={constructOrder} />
         <NotAvailableModal openModal={openNotAvailable} setOpenModal={setOpenNotAvailable} />
         <div className="order">
             <div className="order__name order__input">
@@ -488,7 +470,7 @@ const OrderModal = observer(() => {
                 />
                 <label className="input-label" htmlFor="comment">Комментарий</label>
             </div>
-            <div className="order__price">Итоговая стоимость: <span>{`${price} ₽`}</span></div>
+            <div className="order__price">Итоговая стоимость: <span>{`${items.totalPrice} ₽`}</span></div>
             <div className='order__error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</div>
             <motion.button
                 className="market__item-btn order__btn"
