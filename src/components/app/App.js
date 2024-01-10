@@ -14,6 +14,7 @@ import ItemPage from "../../page/ItemPage";
 import AboutPage from "../../page/AboutPage";
 import LoginPage from "../../page/LoginPage";
 import Footer from "../footer/Footer";
+import BottomPanel from "../bottomPanel/BottomPanel";
 
 import '../../style/style.scss';
 
@@ -54,6 +55,7 @@ const App = observer(() => {
               <Route path="*" element={<Navigate to="/" replace />}/>
             </Routes>
           </AnimatePresence>
+          <BottomPanel/>
           <Footer/>
         </div>
     );

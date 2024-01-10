@@ -11,6 +11,15 @@
         justify-content: space-between;
         align-items: center;
 
+        &-btns {
+            max-width: 350px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
         &-catalog {
             display: flex;
             justify-content: center;
@@ -23,6 +32,7 @@
             padding-top: 2px;
             cursor: pointer;
             transition: .2s linear;
+            margin: 5px 0;
 
             &:first-of-type {
                 margin-right: 10px;
@@ -52,12 +62,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
             max-width: 260px;
             width: 100%;
             font-size: 12px;
-            margin: 0 10px;
+            margin: 5px 10px;
 
             .header__info-time {
+                margin: 5px 0;
                 margin-right: 10px;
             }
 
@@ -96,8 +108,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 145px;
-            width: 100%;
             font-size: 12px;
 
             .active {
@@ -146,7 +156,7 @@
 
                         &-text {
                             margin-left: 10px;
-                            width: 75px;
+                            width: 65px;
                         }
 
                         &-title {
@@ -157,6 +167,59 @@
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1043px) {
+    .header {
+        &__inner {
+            &-btns {
+                max-width: 150px;
+            }
+        }
+    }
+}
+
+@media (max-width: 870px) {
+    .header {
+        &__inner {
+            &-info {
+                max-width: 135px;
+            }
+        }
+    }
+}
+
+@media (max-width: 730px) {
+    .header {
+        &__inner {
+            &-info {
+                display: none;
+            }
+            &-btns {
+                display: none;
+            }
+            &-icons {
+                .header__icons-cart .header__cart-img {
+                    width: 22px;
+                    height: 22px;
+                    svg {
+                        width: 22px;
+                        height: 22px;
+                    }
+                }
+            }
+            &-logo {
+                .header__inner-img {
+                    width: 70px;
+                    height: 70px;
+                }
+                .header__inner-text {
+                    margin-bottom: 10px;
+                    height: 15px;
                 }
             }
         }

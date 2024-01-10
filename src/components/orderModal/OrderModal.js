@@ -116,118 +116,6 @@ const VerificationModal = ({openModal, setOpenModal}) => {
     )
 }
 
-const AvailableModal = ({openModal, setOpenModal, constructOrder}) => {
-    const refModal = useRef(null);
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (openModal && refModal.current && !refModal.current.contains(e.target)) {
-                setOpenModal(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [openModal])
-
-    return (
-        <motion.div 
-            variants={{
-                open: {
-                    opacity: 1,
-                    y: 0,
-                    display: 'block'
-                },
-                closed: {
-                    opacity: 0,
-                    y: -100,
-                    display: 'none',
-                    transition: {
-                        display: {delay: .4}
-                    }
-                }
-            }}
-            initial={{opacity: 0, y: -100}}
-            animate={openModal ? "open" : "closed"}
-            className="change__modal"
-            transition={{duration: .4}}
-        >
-            <div className="info__modal-inner" ref={refModal}>
-                <div className="info__modal-text">Некоторых товаров в вашей корзине нет в наличии, хотите продолжить заказ?</div>
-                <div className="info__modal-btns">
-                    <motion.div 
-                        className="info__modal-btn"
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => setOpenModal(false)}
-                    >Нет</motion.div>
-                    <motion.div 
-                        className="info__modal-btn"
-                        whileHover={{ scale: 1.04 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={constructOrder}
-                    >Да</motion.div>
-                </div>
-                <div className="info__modal-close" onClick={() => setOpenModal(false)}>
-                    <img src={close} alt="" />
-                </div>
-            </div>
-        </motion.div>
-    )
-}
-
-const NotAvailableModal = ({openModal, setOpenModal}) => {
-    const refModal = useRef(null);
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (openModal && refModal.current && !refModal.current.contains(e.target)) {
-                setOpenModal(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [openModal])
-
-    return (
-        <motion.div 
-            variants={{
-                open: {
-                    opacity: 1,
-                    y: 0,
-                    display: 'block'
-                },
-                closed: {
-                    opacity: 0,
-                    y: -100,
-                    display: 'none',
-                    transition: {
-                        display: {delay: .4}
-                    }
-                }
-            }}
-            initial={{opacity: 0, y: -100}}
-            animate={openModal ? "open" : "closed"}
-            className="change__modal"
-            transition={{duration: .4}}
-        >
-            <div className="info__modal-inner  info__modal-inner--center" ref={refModal}>
-                <div className="info__modal-text">Всех товаров в вашей корзине нет в наличии</div>
-                <div className="info__modal-close" onClick={() => setOpenModal(false)}>
-                    <img src={close} alt="" />
-                </div>
-            </div>
-        </motion.div>
-    )
-}
-
 const OrderModal = observer(() => {
     const [inputs, setInputs] = useState(['', '', '', '']);
     const [loading, setLoading] = useState(false);
@@ -236,19 +124,24 @@ const OrderModal = observer(() => {
     const [inputError, setInputError] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openVerification, setOpenVerification] = useState(false);
-    const [openAvailable, setOpenAvailable] = useState(false);
-    const [openNotAvailable, setOpenNotAvailable] = useState(false);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
     const {items} = useContext(Context);
+    
+    useEffect(() => {
+        if (!items.cartLoading) {
+            removeItem(items.cartItems)
+        }
+    }, [items.cartItems, items.cartLoading])
 
     const removeItem = (data) => {
         if (data.length === 0) {
             localStorage.removeItem('cart')
             items.setCart([])
         } else {
-            if (data.length !== items.cart.length) {
-                const firstIds = data.map(item => item.id);
+            const availableItems = data.filter(item => item.available)
+            if (availableItems.length !== items.cart.length) {
+                const firstIds = availableItems.map(item => item.id);
                 const secondIds = items.cart.map(item => item[0]);
                 let i = 0;
                 for (let itemId of secondIds) {
@@ -258,7 +151,7 @@ const OrderModal = observer(() => {
                     i++;
                 }
             }
-            changePrice(data)
+            changePrice(availableItems)
         }
     }
 
@@ -302,22 +195,6 @@ const OrderModal = observer(() => {
         }
         return flag;
     }
-
-    const checkAvailable = () => {
-        let count = 0;
-        items.cartItems.forEach(item => {
-            if (!item.available) {
-                count++
-            }
-        })
-
-        const cartLength = items.cartItems.length;
-        if (count === cartLength) {
-            return 'all'
-        } else if (count > 0 && count < cartLength) {
-            return 'notAll'
-        }
-    }
     
     const constructOrder = () => {
         moment.locale('ru');
@@ -358,13 +235,7 @@ const OrderModal = observer(() => {
                         if (checkVerification(data) === 'info') {
                             setOpenVerification(true)
                             items.setUpdateCart(true)
-                            removeItem(data)
-                            setLoading(false)
-                        } else if (checkAvailable() === 'notAll') {
-                            setOpenAvailable(true)
-                            setLoading(false)
-                        } else if (checkAvailable() === 'all') {
-                            setOpenNotAvailable(true)
+                            // removeItem(data)
                             setLoading(false)
                         } else {
                             constructOrder()
@@ -400,8 +271,6 @@ const OrderModal = observer(() => {
         <>
         <InfoModal openModal={openModal} setOpenModal={setOpenModal} />
         <VerificationModal openModal={openVerification} setOpenModal={setOpenVerification} />
-        <AvailableModal openModal={openAvailable} setOpenModal={setOpenAvailable} constructOrder={constructOrder} />
-        <NotAvailableModal openModal={openNotAvailable} setOpenModal={setOpenNotAvailable} />
         <div className="order">
             <div className="order__name order__input">
                 <input 

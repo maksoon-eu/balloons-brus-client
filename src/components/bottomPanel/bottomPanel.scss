@@ -1,0 +1,39 @@
+@import '../../style/variables.scss';
+
+.panel {
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #fff;
+    height: 45px;
+    z-index: 1000;
+    display: none;
+
+    &__inner {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+    }
+
+    &__icon {
+        background-color: $secondary-color;
+        border-radius: 5px;
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &--active {
+            background-color: #8d59fe;
+        }
+    }
+}
+
+@media (max-width: 730px) {
+    .panel {
+        display: block;
+    }
+}
