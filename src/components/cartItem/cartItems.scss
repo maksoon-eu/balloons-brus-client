@@ -13,6 +13,7 @@
         display: flex;
         justify-content: space-between;
         transition: .15s linear;
+        margin-right: 10px;
 
         &:hover {
             transform: translateY(-5px);
@@ -79,6 +80,47 @@
             span {
                 padding-top: 2px;
             }
+        }
+    }
+}
+
+@media (max-width: 945px) {
+    .cartItem {
+       margin: 0 auto;
+       margin-bottom: 30px;
+
+        &__inner {
+            margin-right: 0;
+        }
+    }
+}
+
+@media (max-width: 630px) {
+    .cartItem {
+       font-size: 16px;
+
+        &__left {
+            max-width: 100px;
+            height: 160px;
+        }
+
+        &__center {
+            padding: 15px 10px;
+            max-width: 125px;
+        }
+
+        &__right {
+            padding: 15px 10px;
+
+            &-availability {
+                font-size: 12px;
+            }
+        }
+
+        &__btn {
+            font-size: 12px;
+            height: 25px;
+            max-width: 75px;
         }
     }
 }

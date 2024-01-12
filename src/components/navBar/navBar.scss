@@ -25,3 +25,23 @@
         }
     }
 }
+
+@media (max-width: 630px) {
+    .nav {
+        &__item {
+            font-size: 14px;
+            width: 130px;
+            height: 35px;
+        }
+    }
+}
+
+@media (max-width: 430px) {
+    .nav {
+        &__item {
+            font-size: 12px;
+            width: 90px;
+            height: 30px;
+        }
+    }
+}

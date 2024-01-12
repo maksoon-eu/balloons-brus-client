@@ -1,7 +1,7 @@
 .cart {
    display: flex;
    justify-content: space-between;
-   min-height: calc(100vh - 506px);
+   min-height: calc(100vh - 457px);
    
    &__inner {
       display: flex;
@@ -20,5 +20,15 @@
       font-size: 24px;
       text-align: center;
       margin-top: 50px;
+   }
+}
+
+@media (max-width: 945px) {
+   .cart {
+      flex-wrap: wrap;
+
+      &__title {
+         font-size: 18px;
+      }
    }
 }

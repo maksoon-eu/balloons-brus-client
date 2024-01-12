@@ -148,3 +148,111 @@
         }
     }
 }
+
+@media (max-width: 900px) {
+    .chooseItem {
+        min-height: 590px;
+    }
+}
+
+@media (max-width: 755px) {
+    .chooseItem {
+        min-height: 500px;
+    }
+}
+
+@media (max-width: 680px) {
+    .chooseItem {
+        &__item {
+            &-btn {
+                font-size: 16px;
+                height: 30px;
+                max-width: 120px;
+                min-width: 120px;
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+@media (max-width: 620px) {
+    .chooseItem {
+        min-height: 418px;
+
+        &__item {
+            &-name {
+                font-size: 28px;
+            }
+
+            &-price {
+                font-size: 26px;
+            }
+
+            &-info {
+                font-size: 14px;
+            }
+
+            &-counter {
+                font-size: 20px;
+
+                svg {
+                    width: 15px;
+                    height: 15px;
+                }
+            }
+
+            &-about {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@media (max-width: 540px) {
+    .chooseItem {
+        min-height: 371px;
+
+        &-img {
+            box-shadow: 5px 5px 12px 0px rgba(0, 0, 0, 0.4);
+        }
+        &__item {
+            &-btn {
+                font-size: 14px;
+                height: 30px;
+                max-width: 100px;
+                min-width: 100px;
+                margin-left: 10px;
+            }
+
+            &-name {
+                font-size: 26px;
+                margin-bottom: 15px;
+            }
+
+            &-price {
+                font-size: 24px;
+            }
+
+            &-info {
+                font-size: 12px;
+            }
+
+            &-counter {
+                font-size: 18px;
+
+                svg {
+                    width: 15px;
+                    height: 15px;
+                }
+            }
+
+            &-about {
+                font-size: 12px;
+            }
+
+            &-description {
+                font-size: 12px;
+            }
+        }
+    }
+}

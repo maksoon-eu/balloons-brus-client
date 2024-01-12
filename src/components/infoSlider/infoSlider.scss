@@ -33,3 +33,25 @@
         }
     }
 }
+
+@media (max-width: 630px) {
+    .info {
+        &__inner {
+            max-width: 200px;
+        }
+        &__item {
+            height: 300px;
+        }
+    }
+}
+
+@media (max-width: 445px) {
+    .info {
+        &__inner {
+            max-width: 180px;
+        }
+        &__item {
+            height: 272px;
+        }
+    }
+}

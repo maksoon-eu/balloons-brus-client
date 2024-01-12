@@ -59,13 +59,21 @@
         -ms-user-select: none;
         cursor: pointer;
         position: absolute;
-        top: -26px;
-        left: 6px;
-        width: 50px;
-        height: 50px;
+        top: -35px;
+        left: 0px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        background: transparent;
+        background: rgba(197, 171, 255, 0.4705882353);
         z-index: 11;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        svg {
+            margin-top: 5px;
+            margin-left: 2px;
+        }
     }
 
     &__ul {

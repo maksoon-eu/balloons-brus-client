@@ -135,3 +135,49 @@
         }
     }
 }
+
+@media (max-width: 730px) {
+    .market__item {
+        height: 300px;
+        max-width: 200px;
+
+        &-top {
+            height: 200px;
+            img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        &-bottom {
+            min-height: 95px;
+            padding: 10px;
+            padding-top: 0px;
+        }
+
+        &-counter {
+            max-width: 65px;
+        }
+    }
+}
+
+@media (max-width: 445px) {
+    .market__item {
+        height: 280px;
+        max-width: 180px;
+
+        &-top {
+            height: 170px;
+            img {
+                width: 180px;
+                height: 170px;
+            }
+        }
+
+        &-btn {
+            font-size: 12px;
+            max-width: 85px;
+            height: 20px;
+        }
+    }
+}

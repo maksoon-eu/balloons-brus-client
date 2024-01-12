@@ -9,6 +9,7 @@
     height: 45px;
     z-index: 1000;
     display: none;
+    border-top: 1px solid #000;
 
     &__inner {
         display: flex;

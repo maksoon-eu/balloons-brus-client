@@ -10,6 +10,7 @@ import { observer } from "mobx-react-lite";
 
 import SimilarSlider from "../similarSlider/SimilarSlider";
 import SkeletonChoose from "../skeleton/SkeletonChoose";
+import SendMessage from "../sendMessage/SendMessage";
 
 import loadingImg from '../../resources/loading.svg';
 import storage from '../../resources/storage.svg';
@@ -127,6 +128,7 @@ const ChooseItem = observer(() => {
                 }
             </motion.div>
         </AnimatePresence>
+        <SendMessage/>
         <SimilarSlider typeId={items.item.typeId} subTypeId={items.item.subTypeId}/>
         </>
     )

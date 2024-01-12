@@ -12,7 +12,7 @@ import './cartList.scss';
 const CartList = observer(() => {
     const {items} = useContext(Context);
 
-    const skeleton = ['', '', '', ''];
+    const skeleton = [''];
 
     useEffect(() => {
         if ((items.updateCart || items.cartItems.length === 0) && items.cart.length > 0) {
@@ -33,8 +33,6 @@ const CartList = observer(() => {
                     items.setCartLoading(false);
                     items.setUpdateCart(false);
                 });
-        } else {
-            items.setCartLoading(false);
         }
     }, [items.updateCart]);
 
@@ -53,7 +51,7 @@ const CartList = observer(() => {
         )
     })
 
-    const skeletonList = skeleton.map((item, i) => {
+    const skeletonList = items.cart.map((item, i) => {
         return (
             <SkeletonCart key={i} />
         )
@@ -67,6 +65,7 @@ const CartList = observer(() => {
                 exit={{opacity: 0}}
                 key={items.cartLoading}
                 className='cart__inner'
+                style={{minHeight: `${items.cart.length * 238}px`}}
             >
                 {items.cartLoading ? skeletonList : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
                 <AnimatePresence mode='popLayout'>

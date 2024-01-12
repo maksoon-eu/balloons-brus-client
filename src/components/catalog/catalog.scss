@@ -12,8 +12,8 @@
     flex-wrap: wrap;
 
     .market__item {
-        margin: 0 15px;
-        margin-bottom: 20px;
+        margin: 0 5px;
+        margin-bottom: 10px;
     }
 }
 
@@ -30,4 +30,11 @@
     cursor: pointer;
     margin: 0 auto;
     margin-top: 40px;
+}
+
+@media (max-width: 538px) {
+    .market {
+        justify-content: center;
+        margin-left: 0;
+    }
 }
