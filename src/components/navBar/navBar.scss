@@ -15,12 +15,11 @@
         height: 40px;
         padding-top: 2px;
         border-radius: 10px;
-        border: 1px solid transparent;
+        border: 1px solid $secondary-color;
         transition: .15s linear;
         cursor: pointer;
 
         &:hover {
-            border-color: $secondary-color;
             transform: translateY(-4px);
         }
     }
@@ -40,8 +39,9 @@
     .nav {
         &__item {
             font-size: 12px;
-            width: 90px;
+            width: 115px;
             height: 30px;
+            border-radius: 5px;
         }
     }
 }

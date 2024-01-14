@@ -112,14 +112,14 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
                                     onInput={onPriceInputs} 
                                     type="number" name='0' 
                                     value={priceInputs[0]} 
-                                    placeholder="От"/>
+                                    placeholder="Мин"/>
                                 <span className="to">до</span>
                                 <input
                                     value={priceInputs[1]} 
                                     className="search__input search__input-price" 
                                     onInput={onPriceInputs} 
                                     type="number" name='1' 
-                                    placeholder="До"/>
+                                    placeholder="Макс"/>
                             </div>
                             <div className="search__error" style={{color: inputError ? '#E84D4D' : 'transparent'}}>Введите корректное значение</div>
                             <motion.div

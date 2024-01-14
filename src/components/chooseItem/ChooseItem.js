@@ -34,10 +34,8 @@ const ChooseItem = observer(() => {
         setLoading(true)
         fetchOneItem(id)
         .then(data => {
-            setTimeout(() => {
             items.setItem(data)
             setLoading(false)
-            }, 3000)
         })
         .catch(e => {
             setLoading(false)
@@ -69,7 +67,7 @@ const ChooseItem = observer(() => {
                                     width='100%' height='100%'
                                     placeholderSrc={loadingImg}
                                     effect="opacity"
-                                    src={`http://localhost:4000/${items.item.img}`}
+                                    src={`http://sharyotbrusa.ru:4000/${items.item.img}`}
                                     crossOrigin="anonymous"
                                     alt='img'
                                 />

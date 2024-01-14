@@ -23,11 +23,9 @@ const CartList = observer(() => {
     
             fetchIdsItem(itemsCart)
                 .then(data => {
-                    setTimeout(() => {
-                        items.setCartItems(data);
-                        items.setCartLoading(false);
-                        items.setUpdateCart(false);
-                    }, 3000);
+                    items.setCartItems(data);
+                    items.setCartLoading(false);
+                    items.setUpdateCart(false);
                 })
                 .catch(e => {
                     items.setCartLoading(false);

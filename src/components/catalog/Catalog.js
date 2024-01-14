@@ -43,19 +43,17 @@ const Catalog = observer(() => {
 
             fetchItems(items.selectedType, items.selectedSubType, items.selectedPrice, 1, 12*items.page, items.itemsSort)
             .then(data => {
-                setTimeout(() => {
                 items.setItems(data.rows)
                 items.setTotalCount(data.rows.length)
                 items.setItemsLoading(false)
                 items.setUpdateList(false)
-                }, 3000)
             })
             .catch(e => {
                 items.setItemsLoading(false)
                 items.setUpdateList(false)
             })
         }
-    }, [items.selectedType, items.selectedSubType, items.selectedPrice, items.itemsSort, items.updateList])
+    }, [items.selectedPrice, items.itemsSort, items.updateList])
 
     const updateListItem = () => {
         items.setItemsLoading('updateLoading')

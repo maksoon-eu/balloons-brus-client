@@ -84,14 +84,12 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
             setLoading(true)
             changeItem(item.id, formData)
                 .then(data => {
-                    setTimeout(() => {
                     setShowAnimation(false)
                     setTimeout(() => {
                         setChangeModal(false)
                     }, 400)
                     items.setUpdateList(true)
                     setLoading(false)
-                    }, 3000)
                 })
                 .catch(e => {
                     setLoading(false)

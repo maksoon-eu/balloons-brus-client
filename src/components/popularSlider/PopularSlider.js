@@ -80,15 +80,14 @@ const PopularSlider = observer(({id}) => {
     const [subType, setSubType] = useState([]);
     const [dropdownTypeCurrent, setDropdownTypeCurrent] = useState(false);
     const [dropdownSubTypeCurrent, setDropdownSubTypeCurrent] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [updateList, setUpdateList] = useState(false);
-
     const [changeModal, setChangeModal] = useState(false);
     const [showAnimation, setShowAnimation] = useState(false);
     const [activeItem, setActiveItem] = useState({});
+    const [error, setError] = useState(false);
 
     const skeletonArr = ['', '', '', ''];
-    let itemList = [];
 
     useEffect(() => {
         if (items.sliderTypes.length !== 0) {
@@ -98,39 +97,34 @@ const PopularSlider = observer(({id}) => {
     }, [items.sliderTypes])
 
     useEffect(() => {
-        if (typeId && subTypeId && (itemList.length === 0 || updateList || items.updateList)) {
+        if (typeId && subTypeId && (items[`itemsSlider${id}`].length === 0 || updateList || items.updateList)) {
             if (user.isAuth) {
                 changeSliderType(id, {typeId, subTypeId})
                     .then(data => {
-                        setTimeout(() => {
-                            items.sliderTypes.forEach(item => {
-                                if (item.id === id) {
-                                    item.typeId = typeId
-                                    item.subTypeId = subTypeId
-                                    items.setSliderTypes(items.sliderTypes)
-                                }
-                            })
-                        }, 1000)
+                        items.sliderTypes.forEach(item => {
+                            if (item.id === id) {
+                                item.typeId = typeId
+                                item.subTypeId = subTypeId
+                                items.setSliderTypes(items.sliderTypes)
+                            }
+                        })
                     })
                     .catch(e => {
+                        setError(true)
                     })
             }
 
             setLoading(true)
             fetchItems(typeId, subTypeId, null, 1, 8)
                 .then(data => {
-                    setTimeout(() => {
                     items[`setItemsSlider${id}`](data.rows)
                     setLoading(false)
                     items.setUpdateList(false)
-                    }, 2000)
                 })
                 .catch(e => {
                     setLoading(false)
                     items.setUpdateList(false)
                 })
-        } else if (itemList.length > 0) {
-            setLoading(false)
         }
     }, [typeId, subTypeId, user.isAuth, items.updateList])
 
@@ -154,7 +148,7 @@ const PopularSlider = observer(({id}) => {
         }
     }, [typeId, items.typesLoading])
 
-    itemList = items[`itemsSlider${id}`].map(item => {
+    const itemList = items[`itemsSlider${id}`].map(item => {
         return (
             <div key={item.id} className="market__item-slider">
                 <CatalogItem item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
@@ -221,7 +215,7 @@ const PopularSlider = observer(({id}) => {
                 />
             </div>}
             {changeModal && <ChangeModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} item={activeItem} />}
-            <AnimatePresence mode="wait">
+            {itemList.length > 0 || error || loading ?<AnimatePresence mode="wait">
                 <motion.div
                     initial={{ opacity: 0}}
                     animate={{ opacity: 1}}
@@ -229,10 +223,10 @@ const PopularSlider = observer(({id}) => {
                     key={loading || items.typesLoading}
                 >
                     <Slider {...settings}>
-                        {loading || items.typesLoading ? skeletonList : !loading && !items.typesLoading && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : itemList}
+                        {loading || items.typesLoading ? skeletonList : !loading && !items.typesLoading ? itemList : "Ошибка"}
                     </Slider>
                 </motion.div>
-            </AnimatePresence>
+            </AnimatePresence> : itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : ''}
         </div>
     );
 })

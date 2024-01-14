@@ -4,9 +4,9 @@ import name from '../../resources/name.png';
 
 import './footer.scss';
 
-const Footer = () => {
+const Footer = ({contactRef}) => {
     return (
-        <div className="footer">
+        <div className="footer" ref={contactRef}>
             <div className="footer__first">
                 <div className="footer__logo">
                     <img className="footer__logo-img" src={logo} alt="" />

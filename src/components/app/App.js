@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
@@ -19,46 +19,54 @@ import BottomPanel from "../bottomPanel/BottomPanel";
 import '../../style/style.scss';
 
 const App = observer(() => {
-    const {items, user} = useContext(Context)
+  const contactRef = useRef(null);
 
-    useEffect(() => {
-      check()
-      .then(data => {
-        user.setUser(true)
-        user.setIsAuth(true)
-      }).catch(e => {
-        console.log(e.message)
-      })
-    }, [])
+  const {items, user} = useContext(Context);
 
-    useEffect(() => {
-      let totalPrice = 0;
-      items.cart.forEach(item => {
-          totalPrice += item[2] * item[1]
-      })
-      items.setTotalPrice(totalPrice)
+  useEffect(() => {
+    check()
+    .then(data => {
+      user.setUser(true)
+      user.setIsAuth(true)
+    }).catch(e => {
+      console.log(e.message)
+    })
+  }, [])
+
+  useEffect(() => {
+    let totalPrice = 0;
+    items.cart.forEach(item => {
+        totalPrice += item[2] * item[1]
+    })
+    items.setTotalPrice(totalPrice)
   }, [items.cart])
 
-    return (
-        <div className="app">
-          <Header/>
-          <AnimatePresence mode="wait">
-            <Routes>
-              {user.isAuth && <Route path="/admin" element={<AdminPage/>}/>}
-              {/* <Route path="/admin" element={<AdminPage/>}/> */}
-              <Route path="/" element={<MainPage/>}/>
-              <Route path="/cart" element={<CartPage/>}/>
-              <Route path="/catalog" element={<CatalogPage/>}/>
-              <Route path="/catalog/:id" element={<ItemPage/>}/>
-              <Route path="/info" element={<AboutPage/>}/>
-              <Route path="/login" element={<LoginPage/>}/>
-              <Route path="*" element={<Navigate to="/" replace />}/>
-            </Routes>
-          </AnimatePresence>
-          <BottomPanel/>
-          <Footer/>
-        </div>
-    );
+  const scrollToComponent = (ref) => {
+    if (ref.current) {
+        ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+      <div className="app">
+        <Header/>
+        <AnimatePresence mode="wait">
+          <Routes>
+            {user.isAuth && <Route path="/admin" element={<AdminPage/>}/>}
+            {/* <Route path="/admin" element={<AdminPage/>}/> */}
+            <Route path="/" element={<MainPage scrollToComponent={scrollToComponent} contactRef={contactRef}/>}/>
+            <Route path="/cart" element={<CartPage/>}/>
+            <Route path="/catalog" element={<CatalogPage/>}/>
+            <Route path="/catalog/:id" element={<ItemPage/>}/>
+            <Route path="/info" element={<AboutPage/>}/>
+            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="*" element={<Navigate to="/" replace />}/>
+          </Routes>
+        </AnimatePresence>
+        <BottomPanel/>
+        <Footer contactRef={contactRef}/>
+      </div>
+  );
 });
 
 export default App;

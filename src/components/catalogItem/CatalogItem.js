@@ -90,7 +90,7 @@ const CatalogItem = observer(({item, setShowAnimation, setChangeModal, setActive
                             width='100%' height='100%'
                             placeholderSrc={loading}
                             effect="opacity"
-                            src={`http://localhost:4000/${item.img}`}
+                            src={`http://sharyotbrusa.ru:4000/${item.img}`}
                             crossOrigin="anonymous"
                             alt='img'
                         />

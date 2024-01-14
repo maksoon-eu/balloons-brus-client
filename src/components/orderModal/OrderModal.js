@@ -231,7 +231,6 @@ const OrderModal = observer(() => {
                 setLoading(true)
                 orderVerification()
                     .then(data => {
-                        setTimeout(() => {
                         if (checkVerification(data) === 'info') {
                             setOpenVerification(true)
                             items.setUpdateCart(true)
@@ -241,7 +240,6 @@ const OrderModal = observer(() => {
                             constructOrder()
                             setLoading(false)
                         }
-                    }, 3000)
                     })
             }
         }

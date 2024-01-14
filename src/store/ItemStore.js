@@ -12,8 +12,8 @@ export default class ItemStore {
         this._itemsSlider1 = []
         this._itemsSlider2 = []
         this._itemsSlider3 = []
-        this._selectedType = {}
-        this._selectedSubType = {}
+        this._selectedType = null
+        this._selectedSubType = null
         this._selectedPrice = {}
         this._sliderTypes = []
         this._itemsSort = ["updatedAt", "DESC"]
@@ -22,8 +22,8 @@ export default class ItemStore {
         this._page = 1
         this._totalCount = 0
         this._limit = 4
-        this._typesLoading = true
-        this._itemsLoading = true
+        this._typesLoading = false
+        this._itemsLoading = false
         this._cartLoading = false
         this._totalPrice = false
         makeAutoObservable(this)

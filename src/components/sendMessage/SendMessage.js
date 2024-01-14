@@ -84,11 +84,9 @@ const SendMessage = () => {
             formData.append('comment', inputs[2])
             sendMessage(formData)
                 .then(data => {
-                    setTimeout(() => {
                     setInputs(['', '', ''])
                     setLoading(false)
                     setOpenModal(true)
-                    }, 3000)
                 })
                 .catch(e => {
                     console.log(e.message)

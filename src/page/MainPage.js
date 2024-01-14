@@ -8,10 +8,8 @@ import PopularSlider from "../components/popularSlider/PopularSlider";
 import InfoSlider from "../components/infoSlider/InfoSlider";
 import SendMessage from "../components/sendMessage/SendMessage";
 
-const MainPage = () => {
+const MainPage = ({scrollToComponent, contactRef}) => {
     const worksRef = useRef(null);
-    const contactRef = useRef(null);
-    const aboutRef = useRef(null);
     const reviewsRef = useRef(null);
 
     const {items} = useContext(Context);
@@ -21,10 +19,8 @@ const MainPage = () => {
         items.setTypesLoading(true)
         fetchTypes()
             .then(data => {
-                setTimeout(() => {
-                    items.setTypes(data)
-                    items.setTypesLoading(false)
-                }, 5000)
+                items.setTypes(data)
+                items.setTypesLoading(false)
             })
             .catch(e => {
                 items.setTypesLoading(false)
@@ -33,20 +29,12 @@ const MainPage = () => {
         if (items.sliderTypes.length === 0) {
         fetchSliderType()
             .then(data => {
-                setTimeout(() => {
-                    items.setSliderTypes(data)
-                }, 1000)
+                items.setSliderTypes(data)
             })
             .catch(e => {
             })
         }
     }, [])
-
-    const scrollToComponent = (ref) => {
-        if (ref.current) {
-            ref.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
 
     return (
         <motion.div
@@ -55,7 +43,7 @@ const MainPage = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }}
         >
-            <NavBar scrollToComponent={scrollToComponent} worksRef={worksRef} reviewsRef={reviewsRef}/>
+            <NavBar scrollToComponent={scrollToComponent} worksRef={worksRef} reviewsRef={reviewsRef} contactRef={contactRef}/>
             <PopularSlider id={1}/>
             <PopularSlider id={2}/>
             <PopularSlider id={3}/>

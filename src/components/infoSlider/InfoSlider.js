@@ -253,7 +253,7 @@ const InfoSlider = observer(({title, store, refs}) => {
                             width='100%' height='100%'
                             placeholderSrc={loading}
                             effect="opacity"
-                            src={`http://localhost:4000/${el.img}`}
+                            src={`http://sharyotbrusa.ru:4000/${el.img}`}
                             crossOrigin="anonymous"
                             alt='img'
                         />
@@ -307,6 +307,7 @@ const InfoSlider = observer(({title, store, refs}) => {
                     onClick={openModal}
                 >Добавить</motion.div>
             </div>}
+            {itemList.length > 0 || item[store][`${store}Loading`] ?
             <AnimatePresence mode="wait">
                 <motion.div
                     initial={{ opacity: 0}}
@@ -315,10 +316,10 @@ const InfoSlider = observer(({title, store, refs}) => {
                     key={item[store][`${store}Loading`]}
                 >
                     <Slider {...settings}>
-                        {item[store][`${store}Loading`] ? skeletonList : !item[store][`${store}Loading`] && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : itemList}
+                        {item[store][`${store}Loading`] ? skeletonList : !item[store][`${store}Loading`] ? itemList : 'Ошибка'}
                     </Slider>
                 </motion.div>
-            </AnimatePresence>
+            </AnimatePresence> : itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : ''}
         </div>
         </>
     );

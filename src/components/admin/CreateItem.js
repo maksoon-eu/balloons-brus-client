@@ -113,7 +113,6 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
             items.setItemsLoading(true)
             createItem(formData)
                 .then(data => {
-                    setTimeout(() => {
                     items.setItemsLoading(false)
                     setModalOpen(false)
                     setInputs(['', '', ''])
@@ -125,7 +124,6 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     refImg.current.style.opacity = 0;
                     setDropdownTypeCurrent(false)
                     document.querySelector('.input-label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
-                    }, 3000)
                 })
                 .catch(e => {
                     console.log(e.message)

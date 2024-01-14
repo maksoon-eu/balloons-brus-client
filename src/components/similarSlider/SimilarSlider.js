@@ -27,10 +27,8 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
         setLoading(true)
         fetchItems(typeId, subTypeId, null, 1, 4)
             .then(data => {
-                setTimeout(() => {
                 items.setSimilarItems(data.rows)
                 setLoading(false)
-                }, 2000)
             })
             .catch(e => {
                 setLoading(false)
@@ -80,6 +78,7 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
         <div className="slider">
             <div className="slider__title">{loading ? 'Загрузка...' : 'Похожие товары'}</div>
             {changeModal && <ChangeModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} item={activeItem} />}
+            {itemList.length > 0 || loading ?
             <AnimatePresence mode="wait">
                 <motion.div
                     initial={{ opacity: 0}}
@@ -88,10 +87,10 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
                     key={loading}
                 >
                     <Slider {...settings}>
-                        {loading ? skeletonList : !loading && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : itemList}
+                    {loading ? skeletonList : !loading ? itemList : "Ошибка"}
                     </Slider>
                 </motion.div>
-            </AnimatePresence>
+            </AnimatePresence> : itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : ''}
         </div>
     );
 })
