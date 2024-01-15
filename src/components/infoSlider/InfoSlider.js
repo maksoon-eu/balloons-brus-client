@@ -319,7 +319,7 @@ const InfoSlider = observer(({title, store, refs}) => {
                         {item[store][`${store}Loading`] ? skeletonList : !item[store][`${store}Loading`] ? itemList : 'Ошибка'}
                     </Slider>
                 </motion.div>
-            </AnimatePresence> : itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : ''}
+            </AnimatePresence> : ''}
         </div>
         </>
     );

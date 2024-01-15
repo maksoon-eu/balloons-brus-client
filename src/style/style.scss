@@ -262,6 +262,10 @@ button {
 @media (max-width: 445px) {
     .slider {
         margin-top: 15px;
-        min-height: 346px;
+        min-height: 321px;
+
+        &__title {
+            font-size: 16px;
+        }
     }
 }

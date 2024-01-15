@@ -56,7 +56,7 @@ const CartList = observer(() => {
     })
 
     return (
-        <div className='cart__block'>
+        <div className='cart__block' style={{minHeight: `${items.cart.length * 238}px`}}>
         <AnimatePresence mode="wait">
             <motion.div
                 initial={{ opacity: 0}}
@@ -64,7 +64,6 @@ const CartList = observer(() => {
                 exit={{opacity: 0}}
                 key={items.cartLoading}
                 className='cart__inner'
-                style={{minHeight: `${items.cart.length * 238}px`}}
             >
                 {items.cartLoading ? skeletonList : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
                 <AnimatePresence mode='popLayout'>
