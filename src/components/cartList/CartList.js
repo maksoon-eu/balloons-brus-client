@@ -56,6 +56,7 @@ const CartList = observer(() => {
     })
 
     return (
+        <div className='cart__block'>
         <AnimatePresence mode="wait">
             <motion.div
                 initial={{ opacity: 0}}
@@ -71,6 +72,7 @@ const CartList = observer(() => {
                 </AnimatePresence>}
             </motion.div>
         </AnimatePresence>
+        </div>
     )
 })
 

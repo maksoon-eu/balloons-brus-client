@@ -36,6 +36,7 @@ const ChooseItem = observer(() => {
         .then(data => {
             items.setItem(data)
             setLoading(false)
+                
         })
         .catch(e => {
             setLoading(false)
@@ -50,13 +51,13 @@ const ChooseItem = observer(() => {
 
     return (
         <>
+        <div className="chooseItem">
         <AnimatePresence mode="wait">
             <motion.div
                 initial={{ opacity: 0}}
                 animate={{ opacity: 1}}
                 exit={{opacity: 0}}
                 key={loading}
-                className="chooseItem"
             >
                 {loading || items.item.length === 0  ? <SkeletonChoose /> :
                     <div>
@@ -67,7 +68,7 @@ const ChooseItem = observer(() => {
                                     width='100%' height='100%'
                                     placeholderSrc={loadingImg}
                                     effect="opacity"
-                                    src={`http://sharyotbrusa.ru:4000/${items.item.img}`}
+                                    src={`https://sharyotbrusa.ru:4000/${items.item.img}`}
                                     crossOrigin="anonymous"
                                     alt='img'
                                 />
@@ -126,6 +127,7 @@ const ChooseItem = observer(() => {
                 }
             </motion.div>
         </AnimatePresence>
+        </div>
         <SendMessage/>
         <SimilarSlider typeId={items.item.typeId} subTypeId={items.item.subTypeId}/>
         </>

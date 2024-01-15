@@ -226,7 +226,7 @@ const PopularSlider = observer(({id}) => {
                         {loading || items.typesLoading ? skeletonList : !loading && !items.typesLoading ? itemList : "Ошибка"}
                     </Slider>
                 </motion.div>
-            </AnimatePresence> : itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : ''}
+            </AnimatePresence> : ''}
         </div>
     );
 })

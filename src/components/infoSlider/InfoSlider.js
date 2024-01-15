@@ -253,7 +253,7 @@ const InfoSlider = observer(({title, store, refs}) => {
                             width='100%' height='100%'
                             placeholderSrc={loading}
                             effect="opacity"
-                            src={`http://sharyotbrusa.ru:4000/${el.img}`}
+                            src={`https://sharyotbrusa.ru:4000/${el.img}`}
                             crossOrigin="anonymous"
                             alt='img'
                         />
