@@ -23,7 +23,7 @@ export default class ItemStore {
         this._totalCount = 0
         this._limit = 4
         this._typesLoading = false
-        this._itemsLoading = false
+        this._itemsLoading = 'loading'
         this._cartLoading = false
         this._totalPrice = false
         makeAutoObservable(this)

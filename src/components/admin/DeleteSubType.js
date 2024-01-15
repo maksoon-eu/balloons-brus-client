@@ -89,6 +89,7 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 .then(data => {
                     items.setTypesLoading(false)
                     setModalOpen(false)
+                    document.querySelector('body').style.position = 'relative';
                     setTypeId(false)
                     setSubTypeId(false)
                     setSubType([])
@@ -168,6 +169,7 @@ const DeleteSubType = () => {
         const clickOutElement = (e) => {
             if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
                 setModalOpen(false)
+                document.querySelector('body').style.position = 'relative';
             }
         }
     
@@ -178,6 +180,11 @@ const DeleteSubType = () => {
         }
     }, [modalOpen])
 
+    const onSetModal = () => {
+        document.querySelector('body').style.position = 'fixed';
+        setModalOpen(true)
+    }
+
     return (
         <>
             <DeleteSubTypeModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
@@ -185,7 +192,7 @@ const DeleteSubType = () => {
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
-                onClick={() => setModalOpen(true)}
+                onClick={onSetModal}
             >Удалить подкатегорию</motion.div>
         </>
     )

@@ -98,7 +98,7 @@ const PopularSlider = observer(({id}) => {
 
     useEffect(() => {
         if (typeId && subTypeId && (items[`itemsSlider${id}`].length === 0 || updateList || items.updateList)) {
-            if (user.isAuth) {
+            if (user.isAuth && typeId !== items.sliderTypes.filter(item => item.id === id)[0].typeId && subTypeId !== items.sliderTypes.filter(item => item.id === id)[0].subTypeId) {
                 changeSliderType(id, {typeId, subTypeId})
                     .then(data => {
                         items.sliderTypes.forEach(item => {
@@ -151,7 +151,9 @@ const PopularSlider = observer(({id}) => {
     const itemList = items[`itemsSlider${id}`].map(item => {
         return (
             <div key={item.id} className="market__item-slider">
-                <CatalogItem item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
+                <div className="market__item-popular">
+                    <CatalogItem item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
+                </div>
             </div>
         )
     })
@@ -188,7 +190,7 @@ const PopularSlider = observer(({id}) => {
 
     return (
         <div className="slider">
-            <div className="slider__title">{loading || items.typesLoading ? 'Загрузка...' : `${dropdownTypeCurrent} ${dropdownSubTypeCurrent}`}</div>
+            <div className="slider__title">{loading || items.typesLoading ? 'Загрузка...' : `${!dropdownTypeCurrent ? 'Не' : dropdownTypeCurrent} ${!dropdownSubTypeCurrent ? 'выбрано' : dropdownSubTypeCurrent}`}</div>
 
             {user.isAuth && <div className="slider__btn">
                 <Dropdown 

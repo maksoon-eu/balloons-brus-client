@@ -25,6 +25,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                 setShowAnimation(false)
                 setTimeout(() => {
                     setChangeModal(false)
+                    document.querySelector('body').style.position = 'relative';
                 }, 400)
             }
         }
@@ -87,6 +88,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                     setShowAnimation(false)
                     setTimeout(() => {
                         setChangeModal(false)
+                        document.querySelector('body').style.position = 'relative';
                     }, 400)
                     items.setUpdateList(true)
                     setLoading(false)
@@ -127,7 +129,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                         width='100%' height='100%'
                         placeholderSrc={loading}
                         effect="opacity"
-                        src={userImageSrc || `http://localhost:4000/${item.img}`}
+                        src={userImageSrc || `https://s3.timeweb.com/9f5e65b7-7ed3bc97-902a-48e4-b04a-3554ca39493b/${item.img}`}
                         crossOrigin="anonymous"
                         alt='img'
                         className="create__img create__img--opacity"
@@ -144,7 +146,7 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                     <label className="input-label" htmlFor={`price${item.id}`}>Цена товара</label>
                 </div>
                 <div className="create__modal-description">
-                    <input className='input-default input-big' required type="text" id={`description${item.id}`} value={inputs[2]} name='2' onChange={onInputsChange}/>
+                    <textarea className='input-default input-textarea input-big' required type="text" id={`description${item.id}`} value={inputs[2]} name='2' onChange={onInputsChange}/>
                     <label className="input-label" htmlFor={`description${item.id}`}>Описание товара</label>
                 </div>
                 <div className="create__modal-available">
@@ -154,14 +156,14 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                             className="create__available-btn"
                             whileHover={{ scale: 1.04 }}
                             whileTap={{ scale: 0.9 }}
-                            style={{backgroundColor: available ? '#8d59fe' : '#c5abff'}}
+                            style={{backgroundColor: available ? '#8d59fe' : '#c6abffa4'}}
                             onClick={() => onAvailableChange(true)}
                         >Да</motion.div>
                         <motion.div 
                             className="create__available-btn"
                             whileHover={{ scale: 1.04 }}
                             whileTap={{ scale: 0.9 }}
-                            style={{backgroundColor: !available ? '#8d59fe' : '#c5abff'}}
+                            style={{backgroundColor: !available ? '#8d59fe' : '#c6abffa4'}}
                             onClick={() => onAvailableChange(false)}
                         >Нет</motion.div>
                     </div>

@@ -28,10 +28,11 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
         } else {
             setInputError(false)
             items.setTypesLoading(true)
-            createType({name: input})
+            createType({name: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()})
                 .then(data => {
                     items.setTypesLoading(false)
                     setModalOpen(false)
+                    document.querySelector('body').style.position = 'relative';
                     setInput('')
                     items.setUpdateTypes(!items.updateTypes)
                 })
@@ -90,6 +91,7 @@ const CreateType = () => {
         const clickOutElement = (e) => {
             if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
                 setModalOpen(false)
+                document.querySelector('body').style.position = 'relative';
             }
         }
     
@@ -100,6 +102,11 @@ const CreateType = () => {
         }
     }, [modalOpen])
 
+    const onSetModal = () => {
+        document.querySelector('body').style.position = 'fixed';
+        setModalOpen(true)
+    }
+
     return (
         <>
             <TypeModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
@@ -107,7 +114,7 @@ const CreateType = () => {
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
-                onClick={() => setModalOpen(true)}
+                onClick={onSetModal}
             >Создать Категорию</motion.div>
         </>
     )

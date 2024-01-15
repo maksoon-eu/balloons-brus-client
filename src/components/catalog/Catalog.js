@@ -4,7 +4,7 @@ import { Context } from '../..';
 import { fetchItems } from "../../http/itemsApi";
 import { observer } from "mobx-react-lite";
 
-import SkeletonItem from "../skeleton/SkeletonItem";
+import SkeletonCatalog from "../skeleton/SkeletonCatalog";
 import CatalogItem from "../catalogItem/CatalogItem";
 import SortModal from "../sortModal/SortModal";
 import ChangeModal from "../changeModal/ChangeModal";
@@ -40,33 +40,44 @@ const Catalog = observer(() => {
     useEffect(() => {
         if (itemList.length === 0 || items.updateList) {
             items.setItemsLoading('loading')
+            const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
 
-            fetchItems(items.selectedType, items.selectedSubType, items.selectedPrice, 1, 12*items.page, items.itemsSort)
-            .then(data => {
-                items.setItems(data.rows)
-                items.setTotalCount(data.rows.length)
-                items.setItemsLoading(false)
-                items.setUpdateList(false)
-            })
-            .catch(e => {
-                items.setItemsLoading(false)
-                items.setUpdateList(false)
-            })
+            const fetchDataPromise = fetchItems(items.selectedType, items.selectedSubType, items.selectedPrice, 1, 12*items.page, items.itemsSort)
+                .then(data => {
+                    items.setItems(data.rows)
+                    items.setTotalCount(data.rows.length)
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+
+            Promise.all([fetchDataPromise, timeoutPromise])
+                .finally(() => {
+                    items.setItemsLoading(false)
+                    items.setUpdateList(false)
+                });
+        } else {
+            items.setItemsLoading(false)
         }
     }, [items.selectedPrice, items.itemsSort, items.updateList])
 
     const updateListItem = () => {
         items.setItemsLoading('updateLoading')
+        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
 
-        fetchItems(items.selectedType, items.selectedSubType, items.selectedPrice, items.page, 12, items.itemsSort)
-        .then(data => {
-            items.setItems([...items.items, ...data.rows])
-            items.setTotalCount(data.rows.length)
-            items.setItemsLoading(false)
-        })
-        .catch(e => {
-            items.setItemsLoading(false)
-        })
+        const fetchDataPromise = fetchItems(items.selectedType, items.selectedSubType, items.selectedPrice, items.page, 12, items.itemsSort)
+            .then(data => {
+                items.setItems([...items.items, ...data.rows])
+                items.setTotalCount(data.rows.length)
+            })
+            .catch(e => {
+                console.error(e)
+            })
+
+        Promise.all([fetchDataPromise, timeoutPromise])
+            .finally(() => {
+                items.setItemsLoading(false)
+            });
     }
 
     const loadMore = () => {
@@ -90,13 +101,13 @@ const Catalog = observer(() => {
 
     const skeletonList = skeletonArr.map((item, i) => {
         return (
-            <SkeletonItem key={i}/>
+            <SkeletonCatalog key={i}/>
         )
     })
 
     return (
         <>
-            <div className="minHeight-market">
+            <>
             {changeModal && <ChangeModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} item={activeItem} />}
             <div className="sort" ref={refSort}>
                 <div className="sort__btn">
@@ -117,14 +128,14 @@ const Catalog = observer(() => {
                     {items.itemsLoading === 'loading' ? skeletonList : items.itemsLoading !== 'loading' && itemList.length === 0 ? <span className="nothing__found">Ничего не найдено</span> : itemList}
                 </motion.div>
             </AnimatePresence>
-            </div>
+            </>
             {items.totalCount % 4 === 0 && items.totalCount !== 0 &&
                 <motion.div 
                     className="load__more"
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={loadMore}
-                >Загрузить Еще</motion.div>
+                >{items.itemsLoading === 'loading' ? <span className="loader"></span> : 'Загрузить Еще'}</motion.div>
             }
         </>
     )

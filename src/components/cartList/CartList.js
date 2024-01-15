@@ -12,8 +12,6 @@ import './cartList.scss';
 const CartList = observer(() => {
     const {items} = useContext(Context);
 
-    const skeleton = [''];
-
     useEffect(() => {
         if ((items.updateCart || items.cartItems.length === 0) && items.cart.length > 0) {
             items.setCartLoading(true);
@@ -62,7 +60,7 @@ const CartList = observer(() => {
                 initial={{ opacity: 0}}
                 animate={{ opacity: 1}}
                 exit={{opacity: 0}}
-                key={items.cartLoading}
+                key={items.cartLoading || items.cartItems.length === 0}
                 className='cart__inner'
             >
                 {items.cartLoading ? skeletonList : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :

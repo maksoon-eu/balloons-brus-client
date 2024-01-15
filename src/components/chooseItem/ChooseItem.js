@@ -18,7 +18,7 @@ import available from '../../resources/available.svg';
 import car from '../../resources/car.svg';
 import card from '../../resources/card.svg';
 
-import 'react-lazy-load-image-component/src/effects/opacity.css';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import './chooseItem.scss';
 
 const ChooseItem = observer(() => {
@@ -32,15 +32,21 @@ const ChooseItem = observer(() => {
 
     useEffect(() => {
         setLoading(true)
-        fetchOneItem(id)
-        .then(data => {
-            items.setItem(data)
-            setLoading(false)
-                
-        })
-        .catch(e => {
-            setLoading(false)
-        })
+        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
+
+        const fetchDataPromise = fetchOneItem(id)
+            .then(data => {
+                items.setItem(data)
+                    
+            })
+            .catch(e => {
+                console.error(e);
+            })
+
+        Promise.all([fetchDataPromise, timeoutPromise])
+            .finally(() => {
+                setLoading(false)
+            });
     }, [id])
 
     const onAddToBag = () => {
@@ -67,9 +73,8 @@ const ChooseItem = observer(() => {
                                 <LazyLoadImage 
                                     width='100%' height='100%'
                                     placeholderSrc={loadingImg}
-                                    effect="opacity"
-                                    src={`https://sharyotbrusa.ru:4000/${items.item.img}`}
-                                    crossOrigin="anonymous"
+                                    effect="blur"
+                                    src={`https://s3.timeweb.com/9f5e65b7-7ed3bc97-902a-48e4-b04a-3554ca39493b/${items.item.img}`}
                                     alt='img'
                                 />
                             </div>
@@ -99,7 +104,7 @@ const ChooseItem = observer(() => {
                                             whileHover={{ scale: 1.04 }}
                                             whileTap={{ scale: 0.9 }}
                                             onClick={onAddToBag}
-                                            style={{backgroundColor: flag !== -1 ? '#8d59fe' : !items.item.available ? '#F3F4F6' : '#c5abff'}}
+                                            style={{backgroundColor: flag !== -1 ? '#8d59fe' : !items.item.available ? '#F3F4F6' : '#c6abffa4'}}
                                         >{flag !== -1 ? 'В корзине' : 'В корзину'}</motion.div>
                                     </div>
                                     <div className="chooseItem__item-about">

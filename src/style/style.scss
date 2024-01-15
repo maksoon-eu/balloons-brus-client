@@ -1,5 +1,4 @@
 @import './variables';
-@import '../../font/stylesheet';
 
 body {
     margin: 0;
@@ -7,9 +6,11 @@ body {
 
     background-color: $background-color;
 
-    font-family: 'Myra 4F Caps', sans-serif;
-    font-size: 16px;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 18px;
     color: #000;
+    overflow-y: scroll;
+    width: 100%;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -18,7 +19,7 @@ body {
 *,
 *:before,
 *:after {
-    font-family: 'Myra 4F Caps', sans-serif;
+    font-family: 'Comfortaa', sans-serif;
     box-sizing: border-box ;
 }
 
@@ -69,22 +70,21 @@ input::-webkit-inner-spin-button {
 input {
     outline: none;
     border: none;
-    font-family: 'Myra 4F Caps', sans-serif;
+    font-family: 'Comfortaa', sans-serif;
     &::placeholder {
-        font-family: 'Myra 4F Caps', sans-serif;
+        font-family: 'Comfortaa', sans-serif;
     }
 }
 
 .input {
     &-default {
         border-radius: 10px;
-        height: 35px;
+        height: 45px;
         width: 100%;
         border: 1px solid $secondary-color;
         margin-bottom: 20px;
         padding: 2px 10px;
-        padding-top: 3px;
-        font-size: 10px;
+        font-size: 16px;
         transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
 
         &:last-of-type {
@@ -100,7 +100,7 @@ input {
         }
 
         &:is(&:focus, &:valid) ~ .input-label {
-            transform: translateY(-90%) scale(.7);
+            transform: translateY(-135%) scale(.7);
             background-color: #fff;
         }
     }
@@ -111,20 +111,30 @@ input {
 
     &-label {
         position: absolute;
-        top: 9px;
+        top: 14px;
         left: 10px;
         font-size: 12px;
         transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
         cursor: text;
 
         &-img {
-            top: 165px;
+            top: 150px;
             left: 50%;
             transform: translateX(-50%);
         }
 
         &--opacity {
             transform: translateY(-965%) translateX(-125%) scale(.7);
+        }
+    }
+
+    &-textarea {
+        padding: 8px 10px;
+        height: 110px !important;
+        resize: none;
+
+        &:focus-visible {
+            outline: none;
         }
     }
 }
@@ -151,10 +161,10 @@ button {
 
 .slider {
     margin-top: 30px;
-    min-height: 424px;
+    min-height: 432px;
 
     &__title {
-        font-size: 20px;
+        font-size: 22px;
         font-weight: 900;
     }
 
@@ -167,7 +177,7 @@ button {
 
 .nothing__found {
     margin: 0 auto;
-    font-size: 27px;
+    font-size: 30px;
     font-weight: 700;
     margin-top: 50px;
 }
@@ -225,6 +235,7 @@ button {
     height: 80px;
     right: -10px;
     z-index: 3;
+
     &:before {
         transition: .1s linear;
         content: url(../resources/arrow_next.svg) !important;
@@ -236,10 +247,30 @@ button {
     height: 80px;
     left: -10px;
     z-index: 3;
+
     &:before {
         transition: .1s linear;
         content: url(../resources/arrow_prev.svg) !important;
     }
+}
+
+html {
+    scrollbar-width: 3px;
+    scrollbar-color: $secondary-color #e3e3e3;
+}
+
+html::-webkit-scrollbar {
+    width: 7px;
+}
+
+html::-webkit-scrollbar-track {
+    background: #e3e3e3;
+    border-radius: 8px;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: $secondary-color;
+    border-radius: 8px;
 }
 
 @media (max-width: 820px) {
@@ -252,9 +283,9 @@ button {
 
 @media (max-width: 730px) {
     .slider {
-        min-height: 373px;
+        min-height: 423px;
         &__title {
-            font-size: 18px;
+            font-size: 20px;
         }
     }
 }
@@ -262,10 +293,10 @@ button {
 @media (max-width: 445px) {
     .slider {
         margin-top: 15px;
-        min-height: 321px;
+        min-height: 320px;
 
         &__title {
-            font-size: 16px;
+            font-size: 18px;
         }
     }
 }

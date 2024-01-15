@@ -29,7 +29,6 @@
             width: 140px;
             height: 35px;
             color: #fff;
-            padding-top: 2px;
             cursor: pointer;
             transition: .2s linear;
             margin: 5px 0;
@@ -53,6 +52,7 @@
                 height: 100px;
             }
             .header__inner-text {
+                width: 207px;
                 margin-bottom: 10px;
                 height: 25px;
             }
@@ -194,7 +194,7 @@
     }
 }
 
-@media (max-width: 730px) {
+@media (max-width: 747px) {
     .header {
         &__inner {
             &-info {
@@ -219,6 +219,7 @@
                     height: 70px;
                 }
                 .header__inner-text {
+                    width: 125px;
                     margin-bottom: 10px;
                     height: 15px;
                 }

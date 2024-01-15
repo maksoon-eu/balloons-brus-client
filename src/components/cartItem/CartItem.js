@@ -26,8 +26,7 @@ const CartItem = ({item}) => {
                     width='100%' height='100%'
                     placeholderSrc={loading}
                     effect="opacity"
-                    src={`https://sharyotbrusa.ru:4000/${item.img}`}
-                    crossOrigin="anonymous"
+                    src={`https://s3.timeweb.com/9f5e65b7-7ed3bc97-902a-48e4-b04a-3554ca39493b/${item.img}`}
                     alt='img'
                 />
             </Link>

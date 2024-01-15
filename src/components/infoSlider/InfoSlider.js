@@ -14,6 +14,7 @@ import loading from '../../resources/loading.svg';
 import './infoSlider.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const AddInfoModal = observer(({changeModal, setChangeModal, showAnimation, setShowAnimation, store}) => {
     const [imgFile, setImgFile] = useState();
@@ -144,7 +145,7 @@ const AddInfoModal = observer(({changeModal, setChangeModal, showAnimation, setS
                                         <g id="-Round-/-Image-/-photo_size_select_actual" transform="translate(612.000000, 274.000000)">
                                             <g transform="translate(0.000000, 0.000000)">
                                                 <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
-                                                <path d="M21,3 L3,3 C2,3 1,4 1,5 L1,19 C1,20.1 1.9,21 3,21 L21,21 C22,21 23,20 23,19 L23,5 C23,4 22,3 21,3 Z M5.63,16.19 L8.12,12.99 C8.32,12.74 8.7,12.73 8.9,12.98 L11,15.51 L14.1,11.52 C14.3,11.26 14.7,11.26 14.9,11.53 L18.41,16.21 C18.66,16.54 18.42,17.01 18.01,17.01 L6.02,17.01 C5.61,17 5.37,16.52 5.63,16.19 Z" id="🔹-Icon-Color" fill="#c5abff"></path>
+                                                <path d="M21,3 L3,3 C2,3 1,4 1,5 L1,19 C1,20.1 1.9,21 3,21 L21,21 C22,21 23,20 23,19 L23,5 C23,4 22,3 21,3 Z M5.63,16.19 L8.12,12.99 C8.32,12.74 8.7,12.73 8.9,12.98 L11,15.51 L14.1,11.52 C14.3,11.26 14.7,11.26 14.9,11.53 L18.41,16.21 C18.66,16.54 18.42,17.01 18.01,17.01 L6.02,17.01 C5.61,17 5.37,16.52 5.63,16.19 Z" id="🔹-Icon-Color" fill="#c6abffa4"></path>
                                             </g>
                                         </g>
                                     </g>
@@ -179,30 +180,40 @@ const InfoSlider = observer(({title, store, refs}) => {
         if (store === 'reviews') {
             if (item.reviews.updateReviews || itemList.length === 0) {
                 item.reviews.setReviewsLoading(true)
-                fetchReviews()
+                const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
+
+                const fetchDataPromise = fetchReviews()
                     .then((data) => {
                         item.reviews.setReviews(data)
-                        item.reviews.setReviewsLoading(false)
-                        item.reviews.setUpdateReviews(false)
                     })
                     .catch((e) => {
+                        console.error(e);
+                    })
+
+                Promise.all([fetchDataPromise, timeoutPromise])
+                    .finally(() => {
                         item.reviews.setReviewsLoading(false)
                         item.reviews.setUpdateReviews(false)
-                    })
+                    });
             }
         } else {
             if (item.works.updateWorks || itemList.length === 0) {
                 item.works.setWorksLoading(true)
-                fetchWorks()
+                const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
+
+                const fetchDataPromise = fetchWorks()
                     .then((data) => {
                         item.works.setWorks(data)
-                        item.works.setWorksLoading(false)
-                        item.works.setUpdateWorks(false)
                     })
                     .catch((e) => {
+                        console.error(e);
+                    })
+
+                Promise.all([fetchDataPromise, timeoutPromise])
+                    .finally(() => {
                         item.works.setWorksLoading(false)
                         item.works.setUpdateWorks(false)
-                    })
+                    });
             }
         }
     }, [item.reviews.updateReviews, item.works.updateWorks])
@@ -252,9 +263,8 @@ const InfoSlider = observer(({title, store, refs}) => {
                         <LazyLoadImage 
                             width='100%' height='100%'
                             placeholderSrc={loading}
-                            effect="opacity"
-                            src={`https://sharyotbrusa.ru:4000/${el.img}`}
-                            crossOrigin="anonymous"
+                            effect="blur"
+                            src={`https://s3.timeweb.com/9f5e65b7-7ed3bc97-902a-48e4-b04a-3554ca39493b/${el.img}`}
                             alt='img'
                         />
                     </div>

@@ -8,7 +8,9 @@ import { addToCart } from '../../helpers/Helpers';
 import InputMask from 'react-input-mask';
 import DatePicker from "react-widgets/DatePicker";
 import TimeInput from "react-widgets/TimeInput";
+import { DropdownList } from 'react-widgets';
 import moment from 'moment';
+import Localization from 'react-widgets/esm/Localization';
 
 import close from '../../resources/close.svg';
 
@@ -205,7 +207,7 @@ const OrderModal = observer(() => {
         formData.append('tel', inputs[1])
         formData.append('address', inputs[2])
         formData.append('date', moment(startDate).format('LL'))
-        formData.append('time', moment(startTime).format('LT'))
+        formData.append('time', startTime)
         formData.append('comment', inputs[3])
         formData.append('price', items.totalPrice)
         sendOrder(formData)
@@ -214,6 +216,7 @@ const OrderModal = observer(() => {
                 setInputs(['', '', '', ''])
                 setStartDate(null)
                 setStartTime(null)
+                items.setCartItems([]);
             })
             .catch(e => {
                 console.log(e.message)
@@ -225,7 +228,7 @@ const OrderModal = observer(() => {
             const date = new Date()
             if (inputs[0].length < 2 || inputs[1].includes('_') || inputs[2].length < 2 || !startDate || !startTime) {
                 setInputError('Заполните все поля')
-            } else if (date === startDate && startTime.getHours() < date.getHours() + 3) {
+            } else if (moment(date).format('LL') === moment(startDate).format('LL') && startTime.slice(0, 2) < date.getHours() + 3) {
                 setInputError(`Доставка не раньше ${date.getHours() + 3} часов`)
             } else {
                 setLoading(true)
@@ -234,7 +237,6 @@ const OrderModal = observer(() => {
                         if (checkVerification(data) === 'info') {
                             setOpenVerification(true)
                             items.setUpdateCart(true)
-                            // removeItem(data)
                             setLoading(false)
                         } else {
                             constructOrder()
@@ -307,23 +309,43 @@ const OrderModal = observer(() => {
                 <label className="input-label" htmlFor="address">Адрес доставки</label>
             </div>
             <div className="order__date order__input order__date">
-                <DatePicker
-                    placeholder='Выберите дату'
-                    value={startDate}
-                    onChange={changeDate}
-                    min={new Date()}
-                    className="w-3/5"
-                    onKeyDown={forbidKeyDown}
-                    onClick={changeCalendarOpen}
-                    onToggle={toggleCalendar}
-                    open={isCalendarOpen}
-                    valueFormat={{ dateStyle: "medium" }}
-                />
-                <TimeInput
+                <Localization
+                    messages={{
+                        moveToday: "Сегодня",
+                        emptyFilter: "Ничего не найдено",
+                    }}
+                >
+                    <DatePicker
+                        placeholder='Выберите дату'
+                        value={startDate}
+                        onChange={changeDate}
+                        min={new Date()}
+                        className="w-3/5"
+                        onKeyDown={forbidKeyDown}
+                        onClick={changeCalendarOpen}
+                        onToggle={toggleCalendar}
+                        open={isCalendarOpen}
+                        valueFormat={{ dateStyle: "medium" }}
+                    />
+                    <DropdownList
+                        placeholder='Время'
+                        onChange={value => setStartTime(value)}
+                        data={[
+                            "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30",
+                            "04:00", "04:30", "05:00", "05:30", "06:00", "06:30", "07:00", "07:30",
+                            "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+                            "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
+                            "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
+                            "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
+                        ]}
+                    />
+                </Localization>
+                {/* <TimeInput
                     value={startTime}
                     onChange={value => {setStartTime(value); setInputError(false)}}
                     className="w-3/5"
-                />
+                    noClearButton={true}
+                /> */}
             </div>
             <div className="order__comment order__input">
                 <input 
@@ -343,7 +365,7 @@ const OrderModal = observer(() => {
                 className="market__item-btn order__btn"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.9 }}
-                style={{backgroundColor: '#c5abff'}}
+                style={{backgroundColor: '#c6abffa4'}}
                 onClick={placeOrder}
                 disabled={items.cart.length === 0}
             >{loading ? <span className="loader"></span> : 'Оформить'}</motion.button>

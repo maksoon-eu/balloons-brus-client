@@ -144,7 +144,7 @@ const SendMessage = () => {
                         className="market__item-btn order__btn"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.9 }}
-                        style={{backgroundColor: '#c5abff'}}
+                        style={{backgroundColor: '#c6abffa4'}}
                         onClick={onSendMessage}
                     >{loading ? <span className="loader"></span> : 'Отправить'}</motion.button>
                 </div>

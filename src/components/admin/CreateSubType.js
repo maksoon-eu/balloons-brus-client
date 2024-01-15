@@ -85,10 +85,11 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
             setInputError(false)
 
             items.setItemsLoading(true)
-            createSubType({id: typeId, name: input})
+            createSubType({id: typeId, name: input.toLowerCase()})
                 .then(data => {
                     items.setItemsLoading(false)
                     setModalOpen(false)
+                    document.querySelector('body').style.position = 'relative';
                     setInput('')
                     setTypeId(false)
                     setDropdownCurrent(false)
@@ -159,6 +160,7 @@ const CreateSubType = () => {
         const clickOutElement = (e) => {
             if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
                 setModalOpen(false)
+                document.querySelector('body').style.position = 'relative';
             }
         }
     
@@ -169,6 +171,11 @@ const CreateSubType = () => {
         }
     }, [modalOpen])
 
+    const onSetModal = () => {
+        document.querySelector('body').style.position = 'fixed';
+        setModalOpen(true)
+    }
+
     return (
         <>
             <SubTypeModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
@@ -176,7 +183,7 @@ const CreateSubType = () => {
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
-                onClick={() => setModalOpen(true)}
+                onClick={onSetModal}
             >Создать Подкатегорию</motion.div>
         </>
     )

@@ -24,22 +24,30 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
 
     useEffect(() => {
         if (typeId && subTypeId) {
-        setLoading(true)
-        fetchItems(typeId, subTypeId, null, 1, 4)
-            .then(data => {
-                items.setSimilarItems(data.rows)
-                setLoading(false)
-            })
-            .catch(e => {
-                setLoading(false)
-            })
+            setLoading(true)
+            const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
+
+            const fetchDataPromise = fetchItems(typeId, subTypeId, null, 1, 4)
+                .then(data => {
+                    items.setSimilarItems(data.rows)
+                })
+                .catch(e => {
+                    console.error(e);
+                })
+            
+            Promise.all([fetchDataPromise, timeoutPromise])
+                .finally(() => {
+                    setLoading(false)
+                })
         }
     }, [typeId, subTypeId])
 
     const itemList = items.similarItems.map(item => {
         return (
             <div key={item.id} className="market__item-slider">
-                <CatalogItem item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
+                <div className="market__item-popular">
+                    <CatalogItem item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
+                </div>
             </div>
         )
     })

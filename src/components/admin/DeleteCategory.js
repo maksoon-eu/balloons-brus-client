@@ -77,6 +77,7 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 .then(data => {
                     items.setTypesLoading(false)
                     setModalOpen(false)
+                    document.querySelector('body').style.position = 'relative';
                     setTypeId(false)
                     setDropdownCurrent(false)
                     items.setUpdateTypes(!items.updateTypes)
@@ -142,6 +143,7 @@ const DeleteType = () => {
         const clickOutElement = (e) => {
             if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
                 setModalOpen(false)
+                document.querySelector('body').style.position = 'relative';
             }
         }
     
@@ -152,6 +154,11 @@ const DeleteType = () => {
         }
     }, [modalOpen])
 
+    const onSetModal = () => {
+        document.querySelector('body').style.position = 'fixed';
+        setModalOpen(true)
+    }
+
     return (
         <>
             <DeleteTypeModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
@@ -159,7 +166,7 @@ const DeleteType = () => {
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
-                onClick={() => setModalOpen(true)}
+                onClick={onSetModal}
             >Удалить Категорию</motion.div>
         </>
     )

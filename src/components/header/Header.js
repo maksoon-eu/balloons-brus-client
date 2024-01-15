@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Context } from '../..';

@@ -53,7 +53,6 @@ const App = observer(() => {
         <AnimatePresence mode="wait">
           <Routes>
             {user.isAuth && <Route path="/admin" element={<AdminPage/>}/>}
-            {/* <Route path="/admin" element={<AdminPage/>}/> */}
             <Route path="/" element={<MainPage scrollToComponent={scrollToComponent} contactRef={contactRef}/>}/>
             <Route path="/cart" element={<CartPage/>}/>
             <Route path="/catalog" element={<CatalogPage/>}/>

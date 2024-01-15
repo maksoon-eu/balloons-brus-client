@@ -115,6 +115,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 .then(data => {
                     items.setItemsLoading(false)
                     setModalOpen(false)
+                    document.querySelector('body').style.position = 'relative';
                     setInputs(['', '', ''])
                     setTypeId(false)
                     setSubTypeId(false)
@@ -204,7 +205,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     <label className="input-label" htmlFor="price">Цена товара</label>
                 </div>
                 <div className="create__modal-description">
-                    <input className='input-default input-big' required type="text" id='description' value={inputs[2]} name='2' onChange={onInputsChange}/>
+                    <textarea className='input-default input-big input-textarea' required type="text" id='description' value={inputs[2]} name='2' onChange={onInputsChange}/>
                     <label className="input-label" htmlFor="description">Описание товара</label>
                 </div>
                 <Dropdown 
@@ -248,6 +249,7 @@ const CreateItem = () => {
         const clickOutElement = (e) => {
             if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
                 setModalOpen(false)
+                document.querySelector('body').style.position = 'relative';
             }
         }
     
@@ -258,6 +260,11 @@ const CreateItem = () => {
         }
     }, [modalOpen])
 
+    const onSetModal = () => {
+        document.querySelector('body').style.position = 'fixed';
+        setModalOpen(true)
+    }
+
     return (
         <>
             <ItemModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
@@ -265,7 +272,7 @@ const CreateItem = () => {
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
-                onClick={() => setModalOpen(true)}
+                onClick={onSetModal}
             >Создать Товар</motion.div>
         </>
     )

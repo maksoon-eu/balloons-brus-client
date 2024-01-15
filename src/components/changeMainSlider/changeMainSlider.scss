@@ -1,0 +1,16 @@
+.mainSlider {
+    &__modal {
+        &-content {
+            max-width: 730px;
+            min-height: 350px;
+        }
+
+        &-img {
+            width: 100% !important;
+        }
+    }
+
+    &__img {
+        width: 100% !important;
+    }
+}
