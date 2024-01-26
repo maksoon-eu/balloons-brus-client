@@ -27,7 +27,7 @@ const SimilarSlider = observer(({typeId, subTypeId}) => {
             setLoading(true)
             const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
 
-            const fetchDataPromise = fetchItems(typeId, subTypeId, null, 1, 4)
+            const fetchDataPromise = fetchItems(typeId, subTypeId[0], null, 1, 4)
                 .then(data => {
                     items.setSimilarItems(data.rows)
                 })

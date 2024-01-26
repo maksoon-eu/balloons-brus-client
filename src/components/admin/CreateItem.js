@@ -60,11 +60,70 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
     );
 });
 
+const DropdownMultiple = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, setInputError}) => {
+    const [dropdownToggle, setDropdownToggle] = useState(false);
+
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const clickOutElement = (e) => {
+            if (dropdownToggle && ref.current && !ref.current.contains(e.target)) {
+                setDropdownToggle(false)
+            }
+        }
+    
+        document.addEventListener("mousedown", clickOutElement)
+    
+        return function() {
+          document.removeEventListener("mousedown", clickOutElement)
+        }
+    }, [dropdownToggle])
+
+    useEffect(() => {
+        setDropdownCurrent(state.length === 0 ? false : `Выбрано ${state.length}`)
+    }, [state])
+
+    const onDropdownActive = () => {
+        if (!loading) {
+            setInputError(false)
+            setDropdownToggle(dropdownToggle => !dropdownToggle)
+        }
+    }
+
+    const onSetCurrentDropdown = (id) => {
+        if (state.includes(id)) {
+            setState(state.filter(item => item !== id))
+        } else {
+            setState([...state, id])
+        }
+        setDropdownToggle(false)
+    }
+
+    const types = typeList.map(item => {
+        return (
+            <li key={item.id} onClick={() => onSetCurrentDropdown(item.id)} className={`dropdown__menu-item ${state.includes(item.id) ? 'active' : ''}`}>{item.name}</li>
+        )
+    })
+
+    return (
+        <div ref={ref} className={`dropdown ${dropdownToggle ? 'active' : ''}`} tabIndex="1">
+            <div className="dropdown__current" onClick={onDropdownActive}>
+                <div className="dropdown__current-item">{!dropdownCurrent ? type : dropdownCurrent}</div>
+                <img src={downArrow} alt="" />
+            </div>
+            <ul className="dropdown__menu">
+                <li onClick={() => {setDropdownCurrent(false); setState([])}} className={`dropdown__menu-item ${state.length === 0 ? 'active' : ''}`}>{type}</li>
+                {types.length ? types : <div className="dropdown__menu-item">Подкатегории отсутствуют</div>}
+            </ul>
+        </div>
+    );
+});
+
 const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [inputError, setInputError] = useState(false);
     const [inputs, setInputs] = useState(['', '', '']);
     const [typeId, setTypeId] = useState(false);
-    const [subTypeId, setSubTypeId] = useState(false);
+    const [subTypeId, setSubTypeId] = useState([]);
     const [subType, setSubType] = useState([]);
     const [imgFile, setImgFile] = useState()
     const [dropdownTypeCurrent, setDropdownTypeCurrent] = useState(false);
@@ -105,9 +164,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
             formData.append('price', inputs[1])
             formData.append('description', inputs[2])
             formData.append('typeId', typeId)
-            if (subTypeId) {
-                formData.append('subTypeId', subTypeId)
-            }
+            formData.append('subTypeId', JSON.stringify(subTypeId))
             formData.append('img', imgFile)
 
             items.setItemsLoading(true)
@@ -118,7 +175,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     document.querySelector('body').style.position = 'relative';
                     setInputs(['', '', ''])
                     setTypeId(false)
-                    setSubTypeId(false)
+                    setSubTypeId([])
                     setSubType([])
                     setImgFile()
                     refImg.current.setAttribute("src", "")
@@ -218,7 +275,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setDropdownCurrent={setDropdownTypeCurrent}
                     setInputError={setInputError}
                 />
-                <Dropdown 
+                <DropdownMultiple 
                     type="Выберите подкатегорию" 
                     typeList={subType} 
                     loading={items.typesLoading} 
