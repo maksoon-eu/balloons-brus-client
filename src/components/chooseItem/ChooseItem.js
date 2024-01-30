@@ -124,10 +124,11 @@ const ChooseItem = observer(() => {
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="chooseItem__item-description">{items.item.description}</div>
+                                    <div className="chooseItem__item-description chooseItem__item-description--none">{items.item.description}</div>
                                 </div>
                             </div>
                         </div>
+                        <div className="chooseItem__item-description chooseItem__item-description--adaptive">{items.item.description}</div>
                     </div>
                 }
             </motion.div>

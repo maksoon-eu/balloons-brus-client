@@ -75,6 +75,7 @@ const CatalogItem = observer(({item, setShowAnimation, setChangeModal, setActive
             }}
             onClick={() => sessionStorage.setItem('scrollPosition', window.scrollY)}
             className="market__item"
+            itemscope itemtype="http://schema.org/Product"
         >
             {user.isAuth && 
                 <div className="market__item-icons">
@@ -92,7 +93,7 @@ const CatalogItem = observer(({item, setShowAnimation, setChangeModal, setActive
             }
             <div className="market__item-hover">
                 <Link to={`/catalog/${item.id}`}>
-                    <div className="market__item-top">
+                    <div className="market__item-top" itemprop="image">
                         <LazyLoadImage 
                             width='100%' height='100%'
                             placeholderSrc={loading}
@@ -103,8 +104,8 @@ const CatalogItem = observer(({item, setShowAnimation, setChangeModal, setActive
                     </div>
                 </Link>
                 <div className="market__item-bottom">
-                    <div className="market__item-name">{item.name.length > 15 ? item.name.slice(0, 15)+ '...' : item.name}</div>
-                    <div className="market__item-price">{`${item.price} ₽`}</div>
+                    <div className="market__item-name" itemprop="name">{item.name.length > 15 ? item.name.slice(0, 15)+ '...' : item.name}</div>
+                    <div className="market__item-price" itemprop="price">{`${item.price} ₽`}</div>
                     <div className="market__item-group">
                         <div className="market__item-counter">
                             <div className="market__counter-btn" onClick={() => calcMinus(flag, items, setCount, item, count)}>

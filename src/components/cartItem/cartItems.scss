@@ -43,13 +43,15 @@
         max-width: 350px;
         width: 100%;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
         &-name {
             font-weight: 900;
         }
 
         &-description {
-            margin-top: 30px;
             font-size: 14px;
             word-wrap: break-word;
             overflow: hidden;
@@ -102,12 +104,13 @@
         }
 
         &__center {
-            padding: 15px 10px;
+            padding: 10px 10px;
             max-width: 125px;
         }
 
         &__right {
-            padding: 15px 10px;
+            padding: 10px 10px;
+            padding-left: 5px;
 
             &-availability {
                 font-size: 12px;

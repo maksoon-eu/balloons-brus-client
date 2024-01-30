@@ -7,10 +7,9 @@ import { fetchIdsItem } from '../../http/itemsApi';
 import { addToCart } from '../../helpers/Helpers';
 import InputMask from 'react-input-mask';
 import DatePicker from "react-widgets/DatePicker";
-import TimeInput from "react-widgets/TimeInput";
 import { DropdownList } from 'react-widgets';
 import moment from 'moment';
-import Localization from 'react-widgets/esm/Localization';
+// import Localization from 'react-widgets/esm/Localization';
 
 import close from '../../resources/close.svg';
 
@@ -309,12 +308,12 @@ const OrderModal = observer(() => {
                 <label className="input-label" htmlFor="address">Адрес доставки</label>
             </div>
             <div className="order__date order__input order__date">
-                <Localization
+                {/* <Localization
                     messages={{
                         moveToday: "Сегодня",
                         emptyFilter: "Ничего не найдено",
                     }}
-                >
+                > */}
                     <DatePicker
                         placeholder='Выберите дату'
                         value={startDate}
@@ -339,13 +338,7 @@ const OrderModal = observer(() => {
                             "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
                         ]}
                     />
-                </Localization>
-                {/* <TimeInput
-                    value={startTime}
-                    onChange={value => {setStartTime(value); setInputError(false)}}
-                    className="w-3/5"
-                    noClearButton={true}
-                /> */}
+                {/* </Localization> */}
             </div>
             <div className="order__comment order__input">
                 <input 

@@ -10,17 +10,25 @@
     max-width: 230px;
     width: 100%;
 
+    &-name {
+        font-weight: 900;
+    }
+
     &-slider {
         margin-top: 20px;
     }
 
-    &:hover  &-icons {
+    &:hover &-icons {
         transform: translateY(-5px);
     }
 
     &:hover &-hover {
-        transform: translateY(-5px);
+        transform: translateY(-3px);
         box-shadow: 6px 6px 15px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    &:hover &-top img {
+        transform: scale(1.03);
     }
 
     &-icons {
@@ -70,11 +78,13 @@
 
     &-top {
         height: 230px;
+        overflow: hidden;
 
         img {
             height: 230px;
             width: 230px;
             object-fit: cover;
+            transition: .15s linear !important;
         }
     }
 
@@ -150,8 +160,8 @@
         }
 
         &-counter {
-            font-size: 12px;
-            max-width: 55px;
+            font-size: 14px;
+            max-width: 65px;
         }
     }
 }
@@ -159,20 +169,19 @@
 @media (max-width: 445px) {
     .market__item {
         height: 255px;
-        max-width: 160px;
+        max-width: 175px;
 
         &-top {
             height: 150px;
 
             img {
-                width: 160px;
+                width: 175px;
                 height: 150px;
             }
         }
 
         &-bottom {
-            padding: 5px;
-            padding-top: 0px;
+            padding: 0 6px 10px;
         }
 
         &-btn {

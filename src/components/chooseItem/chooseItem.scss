@@ -15,6 +15,11 @@
 
         &-description {
             white-space: pre-line;
+            word-wrap: break-word;
+
+            &--adaptive {
+                display: none;
+            }
         }
 
         &-text {
@@ -31,7 +36,7 @@
             max-width: 500px;
             width: 100%;
             height: auto;
-            max-height: 700px;
+            max-height: 680px;
             margin-right: 20px;
             border-radius: 10px;
             overflow: hidden;
@@ -101,7 +106,6 @@
             align-items: center;
             color: #fff;
             background-color: $secondary-color;
-            padding-top: 4px;
             cursor: pointer;
         }
 
@@ -115,10 +119,6 @@
             font-size: 23px;
             line-height: 15px;
             color: #000000;
-    
-            span {
-                padding-top: 6px;
-            }
         
             .chooseItem__counter-btn {
                 outline: none;
@@ -173,9 +173,11 @@
 
 @media (max-width: 620px) {
     .chooseItem {
-        min-height: 480px;
+        min-height: 630px;
 
         &__item {
+            margin-bottom: 20px;
+
             &-name {
                 font-size: 28px;
             }
@@ -186,6 +188,21 @@
 
             &-info {
                 font-size: 14px;
+            }
+
+            &-img {
+                max-height: 350px;
+            }
+
+            &-description {
+                &--none {
+                    display: none;
+                }
+
+                &--adaptive {
+                    display: block;
+                    margin-bottom: 50px;
+                }
             }
 
             &-counter {
@@ -199,6 +216,8 @@
 
             &-about {
                 font-size: 14px;
+                border-bottom: none;
+                margin-bottom: 0;
             }
         }
     }
@@ -206,7 +225,7 @@
 
 @media (max-width: 540px) {
     .chooseItem {
-        min-height: 400px;
+        min-height: 440px;
 
         &-img {
             box-shadow: 5px 5px 12px 0px rgba(0, 0, 0, 0.4);
@@ -221,12 +240,12 @@
             }
 
             &-name {
-                font-size: 26px;
+                font-size: 24px;
                 margin-bottom: 15px;
             }
 
             &-price {
-                font-size: 24px;
+                font-size: 20px;
             }
 
             &-info {
@@ -248,6 +267,16 @@
 
             &-description {
                 font-size: 12px;
+            }
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    .chooseItem {
+        &__item {
+            &-img {
+                max-height: 240px;
             }
         }
     }

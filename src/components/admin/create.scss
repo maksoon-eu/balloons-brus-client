@@ -214,7 +214,7 @@
     top: 45px;
     left: 0;
     right: 0;
-    transition: 0.2s linear;
+    transition: 0.15s linear;
     height: 0px;
     overflow: auto;
     border-radius: 10px;
@@ -223,7 +223,6 @@
 
     &-item {
         font-size: 12px;
-        text-transform: capitalize;
         padding: 8px 15px;
         cursor: pointer;
         transition: .2s linear;
@@ -251,9 +250,8 @@
     align-items: center;
     cursor: pointer;
     font-size: 14px;
-    text-transform: capitalize;
     background-color: $secondary-color;
-    padding: 8px 15px;
+    padding: 8px 10px;
     border-radius: 6px;
     width: auto;
     padding-top: 10px;

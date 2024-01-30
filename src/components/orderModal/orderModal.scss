@@ -8,6 +8,7 @@
     padding: 25px 20px;
     padding-bottom: 10px;
     font-weight: 400;
+    max-height: 450px;
     
     &__input {
         position: relative;
@@ -125,7 +126,7 @@
     border-radius: 10px !important;
 
     &:hover {
-        border-width: 2px !important;
+        border-color: rgb(141, 89, 254) !important;
     }
 }
 
@@ -143,8 +144,7 @@
 }
 
 .rw-state-focus .rw-widget-picker {
-    border: $secondary-color 1px solid !important;
-    border-width: 2px !important;
+    border: rgb(141, 89, 254) 1px solid !important;
     box-shadow: none !important;
 }
 

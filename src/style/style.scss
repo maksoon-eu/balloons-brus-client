@@ -92,11 +92,11 @@ input {
         }
 
         &:hover {
-            border-width: 2px;
+            border-color: rgb(141, 89, 254);
         }
 
         &:focus {
-            border-width: 2px;
+            border-color: rgb(141, 89, 254);
         }
 
         &:is(&:focus, &:valid) ~ .input-label {
@@ -231,7 +231,7 @@ button {
 }
   
 .slick-next {
-    width: 50px;
+    width: 30px;
     height: 80px;
     right: -10px;
     z-index: 3;
@@ -243,7 +243,7 @@ button {
 }
 
 .slick-prev {
-    width: 50px;
+    width: 30px;
     height: 80px;
     left: -10px;
     z-index: 3;

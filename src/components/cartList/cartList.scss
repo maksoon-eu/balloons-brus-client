@@ -1,7 +1,7 @@
 .cart {
    display: flex;
    justify-content: space-between;
-   min-height: calc(100vh - 457px);
+   min-height: calc(100vh - 445px);
 
    &__block {
       width: 100%;
@@ -35,7 +35,7 @@
       }
 
       &__void {
-         margin-bottom: 50px;
+         margin-bottom: 60px;
       }
    }
 }
