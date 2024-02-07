@@ -1,86 +1,31 @@
 import Slider from "react-slick";
 import { motion, AnimatePresence } from 'framer-motion';
-import { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../..";
 import { fetchItems, changeSliderType } from "../../http/itemsApi";
 import { observer } from "mobx-react-lite";
 
+import Dropdown from "../dropdown/Dropdown";
 import SkeletonItem from '../skeleton/SkeletonItem';
 import CatalogItem from '../catalogItem/CatalogItem';
 import ChangeModal from "../changeModal/ChangeModal";
-
-import downArrow from '../../resources/down-arrow.svg';
 
 import './popularSlider.scss';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, subTypeId = null, setSubTypeId = null, setUpdateList}) => {
-    const [dropdownToggle, setDropdownToggle] = useState(false);
-
-    const {items} = useContext(Context);
-
-    const ref = useRef(null)
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (dropdownToggle && ref.current && !ref.current.contains(e.target)) {
-                setDropdownToggle(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [dropdownToggle])
-
-    const onDropdownActive = () => {
-        if (!loading && !items.typeLoading) {
-            setDropdownToggle(dropdownToggle => !dropdownToggle)
-        }
-    }
-
-    const onSetCurrentDropdown = (e, id) => {
-        if (type === 'Категория' && subTypeId && setSubTypeId) {
-            setSubTypeId(null)
-        }
-        setState(state => state === id ? null : id)
-        setUpdateList(true)
-        setDropdownCurrent(dropdownCurrent === e.currentTarget.textContent ? false : e.currentTarget.textContent)
-        setDropdownToggle(false)
-    }
-
-    const types = typeList.map(item => {
-        return (
-            <li key={item.id} onClick={(e) => onSetCurrentDropdown(e, item.id)} className={`dropdown__menu-item ${state === item.id ? 'active' : ''}`}>{item.name}</li>
-        )
-    })
-
-    return (
-        <div ref={ref} className={`dropdown dropdown-min ${dropdownToggle ? 'active' : ''}`} tabIndex="1">
-            <div className="dropdown__current" onClick={onDropdownActive}>
-                <div className="dropdown__current-item">{!dropdownCurrent ? type : dropdownCurrent}</div>
-                <img src={downArrow} alt="" />
-            </div>
-            <ul className="dropdown__menu">
-                <li onClick={() => {setDropdownCurrent(false); setState(null)}} className={`dropdown__menu-item ${!state ? 'active' : ''}`}>{type}</li>
-                {types.length ? types : <div className="dropdown__menu-item">Подкатегории отсутствуют</div>}
-            </ul>
-        </div>
-    );
-});
-
 const PopularSlider = observer(({id}) => {
     const {items, user} = useContext(Context);
 
-    const [typeId, setTypeId] = useState(null);
-    const [subTypeId, setSubTypeId] = useState(null);
+    const navigate = useNavigate();
+
+    const [typeId, setTypeId] = useState(false);
+    const [subTypeId, setSubTypeId] = useState(false);
     const [subType, setSubType] = useState([]);
     const [dropdownTypeCurrent, setDropdownTypeCurrent] = useState(false);
     const [dropdownSubTypeCurrent, setDropdownSubTypeCurrent] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [updateList, setUpdateList] = useState(false);
     const [changeModal, setChangeModal] = useState(false);
     const [showAnimation, setShowAnimation] = useState(false);
@@ -125,6 +70,8 @@ const PopularSlider = observer(({id}) => {
                     setLoading(false)
                     items.setUpdateList(false)
                 })
+        } else {
+            setLoading(false)
         }
     }, [typeId, subTypeId, user.isAuth, items.updateList])
 
@@ -147,6 +94,14 @@ const PopularSlider = observer(({id}) => {
             })
         }
     }, [typeId, items.typesLoading])
+
+    const navigateToCatalog = () => {
+        if (!loading && !items.typesLoading && dropdownTypeCurrent && dropdownSubTypeCurrent) {
+            items.setSelectedType(typeId)
+            items.setSelectedSubType(subTypeId)
+            navigate("/catalog")
+        }
+    }
 
     const itemList = items[`itemsSlider${id}`].map(item => {
         return (
@@ -190,7 +145,7 @@ const PopularSlider = observer(({id}) => {
 
     return (
         <div className="slider">
-            <div className="slider__title">{loading || items.typesLoading ? 'Загрузка...' : `${!dropdownTypeCurrent ? 'Не' : dropdownTypeCurrent} ${!dropdownSubTypeCurrent ? 'выбрано' : dropdownSubTypeCurrent}`}</div>
+            <div className="slider__title slider__title--hover" onClick={navigateToCatalog}>{loading || items.typesLoading ? 'Загрузка...' : `${!dropdownTypeCurrent ? 'Не' : dropdownTypeCurrent} ${!dropdownSubTypeCurrent ? 'выбрано' : dropdownSubTypeCurrent}`}</div>
 
             {user.isAuth && <div className="slider__btn">
                 <Dropdown 
@@ -217,7 +172,8 @@ const PopularSlider = observer(({id}) => {
                 />
             </div>}
             {changeModal && <ChangeModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} item={activeItem} />}
-            {itemList.length > 0 || error || loading ?<AnimatePresence mode="wait">
+            {itemList.length > 0 || error || loading ? 
+            <AnimatePresence mode="wait">
                 <motion.div
                     initial={{ opacity: 0}}
                     animate={{ opacity: 1}}

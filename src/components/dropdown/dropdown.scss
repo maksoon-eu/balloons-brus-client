@@ -1,0 +1,88 @@
+@import '../../style/variables.scss';
+
+.dropdown {
+    position: relative;
+
+    &:first-of-type {
+        margin-right: 10px;
+    }
+
+    &-min {
+        width: 200px;
+    }
+
+    &:hover img {
+        transform: rotate(180deg);
+    }
+
+    &.active {
+        &:not(.catalog) .dropdown__menu {
+            height: 80px;
+        }
+
+        &.catalog .dropdown__menu{
+            height: 120px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        & img {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__menu {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        right: 0;
+        transition: 0.15s linear;
+        height: 0px;
+        overflow: auto;
+        border-radius: 10px;
+        background-color: #c5abff;
+        z-index: 15;
+    
+        &-item {
+            font-size: 12px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: .2s linear;
+    
+            &:hover {
+                color: #fff;
+                transform: translateY(-3px);
+            }
+        }
+    
+        img {
+            width: 20px;
+            height: 20px;
+            margin-right: 7px;
+        }
+    
+        .active {
+            color: #fff;
+        }
+    }
+    
+    &__current {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-size: 14px;
+        background-color: $secondary-color;
+        padding: 8px 10px;
+        border-radius: 6px;
+        width: auto;
+        padding-top: 10px;
+    
+        img {
+            transition: .2s linear;
+            width: 15px;
+            height: 10px;
+            margin-left: 10px;
+        }
+    }
+}

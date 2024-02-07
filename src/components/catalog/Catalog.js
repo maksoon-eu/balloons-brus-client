@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState, useRef } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
 import { Context } from '../..';
 import { fetchItems } from "../../http/itemsApi";
@@ -135,7 +135,7 @@ const Catalog = observer(() => {
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={loadMore}
-                >{items.itemsLoading === 'loading' ? <span className="loader"></span> : 'Загрузить Еще'}</motion.div>
+                >{items.itemsLoading === 'loading' || items.itemsLoading === 'updateLoading' ? <span className="loader"></span> : 'Загрузить Еще'}</motion.div>
             }
         </>
     )

@@ -1,64 +1,13 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { deleteType } from "../../http/itemsApi";
+import { useClickOut } from '../../hooks/clickOut.hook';
 
-import downArrow from '../../resources/down-arrow.svg';
+import Dropdown from '../dropdown/Dropdown';
 
 import './create.scss';
-
-const Dropdown = observer(({typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, setInputError}) => {
-    const [dropdownToggle, setDropdownToggle] = useState(false);
-
-    const ref = useRef(null)
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (dropdownToggle && ref.current && !ref.current.contains(e.target)) {
-                setDropdownToggle(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [dropdownToggle])
-
-    const onDropdownActive = () => {
-        if (!loading) {
-            setInputError(false)
-            setDropdownToggle(dropdownToggle => !dropdownToggle)
-        }
-    }
-
-    const onSetCurrentDropdown = (e, id) => {
-        setState(state => state === id ? false : id)
-        setDropdownCurrent(dropdownCurrent === e.currentTarget.textContent ? false : e.currentTarget.textContent)
-        setDropdownToggle(false)
-    }
-
-    const types = typeList.map(item => {
-        return (
-            <li key={item.id} onClick={(e) => onSetCurrentDropdown(e, item.id)} className={`dropdown__menu-item ${state === item.id ? 'active' : ''}`}>{item.name}</li>
-        )
-    })
-
-    return (
-        <div ref={ref} className={`dropdown ${dropdownToggle ? 'active' : ''}`} tabIndex="1">
-            <div className="dropdown__current" onClick={onDropdownActive}>
-                <div className="dropdown__current-item">{!dropdownCurrent ? 'Выберите категорию' : dropdownCurrent}</div>
-                <img src={downArrow} alt="" />
-            </div>
-            <ul className="dropdown__menu">
-                <li onClick={() => {setDropdownCurrent(false); setState(false)}} className={`dropdown__menu-item ${!state ? 'active' : ''}`}>Выберите категорию</li>
-                {types}
-            </ul>
-        </div>
-    );
-});
 
 const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [inputError, setInputError] = useState(false);
@@ -139,20 +88,7 @@ const DeleteType = () => {
 
     const refModal = useRef(null);
 
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
-                setModalOpen(false)
-                document.querySelector('body').style.position = 'relative';
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [modalOpen])
+    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';

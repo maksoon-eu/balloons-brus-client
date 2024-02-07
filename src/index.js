@@ -14,17 +14,17 @@ import './style/style.scss';
 export const Context = createContext(null);
 
 const Root = () => <Router><App /></Router>;
-if (typeof document !== 'undefined') {
-const root = ReactDOM.hydrateRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Context.Provider value={{
-    user: new UserStore(),
-    items: new ItemStore(),
-    works: new WorkStore(),
-    reviews: new ReviewStore(),
-    sliders: new SliderStore(),
-  }}>
-    <Root/>
-  </Context.Provider>
+    // <React.StrictMode>
+    <Context.Provider value={{
+      user: new UserStore(),
+      items: new ItemStore(),
+      works: new WorkStore(),
+      reviews: new ReviewStore(),
+      sliders: new SliderStore(),
+    }}>
+      <Root/>
+    </Context.Provider>
+    // </React.StrictMode>
 );
-}

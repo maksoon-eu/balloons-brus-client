@@ -1,3 +1,4 @@
+import React from 'react';
 import instagram from '../../resources/instagram.svg';
 import logo from '../../resources/logo-footer.svg';
 import name from '../../resources/name.png';

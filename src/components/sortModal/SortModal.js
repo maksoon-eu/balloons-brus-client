@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { Context } from "../..";
 import { observer } from 'mobx-react-lite';

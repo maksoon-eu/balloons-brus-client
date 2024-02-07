@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import Sidebar from "../components/sideBar/SideBar";
 import Catalog from "../components/catalog/Catalog";

@@ -25,8 +25,8 @@ export const fetchTypes = async () => {
     return data
 }
 
-export const createItem = async (item) => {
-    const {data} = await $authHost.post('api/item', item)
+export const createItem = async (item, rotate) => {
+    const {data} = await $authHost.post('api/item', item, {params: {rotate}})
     return data
 }
 
@@ -45,8 +45,8 @@ export const fetchIdsItem = async (ids) => {
     return data
 }
 
-export const changeItem = async (id, item) => {
-    const {data} = await $authHost.put(`api/item/${id}`, item)
+export const changeItem = async (id, item, rotate) => {
+    const {data} = await $authHost.put(`api/item/${id}`, item, {params: {rotate}})
     return data
 }
 

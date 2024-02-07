@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
@@ -289,7 +289,6 @@ const Sidebar = observer(({setUpdateList}) => {
                 {typeList}
                 <LiItems setUpdateList={setUpdateList} name={'Цена'} price={true} i={items.types.length} setExpanded={setExpanded} expanded={expanded}/>
                 <LiItems setUpdateList={setUpdateList} name={'Отчистить все'} clear={true} i={items.types.length+1} setExpanded={setExpanded} expanded={expanded}/>
-                {/* <div className="catalog__clean" onClick={clearAllFilters}>Отчистить все <img src={clean} alt="" /></div> */}
             </motion.ul>
         </motion.aside>
         </>

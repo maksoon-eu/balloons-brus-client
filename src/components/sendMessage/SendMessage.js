@@ -1,77 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import InputMask from 'react-input-mask';
 import { motion } from "framer-motion";
 import { sendMessage } from "../../http/orderApi";
+import { useInputsChange } from "../../hooks/inputs.hook";
 
-import close from '../../resources/close.svg'
+import ThanksModal from "../thanksModal/ThanksModal";
 
 import './sendMessage.scss';
-
-const InfoModal = ({openModal, setOpenModal}) => {
-    const refModal = useRef(null);
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (openModal && refModal.current && !refModal.current.contains(e.target)) {
-                setOpenModal(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [openModal])
-
-    return (
-        <motion.div 
-            variants={{
-                open: {
-                    opacity: 1,
-                    y: 0,
-                    display: 'block'
-                },
-                closed: {
-                    opacity: 0,
-                    y: -100,
-                    display: 'none',
-                    transition: {
-                        display: {delay: .4}
-                    }
-                }
-            }}
-            initial={{opacity: 0, y: -100}}
-            animate={openModal ? "open" : "closed"}
-            className="change__modal"
-            transition={{duration: .4}}
-        >
-            <div className="info__modal-inner" ref={refModal}>
-                <div className="info__modal-title">Спасибо за обращение!</div>
-                <div className="info__modal-text">Скоро с вами свяжется менеджер для уточнения деталей</div>
-                <div className="info__modal-close" onClick={() => setOpenModal(false)}>
-                    <img src={close} alt="" />
-                </div>
-            </div>
-        </motion.div>
-    )
-}
 
 const SendMessage = () => {
     const [inputs, setInputs] = useState(['', '', '']);
     const [inputError, setInputError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [openModal, setOpenModal] = useState(false)
-
-    const onInputsChange = (e) => {
-        setInputError(false)
-
-        if (e.target.value.charAt(0) === ' ') {
-            e.target.value = ''
-        }
-
-        setInputs(inputs => inputs.map((item, i) => i === +e.target.name ? e.target.value : item))
-    }
 
     const onSendMessage = () => {
         if (inputs[0].length < 2 || inputs[1].includes('_') || inputs[2].length < 2) {
@@ -97,7 +38,7 @@ const SendMessage = () => {
 
     return (
         <>
-        <InfoModal openModal={openModal} setOpenModal={setOpenModal} />
+        <ThanksModal openModal={openModal} setOpenModal={setOpenModal} />
         <div className="message">
             <div className="message__inner">
                 <div className="message__inner-title">Не нашли подходящий вариант?</div>
@@ -110,7 +51,8 @@ const SendMessage = () => {
                             className="input-default"
                             value={inputs[0]} 
                             name='0' 
-                            onChange={onInputsChange}
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            onChange={(e) => useInputsChange(e, setInputError, setInputs)}
                             id='name'
                         />
                         <label className="input-label" htmlFor="name">Ваше имя</label>
@@ -120,7 +62,8 @@ const SendMessage = () => {
                             className="input-default"
                             mask="+9 (999) 999-99-99" 
                             value={inputs[1]}
-                            onChange={onInputsChange}
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            onChange={(e) => useInputsChange(e, setInputError, setInputs)}
                             name='1'
                             required
                             id='phone'
@@ -134,7 +77,8 @@ const SendMessage = () => {
                             className="input-default"
                             value={inputs[2]} 
                             name='2' 
-                            onChange={onInputsChange}
+                            // eslint-disable-next-line react-hooks/rules-of-hooks
+                            onChange={(e) => useInputsChange(e, setInputError, setInputs)}
                             id='comment'
                         />
                         <label className="input-label" htmlFor="comment">Комментарий</label>

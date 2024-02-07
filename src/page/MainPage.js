@@ -1,4 +1,4 @@
-import { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useContext, useRef } from "react";
 import { Context } from "..";
 import { fetchTypes, fetchSliderType } from "../http/itemsApi";
 import { motion } from "framer-motion";

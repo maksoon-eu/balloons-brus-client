@@ -12,6 +12,21 @@
         height: calc(100% + 100px);
         overflow: hidden;
         background-color: rgba(0, 0, 0, 0.4);
+
+        &-rotate {
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #c6abffa4;
+            border-radius: 5px;
+            max-width: 220px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 10px auto;
+            margin-top: 5px;
+        }
     
         &-content {
             max-width: 330px;
@@ -21,7 +36,7 @@
             background-color: #fff;
             position: absolute;
             left: 50%;
-            top: calc(50% - 50px);
+            top: calc(50% - 100px);
             transform: translateX(-50%) translateY(-50%);
             border-radius: 15px;
             display: flex;

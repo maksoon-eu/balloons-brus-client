@@ -1,17 +1,25 @@
-import { useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Context } from "..";
 import { fetchTypes } from "../http/itemsApi";
 import { motion } from "framer-motion";
+import { observer } from "mobx-react-lite";
+import { useNavigate } from "react-router-dom";
 
 import CreateItem from "../components/admin/CreateItem";
 import CreateType from "../components/admin/CreateType";
 import CreateSubType from "../components/admin/CreateSubType";
 import DeleteType from "../components/admin/DeleteCategory";
 import DeleteSubType from "../components/admin/DeleteSubType";
-import { observer } from "mobx-react-lite";
 
 const AdminPage = observer(() => {
-    const {items} = useContext(Context);
+    const {items, user} = useContext(Context);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user.isAuth) {
+            navigate("/")
+        }
+    }, [])
 
     useEffect(() => {
         fetchTypes().then(data => {

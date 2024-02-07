@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Context } from "../..";
 import Slider from "react-slick";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -11,6 +11,7 @@ import ChangeMainSlider from "../changeMainSlider/ChangeMainSlider";
 
 import loading from '../../resources/loading.svg';
 
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import './mainSlider.scss';
 
 const MainSlider = observer(() => {

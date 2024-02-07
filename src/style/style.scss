@@ -115,7 +115,8 @@ input {
         left: 10px;
         font-size: 12px;
         transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: text;
+        cursor: pointer;
+        z-index: 6;
 
         &-img {
             top: 150px;
@@ -166,6 +167,15 @@ button {
     &__title {
         font-size: 22px;
         font-weight: 900;
+    
+        &--hover {
+            transition: .15s linear;
+            cursor: pointer;
+            
+            &:hover {
+                color: $secondary-color;
+            }
+        }
     }
 
     &__btn {
@@ -293,7 +303,7 @@ html::-webkit-scrollbar-thumb {
 @media (max-width: 445px) {
     .slider {
         margin-top: 15px;
-        min-height: 320px;
+        min-height: 368px;
 
         &__title {
             font-size: 18px;

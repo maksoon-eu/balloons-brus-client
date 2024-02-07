@@ -1,123 +1,15 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { createItem } from "../../http/itemsApi";
+import { useClickOut } from '../../hooks/clickOut.hook';
+import { useUploadImg } from '../../hooks/uploadImg.hook';
+import { useInputsChange } from '../../hooks/inputs.hook';
 
-import downArrow from '../../resources/down-arrow.svg';
+import Dropdown from '../dropdown/Dropdown';
 
 import './create.scss';
-
-const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, setInputError}) => {
-    const [dropdownToggle, setDropdownToggle] = useState(false);
-
-    const ref = useRef(null)
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (dropdownToggle && ref.current && !ref.current.contains(e.target)) {
-                setDropdownToggle(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [dropdownToggle])
-
-    const onDropdownActive = () => {
-        if (!loading) {
-            setInputError(false)
-            setDropdownToggle(dropdownToggle => !dropdownToggle)
-        }
-    }
-
-    const onSetCurrentDropdown = (e, id) => {
-        setState(state => state === id ? false : id)
-        setDropdownCurrent(dropdownCurrent === e.currentTarget.textContent ? false : e.currentTarget.textContent)
-        setDropdownToggle(false)
-    }
-
-    const types = typeList.map(item => {
-        return (
-            <li key={item.id} onClick={(e) => onSetCurrentDropdown(e, item.id)} className={`dropdown__menu-item ${state === item.id ? 'active' : ''}`}>{item.name}</li>
-        )
-    })
-
-    return (
-        <div ref={ref} className={`dropdown ${dropdownToggle ? 'active' : ''}`} tabIndex="1">
-            <div className="dropdown__current" onClick={onDropdownActive}>
-                <div className="dropdown__current-item">{!dropdownCurrent ? type : dropdownCurrent}</div>
-                <img src={downArrow} alt="" />
-            </div>
-            <ul className="dropdown__menu">
-                <li onClick={() => {setDropdownCurrent(false); setState(false)}} className={`dropdown__menu-item ${!state ? 'active' : ''}`}>{type}</li>
-                {types.length ? types : <div className="dropdown__menu-item">Подкатегории отсутствуют</div>}
-            </ul>
-        </div>
-    );
-});
-
-const DropdownMultiple = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, setInputError}) => {
-    const [dropdownToggle, setDropdownToggle] = useState(false);
-
-    const ref = useRef(null);
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (dropdownToggle && ref.current && !ref.current.contains(e.target)) {
-                setDropdownToggle(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [dropdownToggle])
-
-    useEffect(() => {
-        setDropdownCurrent(state.length === 0 ? false : `Выбрано ${state.length}`)
-    }, [state])
-
-    const onDropdownActive = () => {
-        if (!loading) {
-            setInputError(false)
-            setDropdownToggle(dropdownToggle => !dropdownToggle)
-        }
-    }
-
-    const onSetCurrentDropdown = (id) => {
-        if (state.includes(id)) {
-            setState(state.filter(item => item !== id))
-        } else {
-            setState([...state, id])
-        }
-        setDropdownToggle(false)
-    }
-
-    const types = typeList.map(item => {
-        return (
-            <li key={item.id} onClick={() => onSetCurrentDropdown(item.id)} className={`dropdown__menu-item ${state.includes(item.id) ? 'active' : ''}`}>{item.name}</li>
-        )
-    })
-
-    return (
-        <div ref={ref} className={`dropdown ${dropdownToggle ? 'active' : ''}`} tabIndex="1">
-            <div className="dropdown__current" onClick={onDropdownActive}>
-                <div className="dropdown__current-item">{!dropdownCurrent ? type : dropdownCurrent}</div>
-                <img src={downArrow} alt="" />
-            </div>
-            <ul className="dropdown__menu">
-                <li onClick={() => {setDropdownCurrent(false); setState([])}} className={`dropdown__menu-item ${state.length === 0 ? 'active' : ''}`}>{type}</li>
-                {types.length ? types : <div className="dropdown__menu-item">Подкатегории отсутствуют</div>}
-            </ul>
-        </div>
-    );
-});
 
 const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [inputError, setInputError] = useState(false);
@@ -125,7 +17,8 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [typeId, setTypeId] = useState(false);
     const [subTypeId, setSubTypeId] = useState([]);
     const [subType, setSubType] = useState([]);
-    const [imgFile, setImgFile] = useState()
+    const [rotationAngle, setRotationAngle] = useState(0);
+    const [imgFile, setImgFile] = useState();
     const [dropdownTypeCurrent, setDropdownTypeCurrent] = useState(false);
     const [dropdownSubTypeCurrent, setDropdownSubTypeCurrent] = useState(false);
 
@@ -134,24 +27,18 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const {items} = useContext(Context);
 
     useEffect(() => {
+        setSubType([])
         items.types.forEach(item => {
             if (item.id === typeId) {
                 setSubType(item.subType)
             }
         })
-        setDropdownSubTypeCurrent(false)
+        if (!typeId) {
+            setSubTypeId([])
+            setDropdownSubTypeCurrent(false)
+        }
         items.setItemsLoading(false)
     }, [typeId, modalOpen])
-
-    const onInputsChange = (e) => {
-        setInputError(false)
-
-        if (e.target.value.charAt(0) === ' ') {
-            e.target.value = ''
-        }
-
-        setInputs(inputs => inputs.map((item, i) => i === +e.target.name ? e.target.value : item))
-    }
 
     const onSubmit = () => {
         if (inputs[0] === '' || inputs[1] === '' || inputs[2] === '' || refImg.current.currentSrc === '' || !typeId || !subType) {
@@ -168,7 +55,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
             formData.append('img', imgFile)
 
             items.setItemsLoading(true)
-            createItem(formData)
+            createItem(formData, rotationAngle)
                 .then(data => {
                     items.setItemsLoading(false)
                     setModalOpen(false)
@@ -178,36 +65,22 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setSubTypeId([])
                     setSubType([])
                     setImgFile()
-                    refImg.current.setAttribute("src", "")
                     refImg.current.style.opacity = 0;
                     setDropdownTypeCurrent(false)
                     document.querySelector('.input-label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
                 })
                 .catch(e => {
-                    console.log(e.message)
+                    const errorMessage = e.response.data.message === 'name must be unique' ? 'Название уже существует' : e.response.data.message
                     items.setItemsLoading(false)
-                    setInputError('Ошибка сервера')
+                    setInputError(errorMessage)
                 })
         }
     }
 
-    const previewFile = (e, inputImg) => {
-        const file = e.target.files[0];
-        setImgFile(e.target.files[0])
-    
-        if (file) {
-            const reader = new FileReader();
-        
-            reader.onload = function() {
-                inputImg.current.setAttribute("src", reader.result);
-            }
-        
-            reader.readAsDataURL(file);
-            inputImg.current.style.opacity = 1;
-            document.querySelector('.input-label').style.transform = 'translateY(-965%) translateX(-125%) scale(.7)'
-            setInputError(false)
-        }
-    }
+    const onRotate = () => {
+        const newRotationAngle = rotationAngle + 90;
+        setRotationAngle(newRotationAngle === 360 ? 0 : newRotationAngle);
+    };
 
     return (
         <motion.div 
@@ -233,8 +106,13 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
         >
             <div className="create__modal-content" ref={refModal}>
                 <div className="create__modal-img" onClick={() => document.querySelector('.input-file').click()}>
-                    <img ref={refImg} src="" alt="" className="create__img"/>
-                    <input className='input-file' type="file" onInput={(e) => previewFile(e, refImg)} id='img'/>
+                    <img ref={refImg} src="" alt="" className="create__img" style={{ transform: `rotate(${rotationAngle}deg)` }}/>
+                    <input 
+                        className='input-file' 
+                        type="file" 
+                        onInput={(e) => useUploadImg(e, refImg, setImgFile, setInputError)} 
+                        id='img'
+                    />
                     <div className="create__choose">
                         <svg width="30px" height="26px" viewBox="0 0 22 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
                             <g id="Icons" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -253,16 +131,46 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     </div>
                     <label className="input-label input-label-img" htmlFor="img">Выберите файл</label>
                 </div>
+                <motion.div 
+                    className="change__modal-rotate"
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={onRotate}
+                >Вращать изображение</motion.div>
                 <div className="create__modal-name">
-                    <input className='input-default' type="text" id='name' required value={inputs[0]} name='0' onChange={onInputsChange}/>
+                    <input 
+                        className='input-default' 
+                        type="text" 
+                        id='name' 
+                        required 
+                        value={inputs[0]} 
+                        name='0' 
+                        onChange={(e) => useInputsChange(e, setInputError, setInputs)}
+                    />
                     <label className="input-label" htmlFor="name">Название товара</label>
                 </div>
                 <div className="create__modal-price">
-                    <input className='input-default' type="number" id='price' required value={inputs[1]} name='1' onChange={onInputsChange} />
+                    <input 
+                        className='input-default' 
+                        type="number" 
+                        id='price' 
+                        required 
+                        value={inputs[1]} 
+                        name='1' 
+                        onChange={(e) => useInputsChange(e, setInputError, setInputs)} 
+                    />
                     <label className="input-label" htmlFor="price">Цена товара</label>
                 </div>
                 <div className="create__modal-description">
-                    <textarea className='input-default input-big input-textarea' required type="text" id='description' value={inputs[2]} name='2' onChange={onInputsChange}/>
+                    <textarea 
+                        className='input-default input-big input-textarea' 
+                        required 
+                        type="text" 
+                        id='description' 
+                        value={inputs[2]} 
+                        name='2' 
+                        onChange={(e) => useInputsChange(e, setInputError, setInputs)}
+                    />
                     <label className="input-label" htmlFor="description">Описание товара</label>
                 </div>
                 <Dropdown 
@@ -275,7 +183,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setDropdownCurrent={setDropdownTypeCurrent}
                     setInputError={setInputError}
                 />
-                <DropdownMultiple 
+                <Dropdown 
                     type="Выберите подкатегорию" 
                     typeList={subType} 
                     loading={items.typesLoading} 
@@ -284,6 +192,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     dropdownCurrent={dropdownSubTypeCurrent}
                     setDropdownCurrent={setDropdownSubTypeCurrent}
                     setInputError={setInputError}
+                    multiple={true}
                 />
                 <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
                 <motion.div
@@ -302,20 +211,7 @@ const CreateItem = () => {
 
     const refModal = useRef(null);
 
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
-                setModalOpen(false)
-                document.querySelector('body').style.position = 'relative';
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [modalOpen])
+    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';

@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { createType } from "../../http/itemsApi";
+import { useClickOut } from '../../hooks/clickOut.hook';
+import { useInputsChange } from '../../hooks/inputs.hook';
 
 import './create.scss';
 
@@ -11,16 +13,6 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [input, setInput] = useState('');
 
     const {items} = useContext(Context);
-
-    const onInputsChange = (e) => {
-        setInputError(false)
-
-        if (e.target.value.charAt(0) === ' ') {
-            e.target.value = ''
-        }
-
-        setInput(e.target.value)
-    }
 
     const onSubmit = () => {
         if (input === '' ) {
@@ -37,8 +29,9 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
-                    items.setTypesLoading(false)
-                    setInputError('Ошибка сервера')
+                    const errorMessage = e.response.data.message === 'name must be unique' ? 'Название уже существует' : e.response.data.message
+                    items.setItemsLoading(false)
+                    setInputError(errorMessage)
                 })
         }
     }
@@ -67,7 +60,14 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
         >
             <div className="create__modal-content create__modal-content-min" ref={refModal}>
                 <div className="create__modal-name">
-                    <input className='input-default' type="text" id='type' required value={input} onChange={onInputsChange}/>
+                    <input 
+                        className='input-default' 
+                        type="text" 
+                        id='type' 
+                        required 
+                        value={input} 
+                        onChange={(e) => useInputsChange(e, setInputError, setInput, true)}
+                    />
                     <label className="input-label" htmlFor="type">Название категории</label>
                 </div>
                 <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
@@ -87,20 +87,7 @@ const CreateType = () => {
 
     const refModal = useRef(null);
 
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
-                setModalOpen(false)
-                document.querySelector('body').style.position = 'relative';
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [modalOpen])
+    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';

@@ -1,64 +1,14 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { createSubType } from "../../http/itemsApi";
+import { useClickOut } from '../../hooks/clickOut.hook';
+import { useInputsChange } from '../../hooks/inputs.hook';
 
-import downArrow from '../../resources/down-arrow.svg';
+import Dropdown from '../dropdown/Dropdown';
 
 import './create.scss';
-
-const Dropdown = observer(({typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, setInputError}) => {
-    const [dropdownToggle, setDropdownToggle] = useState(false);
-
-    const ref = useRef(null)
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (dropdownToggle && ref.current && !ref.current.contains(e.target)) {
-                setDropdownToggle(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [dropdownToggle])
-
-    const onDropdownActive = () => {
-        if (!loading) {
-            setInputError(false)
-            setDropdownToggle(dropdownToggle => !dropdownToggle)
-        }
-    }
-
-    const onSetCurrentDropdown = (e, id) => {
-        setState(state => state === id ? false : id)
-        setDropdownCurrent(dropdownCurrent === e.currentTarget.textContent ? false : e.currentTarget.textContent)
-        setDropdownToggle(false)
-    }
-
-    const types = typeList.map(item => {
-        return (
-            <li key={item.id} onClick={(e) => onSetCurrentDropdown(e, item.id)} className={`dropdown__menu-item ${state === item.id ? 'active' : ''}`}>{item.name}</li>
-        )
-    })
-
-    return (
-        <div ref={ref} className={`dropdown ${dropdownToggle ? 'active' : ''}`} tabIndex="1">
-            <div className="dropdown__current" onClick={onDropdownActive}>
-                <div className="dropdown__current-item">{!dropdownCurrent ? 'Выберите категорию' : dropdownCurrent}</div>
-                <img src={downArrow} alt="" />
-            </div>
-            <ul className="dropdown__menu">
-                <li onClick={() => {setDropdownCurrent(false); setState(false)}} className={`dropdown__menu-item ${!state ? 'active' : ''}`}>Выберите категорию</li>
-                {types}
-            </ul>
-        </div>
-    );
-});
 
 const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [inputError, setInputError] = useState(false);
@@ -67,16 +17,6 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [dropdownCurrent, setDropdownCurrent] = useState(false);
 
     const {items} = useContext(Context);
-
-    const onInputsChange = (e) => {
-        setInputError(false)
-
-        if (e.target.value.charAt(0) === ' ') {
-            e.target.value = ''
-        }
-
-        setInput(e.target.value)
-    }
 
     const onSubmit = () => {
         if (input === '' || !typeId) {
@@ -96,9 +36,9 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
-                    console.log(e.message)
+                    const errorMessage = e.response.data.message === 'name must be unique' ? 'Название уже существует' : e.response.data.message
                     items.setItemsLoading(false)
-                    setInputError('Ошибка сервера')
+                    setInputError(errorMessage)
                 })
         }
     }
@@ -127,6 +67,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
         >
             <div className="create__modal-content create__modal-content-middle" ref={refModal}>
                 <Dropdown
+                    type="Выберите категорию" 
                     typeList={items.types} 
                     loading={items.typesLoading} 
                     setState={setTypeId} 
@@ -136,7 +77,14 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setInputError={setInputError}
                 />
                 <div className="create__modal-name">
-                    <input className='input-default' type="text" id='subType' required value={input} onChange={onInputsChange}/>
+                    <input 
+                        className='input-default' 
+                        type="text" 
+                        id='subType' 
+                        required 
+                        value={input} 
+                        onChange={(e) => useInputsChange(e, setInputError, setInput, true)}
+                    />
                     <label className="input-label" htmlFor="subType">Название подкатегории</label>
                 </div>
                 <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
@@ -156,20 +104,7 @@ const CreateSubType = () => {
 
     const refModal = useRef(null);
 
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
-                setModalOpen(false)
-                document.querySelector('body').style.position = 'relative';
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [modalOpen])
+    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';

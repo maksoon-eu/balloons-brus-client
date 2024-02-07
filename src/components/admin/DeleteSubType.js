@@ -1,64 +1,13 @@
-import { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { deleteSubType } from "../../http/itemsApi";
+import { useClickOut } from '../../hooks/clickOut.hook';
 
-import downArrow from '../../resources/down-arrow.svg';
+import Dropdown from '../dropdown/Dropdown';
 
 import './create.scss';
-
-const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, setInputError}) => {
-    const [dropdownToggle, setDropdownToggle] = useState(false);
-
-    const ref = useRef(null)
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (dropdownToggle && ref.current && !ref.current.contains(e.target)) {
-                setDropdownToggle(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [dropdownToggle])
-
-    const onDropdownActive = () => {
-        if (!loading) {
-            setInputError(false)
-            setDropdownToggle(dropdownToggle => !dropdownToggle)
-        }
-    }
-
-    const onSetCurrentDropdown = (e, id) => {
-        setState(state => state === id ? false : id)
-        setDropdownCurrent(dropdownCurrent === e.currentTarget.textContent ? false : e.currentTarget.textContent)
-        setDropdownToggle(false)
-    }
-
-    const types = typeList.map(item => {
-        return (
-            <li key={item.id} onClick={(e) => onSetCurrentDropdown(e, item.id)} className={`dropdown__menu-item ${state === item.id ? 'active' : ''}`}>{item.name}</li>
-        )
-    })
-
-    return (
-        <div ref={ref} className={`dropdown ${dropdownToggle ? 'active' : ''}`} tabIndex="1">
-            <div className="dropdown__current" onClick={onDropdownActive}>
-                <div className="dropdown__current-item">{!dropdownCurrent ? type : dropdownCurrent}</div>
-                <img src={downArrow} alt="" />
-            </div>
-            <ul className="dropdown__menu">
-                <li onClick={() => {setDropdownCurrent(false); setState(false)}} className={`dropdown__menu-item ${!state ? 'active' : ''}`}>{type}</li>
-                {types}
-            </ul>
-        </div>
-    );
-});
 
 const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const [inputError, setInputError] = useState(false);
@@ -71,11 +20,16 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
     const {items} = useContext(Context);
 
     useEffect(() => {
+        setSubType([])
         items.types.forEach(item => {
             if (item.id === typeId) {
                 setSubType(item.subType)
             }
         })
+        if (!typeId) {
+            setSubTypeId([])
+            setDropdownSubTypeCurrent(false)
+        }
         setDropdownSubTypeCurrent(false)
     }, [typeId, modalOpen])
 
@@ -98,7 +52,6 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
-                    console.log(e.message)
                     items.setTypesLoading(false)
                     setInputError('Ошибка сервера')
                 })
@@ -128,7 +81,7 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
             transition={{duration: .4}}
         >
             <div className="create__modal-content create__modal-content-middle" ref={refModal}>
-            <Dropdown 
+                <Dropdown 
                     type="Выберите категорию" 
                     typeList={items.types} 
                     loading={items.typesLoading} 
@@ -165,20 +118,7 @@ const DeleteSubType = () => {
 
     const refModal = useRef(null);
 
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (modalOpen && refModal.current && !refModal.current.contains(e.target)) {
-                setModalOpen(false)
-                document.querySelector('body').style.position = 'relative';
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [modalOpen])
+    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';

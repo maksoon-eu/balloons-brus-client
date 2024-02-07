@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
 import { motion } from 'framer-motion';
@@ -9,113 +9,15 @@ import InputMask from 'react-input-mask';
 import DatePicker from "react-widgets/DatePicker";
 import { DropdownList } from 'react-widgets';
 import moment from 'moment';
-// import Localization from 'react-widgets/esm/Localization';
+import Localization from 'react-widgets/esm/Localization';
+import { useInputsChange } from '../../hooks/inputs.hook';
 
-import close from '../../resources/close.svg';
+import ThanksModal from '../thanksModal/ThanksModal';
 
 import 'moment/locale/ru';
 
 import './orderModal.scss';
 import "react-widgets/scss/styles.scss";
-
-const InfoModal = ({openModal, setOpenModal}) => {
-    const refModal = useRef(null);
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (openModal && refModal.current && !refModal.current.contains(e.target)) {
-                setOpenModal(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [openModal])
-
-    return (
-        <motion.div 
-            variants={{
-                open: {
-                    opacity: 1,
-                    y: 0,
-                    display: 'block'
-                },
-                closed: {
-                    opacity: 0,
-                    y: -100,
-                    display: 'none',
-                    transition: {
-                        display: {delay: .4}
-                    }
-                }
-            }}
-            initial={{opacity: 0, y: -100}}
-            animate={openModal ? "open" : "closed"}
-            className="change__modal"
-            transition={{duration: .4}}
-        >
-            <div className="info__modal-inner" ref={refModal}>
-                <div className="info__modal-title">Спасибо за заказ!</div>
-                <div className="info__modal-text">Скоро с вами свяжется менеджер для уточнения деталей заказа и оплаты</div>
-                <div className="info__modal-close" onClick={() => setOpenModal(false)}>
-                    <img src={close} alt="" />
-                </div>
-            </div>
-        </motion.div>
-    )
-}
-
-const VerificationModal = ({openModal, setOpenModal}) => {
-    const refModal = useRef(null);
-
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (openModal && refModal.current && !refModal.current.contains(e.target)) {
-                setOpenModal(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [openModal])
-
-    return (
-        <motion.div 
-            variants={{
-                open: {
-                    opacity: 1,
-                    y: 0,
-                    display: 'block'
-                },
-                closed: {
-                    opacity: 0,
-                    y: -100,
-                    display: 'none',
-                    transition: {
-                        display: {delay: .4}
-                    }
-                }
-            }}
-            initial={{opacity: 0, y: -100}}
-            animate={openModal ? "open" : "closed"}
-            className="change__modal"
-            transition={{duration: .4}}
-        >
-            <div className="info__modal-inner info__modal-inner--center" ref={refModal}>
-                <div className="info__modal-text">Товары в вашей корзине были изменены или удалены администратором, проверьте их еще раз перед заказом</div>
-                <div className="info__modal-close" onClick={() => setOpenModal(false)}>
-                    <img src={close} alt="" />
-                </div>
-            </div>
-        </motion.div>
-    )
-}
 
 const OrderModal = observer(() => {
     const [inputs, setInputs] = useState(['', '', '', '']);
@@ -162,16 +64,6 @@ const OrderModal = observer(() => {
                 addToCart(data[i].id, data[i].available, items.cart[i][1], data[i].price, items)
             }
         }
-    }
-
-    const onInputsChange = (e) => {
-        setInputError(false)
-
-        if (e.target.value.charAt(0) === ' ') {
-            e.target.value = ''
-        }
-
-        setInputs(inputs => inputs.map((item, i) => i === +e.target.name ? e.target.value : item))
     }
 
     const orderVerification = async () => {
@@ -268,8 +160,8 @@ const OrderModal = observer(() => {
 
     return (
         <>
-        <InfoModal openModal={openModal} setOpenModal={setOpenModal} />
-        <VerificationModal openModal={openVerification} setOpenModal={setOpenVerification} />
+        <ThanksModal openModal={openModal} setOpenModal={setOpenModal} order={true}/>
+        <ThanksModal openModal={openVerification} setOpenModal={setOpenVerification} check={true}/>
         <div className="order">
             <div className="order__name order__input">
                 <input 
@@ -278,7 +170,7 @@ const OrderModal = observer(() => {
                     className="input-default"
                     value={inputs[0]} 
                     name='0' 
-                    onChange={onInputsChange}
+                    onChange={(e) => useInputsChange(e, setInputError, setInputs)}
                     id='name'
                 />
                 <label className="input-label" htmlFor="name">Ваше имя</label>
@@ -288,7 +180,7 @@ const OrderModal = observer(() => {
                     className="input-default"
                     mask="+9 (999) 999-99-99" 
                     value={inputs[1]}
-                    onChange={onInputsChange}
+                    onChange={(e) => useInputsChange(e, setInputError, setInputs)}
                     name='1'
                     required
                     id='phone'
@@ -300,7 +192,7 @@ const OrderModal = observer(() => {
                     className="input-default"
                     value={inputs[2]} 
                     name='2' 
-                    onChange={onInputsChange}
+                    onChange={(e) => useInputsChange(e, setInputError, setInputs)}
                     id='address'
                     type='text'
                     required
@@ -308,12 +200,12 @@ const OrderModal = observer(() => {
                 <label className="input-label" htmlFor="address">Адрес доставки</label>
             </div>
             <div className="order__date order__input order__date">
-                {/* <Localization
+                <Localization
                     messages={{
                         moveToday: "Сегодня",
                         emptyFilter: "Ничего не найдено",
                     }}
-                > */}
+                >
                     <DatePicker
                         placeholder='Выберите дату'
                         value={startDate}
@@ -338,7 +230,7 @@ const OrderModal = observer(() => {
                             "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
                         ]}
                     />
-                {/* </Localization> */}
+                </Localization>
             </div>
             <div className="order__comment order__input">
                 <input 
@@ -347,7 +239,7 @@ const OrderModal = observer(() => {
                     className="input-default"
                     value={inputs[3]} 
                     name='3' 
-                    onChange={onInputsChange}
+                    onChange={(e) => useInputsChange(e, setInputError, setInputs)}
                     id='comment'
                 />
                 <label className="input-label" htmlFor="comment">Комментарий</label>

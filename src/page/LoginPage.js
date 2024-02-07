@@ -1,4 +1,6 @@
+import React from "react";
 import { motion } from "framer-motion";
+
 import LoginModal from "../components/loginModal/LoginModal"
 
 const LoginPage = () => {

@@ -2,6 +2,7 @@
     &__modal {
         &-content {
             max-width: 730px;
+            width: calc(100% - 20px);
             min-height: 350px;
         }
 
