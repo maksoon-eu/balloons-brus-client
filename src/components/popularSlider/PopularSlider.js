@@ -99,6 +99,7 @@ const PopularSlider = observer(({id}) => {
         if (!loading && !items.typesLoading && dropdownTypeCurrent && dropdownSubTypeCurrent) {
             items.setSelectedType(typeId)
             items.setSelectedSubType(subTypeId)
+            items.setUpdateList(true)
             navigate("/catalog")
         }
     }
