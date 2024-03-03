@@ -36,14 +36,14 @@ const App = observer(() => {
   useEffect(() => {
     let totalPrice = 0;
     items.cart.forEach(item => {
-        totalPrice += item[2] * item[1]
+      totalPrice += item[2] * item[1]
     })
     items.setTotalPrice(totalPrice)
   }, [items.cart])
 
   const scrollToComponent = (ref) => {
     if (ref.current) {
-        ref.current.scrollIntoView({ behavior: 'smooth' });
+      ref.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 

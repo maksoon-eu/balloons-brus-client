@@ -9,10 +9,12 @@ import Dropdown from '../dropdown/Dropdown';
 
 import './create.scss';
 
-const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
+const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation, showAnimation}) => {
     const [inputError, setInputError] = useState(false);
     const [typeId, setTypeId] = useState(false);
     const [dropdownCurrent, setDropdownCurrent] = useState(false);
+
+    useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
 
     const {items} = useContext(Context);
 
@@ -25,8 +27,11 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
             deleteType(typeId)
                 .then(data => {
                     items.setTypesLoading(false)
-                    setModalOpen(false)
-                    document.querySelector('body').style.position = 'relative';
+                    setShowAnimation(false)
+                    setTimeout(() => {
+                        setModalOpen(false)
+                        document.querySelector('body').style.position = 'relative';
+                    }, 400)
                     setTypeId(false)
                     setDropdownCurrent(false)
                     items.setUpdateTypes(!items.updateTypes)
@@ -56,7 +61,7 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 }
             }}
             initial={{opacity: 0, y: -100}}
-            animate={modalOpen ? "open" : "closed"}
+            animate={showAnimation ? "open" : "closed"}
             className="create__modal"
             transition={{duration: .4}}
         >
@@ -85,26 +90,34 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
 
 const DeleteType = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [showAnimation, setShowAnimation] = useState(false);
 
     const refModal = useRef(null);
-
-    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';
         setModalOpen(true)
+        setShowAnimation(true)
     }
 
     return (
-        <>
-            <DeleteTypeModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
+        <React.Fragment>
+            {modalOpen && 
+                <DeleteTypeModal 
+                    modalOpen={modalOpen} 
+                    refModal={refModal} 
+                    setModalOpen={setModalOpen} 
+                    showAnimation={showAnimation}
+                    setShowAnimation={setShowAnimation}
+                />
+            }
             <motion.div
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
                 onClick={onSetModal}
             >Удалить Категорию</motion.div>
-        </>
+        </React.Fragment>
     )
 }
 

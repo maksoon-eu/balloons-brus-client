@@ -16,11 +16,11 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
 
     useClickOut(ref, dropdownToggle, setDropdownToggle)
 
-    if (multiple) {
-        useEffect(() => {
+    useEffect(() => {
+        if (multiple) {
             setDropdownCurrent(state.length === 0 ? false : `Выбрано ${state.length}`)
-        }, [state])
-    }
+        }
+    }, [state, setState])
 
     const onDropdownActive = () => {
         if (!loading) {
@@ -68,7 +68,10 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
                 <img src={downArrow} alt="" />
             </div>
             <ul className="dropdown__menu">
-                <li onClick={() => {setDropdownCurrent(false); setState(multiple ? null : [])}} className={`dropdown__menu-item ${multiple ? (state.length === 0 ? 'active' : '') : (!state ? 'active' : '')}`}>{type}</li>
+                <li 
+                    onClick={() => {setDropdownCurrent(false); setState(multiple ? [] : null)}} 
+                    className={`dropdown__menu-item ${multiple ? (state.length === 0 ? 'active' : '') : (!state ? 'active' : '')}`}>{type}
+                </li>
                 {types.length ? types : <div className="dropdown__menu-item">Подкатегории отсутствуют</div>}
             </ul>
         </div>

@@ -126,7 +126,7 @@ const InfoSlider = observer(({title, store, refs}) => {
                             width='100%' height='100%'
                             placeholderSrc={loadingImg}
                             effect="blur"
-                            src={`https://s3.timeweb.com/9f5e65b7-7ed3bc97-902a-48e4-b04a-3554ca39493b/${el.img}`}
+                            src={`https://storage.sharyotbrusa.ru/${el.img}`}
                             alt='img'
                         />
                     </div>
@@ -166,8 +166,19 @@ const InfoSlider = observer(({title, store, refs}) => {
     };
 
     return (
-        <>
-        {(changeModal || changeImg) && <InfoModal changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} store={store} changeImg={changeImg} setChangeImg={setChangeImg} activeItem={activeItem}/>}
+        <React.Fragment>
+        {(changeModal || changeImg) && 
+            <InfoModal 
+                changeModal={showAnimation} 
+                setChangeModal={setChangeModal} 
+                showAnimation={showAnimation} 
+                setShowAnimation={setShowAnimation} 
+                store={store} 
+                changeImg={changeImg} 
+                setChangeImg={setChangeImg} 
+                activeItem={activeItem}
+            />
+        }
         <div className="slider" ref={refs}>
             <div className="slider__title">{item[store][`${store}Loading`] ? 'Загрузка...' : title}</div>
 
@@ -193,7 +204,7 @@ const InfoSlider = observer(({title, store, refs}) => {
                 </motion.div>
             </AnimatePresence> : ''}
         </div>
-        </>
+        </React.Fragment>
     );
 })
 

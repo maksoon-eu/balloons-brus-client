@@ -146,7 +146,7 @@ const PopularSlider = observer(({id}) => {
 
     return (
         <div className="slider">
-            <div className="slider__title slider__title--hover" onClick={navigateToCatalog}>{loading || items.typesLoading ? 'Загрузка...' : `${!dropdownTypeCurrent ? 'Не' : dropdownTypeCurrent} ${!dropdownSubTypeCurrent ? 'выбрано' : dropdownSubTypeCurrent}`}</div>
+            <div className="slider__title slider__title--hover" onClick={navigateToCatalog}>{items[`itemsSlider${id}`].length === 0 || items.typesLoading ? 'Загрузка...' : `${!dropdownTypeCurrent ? 'Не' : dropdownTypeCurrent} ${!dropdownSubTypeCurrent ? 'выбрано' : dropdownSubTypeCurrent}`}</div>
 
             {user.isAuth && <div className="slider__btn">
                 <Dropdown 

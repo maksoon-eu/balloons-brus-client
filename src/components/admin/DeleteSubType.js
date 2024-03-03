@@ -9,13 +9,15 @@ import Dropdown from '../dropdown/Dropdown';
 
 import './create.scss';
 
-const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
+const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation, showAnimation}) => {
     const [inputError, setInputError] = useState(false);
     const [typeId, setTypeId] = useState(false);
     const [subTypeId, setSubTypeId] = useState(false);
     const [dropdownTypeCurrent, setDropdownTypeCurrent] = useState(false);
     const [subType, setSubType] = useState([]);
     const [dropdownSubTypeCurrent, setDropdownSubTypeCurrent] = useState(false);
+
+    useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
 
     const {items} = useContext(Context);
 
@@ -76,7 +78,7 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 }
             }}
             initial={{opacity: 0, y: -100}}
-            animate={modalOpen ? "open" : "closed"}
+            animate={showAnimation ? "open" : "closed"}
             className="create__modal"
             transition={{duration: .4}}
         >
@@ -115,26 +117,34 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
 
 const DeleteSubType = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [showAnimation, setShowAnimation] = useState(false);
 
     const refModal = useRef(null);
-
-    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';
         setModalOpen(true)
+        setShowAnimation(true)
     }
 
     return (
-        <>
-            <DeleteSubTypeModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
+        <React.Fragment>
+            {modalOpen && 
+                <DeleteSubTypeModal 
+                    modalOpen={modalOpen} 
+                    refModal={refModal} 
+                    setModalOpen={setModalOpen} 
+                    showAnimation={showAnimation}
+                    setShowAnimation={setShowAnimation}
+                />
+            }
             <motion.div
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
                 onClick={onSetModal}
             >Удалить подкатегорию</motion.div>
-        </>
+        </React.Fragment>
     )
 }
 

@@ -9,7 +9,6 @@ import loading from '../../resources/loading.svg';
 import storage from '../../resources/storage.svg';
 import available from '../../resources/available.svg';
 
-import 'react-lazy-load-image-component/src/effects/opacity.css';
 import './cartItems.scss';
 
 const CartItem = ({item}) => {
@@ -17,7 +16,7 @@ const CartItem = ({item}) => {
 
     const {items} = useContext(Context);
 
-    const flag = items.cart.findIndex(el => el[0] === item.id)
+    const flag = items.cart.findIndex(el => el[0] === item.id);
 
     return (
         <div className="cartItem__inner">
@@ -25,8 +24,8 @@ const CartItem = ({item}) => {
                 <LazyLoadImage 
                     width='100%' height='100%'
                     placeholderSrc={loading}
-                    effect="opacity"
-                    src={`https://s3.timeweb.com/9f5e65b7-7ed3bc97-902a-48e4-b04a-3554ca39493b/${item.img}`}
+                    effect="blur"
+                    src={`https://storage.sharyotbrusa.ru/${item.img}`}
                     alt='img'
                 />
             </Link>

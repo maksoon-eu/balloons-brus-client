@@ -75,7 +75,9 @@ const Header = observer(() => {
                             </svg>
                         </div>
                         <div className="header__cart-text">
-                            <div className="header__cart-title">Товаров <span>{items.cart.length}</span></div>
+                            <div className="header__cart-title">
+                                Товаров <span>{items.cart.length}</span>
+                            </div>
                             <div className="header__cart-cost">{`${items.totalPrice} ₽`}</div>
                         </div>
                     </NavLink>

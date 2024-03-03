@@ -60,7 +60,7 @@ const MainSlider = observer(() => {
                         width='100%' height='100%'
                         placeholderSrc={loading}
                         effect="blur"
-                        src={`https://s3.timeweb.com/9f5e65b7-7ed3bc97-902a-48e4-b04a-3554ca39493b/${item.img}`}
+                        src={`https://storage.sharyotbrusa.ru/${item.img}`}
                         alt='img'
                     />
                 </div>
@@ -90,7 +90,15 @@ const MainSlider = observer(() => {
 
     return (
         <div className="mainSlider">
-            {changeModal && <ChangeMainSlider changeModal={showAnimation} setChangeModal={setChangeModal} showAnimation={showAnimation} setShowAnimation={setShowAnimation} item={activeItem} />}
+            {changeModal && 
+                <ChangeMainSlider 
+                    changeModal={showAnimation} 
+                    setChangeModal={setChangeModal} 
+                    showAnimation={showAnimation}
+                    setShowAnimation={setShowAnimation} 
+                    item={activeItem} 
+                />
+            }
             {sliderList.length > 0 || sliders.slidersLoading ?
             <AnimatePresence mode="wait">
                 <motion.div

@@ -7,14 +7,17 @@ import { useClickOut } from '../../hooks/clickOut.hook';
 import { useInputsChange } from '../../hooks/inputs.hook';
 
 import Dropdown from '../dropdown/Dropdown';
+import TextInput from '../textInput/TextInput';
 
 import './create.scss';
 
-const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
+const SubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation, showAnimation}) => {
     const [inputError, setInputError] = useState(false);
     const [input, setInput] = useState('');
     const [typeId, setTypeId] = useState(false);
     const [dropdownCurrent, setDropdownCurrent] = useState(false);
+
+    useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
 
     const {items} = useContext(Context);
 
@@ -28,8 +31,11 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
             createSubType({id: typeId, name: input.toLowerCase()})
                 .then(data => {
                     items.setItemsLoading(false)
-                    setModalOpen(false)
-                    document.querySelector('body').style.position = 'relative';
+                    setShowAnimation(false)
+                    setTimeout(() => {
+                        setModalOpen(false)
+                        document.querySelector('body').style.position = 'relative';
+                    }, 400)
                     setInput('')
                     setTypeId(false)
                     setDropdownCurrent(false)
@@ -61,7 +67,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                 }
             }}
             initial={{opacity: 0, y: -100}}
-            animate={modalOpen ? "open" : "closed"}
+            animate={showAnimation ? "open" : "closed"}
             className="create__modal"
             transition={{duration: .4}}
         >
@@ -76,17 +82,14 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
                     setDropdownCurrent={setDropdownCurrent}
                     setInputError={setInputError}
                 />
-                <div className="create__modal-name">
-                    <input 
-                        className='input-default' 
-                        type="text" 
-                        id='subType' 
-                        required 
-                        value={input} 
-                        onChange={(e) => useInputsChange(e, setInputError, setInput, true)}
-                    />
-                    <label className="input-label" htmlFor="subType">Название подкатегории</label>
-                </div>
+                <TextInput
+                    value={input} 
+                    onChange={(e) => useInputsChange(e, setInputError, setInput, true)}
+                    label="Название подкатегории" 
+                    id="subType" 
+                    classNames='create__modal-name'
+                    name="0"
+                />
                 <span className='create__modal-error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</span>
                 <motion.div
                     className="create__modal-btn"
@@ -101,26 +104,34 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen}) => {
 
 const CreateSubType = () => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [showAnimation, setShowAnimation] = useState(false);
 
     const refModal = useRef(null);
-
-    useClickOut(refModal, modalOpen, setModalOpen, true)
 
     const onSetModal = () => {
         document.querySelector('body').style.position = 'fixed';
         setModalOpen(true)
+        setShowAnimation(true)
     }
 
     return (
-        <>
-            <SubTypeModal modalOpen={modalOpen} refModal={refModal} setModalOpen={setModalOpen} />
+        <React.Fragment>
+            {modalOpen && 
+                <SubTypeModal 
+                    modalOpen={modalOpen} 
+                    refModal={refModal} 
+                    setModalOpen={setModalOpen} 
+                    showAnimation={showAnimation}
+                    setShowAnimation={setShowAnimation}
+                />
+            }
             <motion.div
                 whileHover={{ scale: 1.05, translateY: -4 }}
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
                 onClick={onSetModal}
             >Создать Подкатегорию</motion.div>
-        </>
+        </React.Fragment>
     )
 }
 

@@ -100,7 +100,7 @@ input {
         }
 
         &:is(&:focus, &:valid) ~ .input-label {
-            transform: translateY(-135%) scale(.7);
+            transform: translateY(-118%) scale(.7);
             background-color: #fff;
         }
     }
@@ -111,11 +111,11 @@ input {
 
     &-label {
         position: absolute;
-        top: 14px;
+        top: 13px;
         left: 10px;
-        font-size: 12px;
+        font-size: 14px;
         transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
-        cursor: pointer;
+        cursor: text;
         z-index: 6;
 
         &-img {

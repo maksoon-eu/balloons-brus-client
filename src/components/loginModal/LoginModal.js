@@ -12,6 +12,7 @@ const LoginModal = observer(() => {
     const [userPassword, setUserPassword] = useState('');
     const [userPasswordChange, setUserPasswordChange] = useState('');
     const [userPasswordChangeAgain, setUserPasswordChangeAgain] = useState('');
+    const [loginLoading, setLoginLoading] = useState(false);
     const [loginError, setLoginError] = useState('');
     const [loginErrorPassword, setLoginErrorPassword] = useState('');
     const [toggleError, setToggleError] = useState(false);
@@ -24,8 +25,10 @@ const LoginModal = observer(() => {
 
     const signIn = async () => {
         if (userLogin !== '' && userPassword !== '') {
+            setLoginLoading(true)
             try {
                 const data = await login(userLogin, userPassword)
+                setLoginLoading(false)
                 setToggleError(false)
                 user.setIsAuth(true)
                 navigate("/admin")
@@ -33,6 +36,7 @@ const LoginModal = observer(() => {
             } catch(e) {
                 setLoginError(e.response.data.message)
                 setToggleError(true)
+                setLoginLoading(false)
             }
         }
     }
@@ -40,14 +44,16 @@ const LoginModal = observer(() => {
     const onChangePassword = async () => {
         if (userPasswordChange !== '' && userPasswordChangeAgain !== '') {
             if (userPasswordChange === userPasswordChangeAgain) {
+                setLoginLoading(true)
                 try {
                     const data = await change(localStorage.getItem('login'), userPasswordChange)
                     setToggleErrorPassword(false)
                     setChangePassword(false)
-                    
+                    setLoginLoading(false)
                 } catch(e) {
                     setLoginErrorPassword(e.response.data.message)
                     setToggleErrorPassword(true)
+                    setLoginLoading(false)
                 }
             } else {
                 setLoginErrorPassword('Пароли не совпадают')
@@ -99,7 +105,7 @@ const LoginModal = observer(() => {
                         whileHover={{ scale: 1.05, translateY: -3 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={signIn}
-                    >Войти</motion.div>
+                    >{loginLoading ? <span className="loader"></span> : "Войти"}</motion.div>
                     {user.isAuth && 
                         <motion.div
                             className="modal__btn"
@@ -153,7 +159,7 @@ const LoginModal = observer(() => {
                         whileHover={{ scale: 1.05, translateY: -3 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={onChangePassword}
-                    >Сменить</motion.div>
+                    >{loginLoading ? <span className="loader"></span> : "Сменить"}</motion.div>
                 </div>
             </motion.form>
         </div>

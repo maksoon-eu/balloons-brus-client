@@ -2,7 +2,7 @@
 
 .order {
     border: 1px solid #000;
-    max-width: 350px;
+    max-width: 370px;
     width: 100%;
     border-radius: 10px;
     padding: 25px 20px;
@@ -124,6 +124,7 @@
     grid-template: 1fr/1fr 3em !important;
     transition: .15s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 10px !important;
+    caret-color: transparent;
 
     &:hover {
         border-color: rgb(141, 89, 254) !important;
@@ -131,7 +132,11 @@
 }
 
 .rw-widget-picker {
-    max-width: 190px;
+    max-width: 210px;
+}
+
+.rw-calendar-popup {
+    width: 364px !important;
 }
 
 .rw-widget {
@@ -159,10 +164,11 @@
 
 .rw-widget-input {
     font-size: 16px !important;
+    cursor: pointer;
 
     &::placeholder {
         color: #000 !important;
-        font-size: 12px !important;
+        font-size: 14px !important;
     }
 }
 
@@ -178,7 +184,7 @@
 
 .rw-placeholder {
     color: #000 !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 
 .rw-list-option.rw-state-selected {

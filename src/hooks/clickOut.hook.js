@@ -13,10 +13,13 @@ export const useClickOut = (refModal, openModal, setOpenModal, bodyPosition = fa
                 }
 
                 if (itemChange) {
+                    console.log(2)
                     setShowAnimation(false)
                     setTimeout(() => {
                         setChangeModal(false)
-                        setRotationAngle(0)
+                        if (setRotationAngle) {
+                            setRotationAngle(0)
+                        }
                         document.querySelector('body').style.position = 'relative';
                     }, 400)
                 }

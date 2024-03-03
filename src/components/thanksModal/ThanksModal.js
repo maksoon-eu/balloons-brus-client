@@ -1,13 +1,19 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useClickOut } from "../../hooks/clickOut.hook";
 import { motion } from "framer-motion";
 
 import close from '../../resources/close.svg'
 
-const ThanksModal = ({openModal, setOpenModal, message = false, order = false, change = false}) => {
-    const refModal = useRef(null);
+const ThanksModal = ({modalOpen, setModalOpen, refModal, order = false, change = false, setShowAnimation, showAnimation}) => {
 
-    useClickOut(refModal, openModal, setOpenModal)
+    useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
+
+    const closeAnimation = () => {
+        setShowAnimation(false)
+        setTimeout(() => {
+            setModalOpen(false)
+        }, 400)
+    }
 
     return (
         <motion.div 
@@ -27,7 +33,7 @@ const ThanksModal = ({openModal, setOpenModal, message = false, order = false, c
                 }
             }}
             initial={{opacity: 0, y: -100}}
-            animate={openModal ? "open" : "closed"}
+            animate={showAnimation ? "open" : "closed"}
             className="change__modal"
             transition={{duration: .4}}
         >
@@ -35,12 +41,12 @@ const ThanksModal = ({openModal, setOpenModal, message = false, order = false, c
                 {change ? 
                     <div className="info__modal-text">Товары в вашей корзине были изменены или удалены администратором, проверьте их еще раз перед заказом</div>
                 :
-                    <>
+                    <React.Fragment>
                     <div className="info__modal-title">{order ? 'Спасибо за заказ!' : 'Спасибо за обращение!'}</div>
                     <div className="info__modal-text">{order ? 'Скоро с вами свяжется менеджер для уточнения деталей заказа и оплаты' : 'Скоро с вами свяжется менеджер для уточнения деталей'}</div>
-                    </>
+                    </React.Fragment>
                 }
-                <div className="info__modal-close" onClick={() => setOpenModal(false)}>
+                <div className="info__modal-close" onClick={closeAnimation}>
                     <img src={close} alt="" />
                 </div>
             </div>

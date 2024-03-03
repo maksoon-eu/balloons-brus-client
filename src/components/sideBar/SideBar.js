@@ -8,7 +8,7 @@ import downArrow from '../../resources/down-arrow.svg';
 
 import './sideBar.scss'
 
-const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price = false, subType = false, clear = false}) => {
+const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price = false, subType = false, clear = false, setSideOpened}) => {
     const isOpen = i === expanded;
     const [priceInputs, setPriceInputs] = useState(['', '']);
     const [inputError, setInputError] = useState(false);
@@ -21,7 +21,6 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
         }
         setPriceInputs(priceInputs.map((item, i) => i === +e.target.name ? e.target.value : item))
         setInputError(false)
-        items.setUpdateList(true)
     }
 
     const changeFilters = (typeId, subTypeId) => {
@@ -34,15 +33,18 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
                 items.setSelectedSubType(subTypeId)
             }
             items.setUpdateList(true)
+            setSideOpened(false)
         }
     }
 
     const onSubmit = () => {
-        if (priceInputs.some(item => item === '') || +priceInputs[0] > +priceInputs[1]) {
+        if (+priceInputs[0] > +priceInputs[1]) {
             setInputError(true)
         } else {
             setInputError(false)
             items.setSelectedPrice({priceLow: priceInputs[0], priceMax: priceInputs[1]})
+            items.setUpdateList(true)
+            setSideOpened(false)
         }
     }
 
@@ -51,6 +53,7 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
             items.setSelectedType(null)
             items.setSelectedSubType(null)
             items.setUpdateList(true)
+            setSideOpened(false)
         }
     }
 
@@ -246,7 +249,7 @@ const Sidebar = observer(({setUpdateList}) => {
     })
   
     return (
-        <>
+        <React.Fragment>
         <motion.button ref={refBtn} className="catalog__button" onClick={onOpenSidebar} animate={sideOpened ? "open" : "closed"}>
                 <svg width="27" height="27" viewBox="0 0 23 23">
                 <Path
@@ -287,11 +290,11 @@ const Sidebar = observer(({setUpdateList}) => {
             <motion.div className="background" variants={sidebar} />
             <motion.ul variants={variantsUl} className="catalog__ul">
                 {typeList}
-                <LiItems setUpdateList={setUpdateList} name={'Цена'} price={true} i={items.types.length} setExpanded={setExpanded} expanded={expanded}/>
-                <LiItems setUpdateList={setUpdateList} name={'Отчистить все'} clear={true} i={items.types.length+1} setExpanded={setExpanded} expanded={expanded}/>
+                <LiItems setUpdateList={setUpdateList} name={'Цена'} price={true} i={items.types.length} setExpanded={setExpanded} expanded={expanded} setSideOpened={setSideOpened}/>
+                <LiItems setUpdateList={setUpdateList} name={'Отчистить все'} clear={true} i={items.types.length+1} setExpanded={setExpanded} expanded={expanded} setSideOpened={setSideOpened}/>
             </motion.ul>
         </motion.aside>
-        </>
+        </React.Fragment>
     );
 });
 

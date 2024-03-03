@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
 import { motion } from 'framer-motion';
@@ -13,6 +13,7 @@ import Localization from 'react-widgets/esm/Localization';
 import { useInputsChange } from '../../hooks/inputs.hook';
 
 import ThanksModal from '../thanksModal/ThanksModal';
+import TextInput from '../textInput/TextInput';
 
 import 'moment/locale/ru';
 
@@ -25,9 +26,14 @@ const OrderModal = observer(() => {
     const [startDate, setStartDate] = useState(null);
     const [startTime, setStartTime] = useState(null);
     const [inputError, setInputError] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [showAnimationOrder, setShowAnimationOrder] = useState(false);
+    const [showAnimationCheck, setShowAnimationCheck] = useState(false);
     const [openVerification, setOpenVerification] = useState(false);
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
+    const refModalOrder = useRef(null);
+    const refModalCheck = useRef(null);
 
     const {items} = useContext(Context);
     
@@ -103,7 +109,8 @@ const OrderModal = observer(() => {
         formData.append('price', items.totalPrice)
         sendOrder(formData)
             .then(data => {
-                setOpenModal(true)
+                setShowAnimationOrder(true)
+                setModalOpen(true)
                 setInputs(['', '', '', ''])
                 setStartDate(null)
                 setStartTime(null)
@@ -127,6 +134,7 @@ const OrderModal = observer(() => {
                     .then(data => {
                         if (checkVerification(data) === 'info') {
                             setOpenVerification(true)
+                            setShowAnimationCheck(true)
                             items.setUpdateCart(true)
                             setLoading(false)
                         } else {
@@ -159,22 +167,36 @@ const OrderModal = observer(() => {
     }
 
     return (
-        <>
-        <ThanksModal openModal={openModal} setOpenModal={setOpenModal} order={true}/>
-        <ThanksModal openModal={openVerification} setOpenModal={setOpenVerification} check={true}/>
+        <React.Fragment>
+        {modalOpen && 
+            <ThanksModal 
+                modalOpen={modalOpen}
+                refModal={refModalOrder} 
+                setModalOpen={setModalOpen} 
+                showAnimation={showAnimationOrder}
+                setShowAnimation={setShowAnimationOrder}
+                order={true}
+            />
+        }
+        {openVerification && 
+            <ThanksModal 
+                openModal={openVerification} 
+                refModal={refModalCheck} 
+                setOpenModal={setOpenVerification}
+                showAnimation={showAnimationCheck}
+                setShowAnimation={setShowAnimationCheck}
+                check={true}
+            />
+        }
         <div className="order">
-            <div className="order__name order__input">
-                <input 
-                    type="text" 
-                    required
-                    className="input-default"
-                    value={inputs[0]} 
-                    name='0' 
-                    onChange={(e) => useInputsChange(e, setInputError, setInputs)}
-                    id='name'
-                />
-                <label className="input-label" htmlFor="name">Ваше имя</label>
-            </div>
+            <TextInput 
+                value={inputs[0]} 
+                onChange={(e) => useInputsChange(e, setInputError, setInputs)} 
+                label="Ваше имя" 
+                id="name" 
+                classNames='order__name order__input'
+                name="0"
+            />
             <div className="order__phone order__input">
                 <InputMask
                     className="input-default"
@@ -187,18 +209,14 @@ const OrderModal = observer(() => {
                 />
                 <label className="input-label" htmlFor="phone">Номер телефона</label>
             </div>
-            <div className="order__address order__input">
-                <input
-                    className="input-default"
-                    value={inputs[2]} 
-                    name='2' 
-                    onChange={(e) => useInputsChange(e, setInputError, setInputs)}
-                    id='address'
-                    type='text'
-                    required
-                />
-                <label className="input-label" htmlFor="address">Адрес доставки</label>
-            </div>
+            <TextInput 
+                value={inputs[2]} 
+                onChange={(e) => useInputsChange(e, setInputError, setInputs)} 
+                label="Адрес доставки" 
+                id="address" 
+                classNames='order__name order__input'
+                name="2"
+            />
             <div className="order__date order__input order__date">
                 <Localization
                     messages={{
@@ -232,18 +250,14 @@ const OrderModal = observer(() => {
                     />
                 </Localization>
             </div>
-            <div className="order__comment order__input">
-                <input 
-                    type="text" 
-                    required
-                    className="input-default"
-                    value={inputs[3]} 
-                    name='3' 
-                    onChange={(e) => useInputsChange(e, setInputError, setInputs)}
-                    id='comment'
-                />
-                <label className="input-label" htmlFor="comment">Комментарий</label>
-            </div>
+            <TextInput 
+                value={inputs[3]} 
+                onChange={(e) => useInputsChange(e, setInputError, setInputs)} 
+                label="Комментарий" 
+                id="comment" 
+                classNames='order__name order__input'
+                name="3"
+            />
             <div className="order__price">Итоговая стоимость: <span>{`${items.totalPrice} ₽`}</span></div>
             <div className='order__error' style={{color: inputError ? '#E84D4D' : 'transparent'}}>{inputError}</div>
             <motion.button
@@ -255,7 +269,7 @@ const OrderModal = observer(() => {
                 disabled={items.cart.length === 0}
             >{loading ? <span className="loader"></span> : 'Оформить'}</motion.button>
         </div>
-        </>
+        </React.Fragment>
     )
 })
 

@@ -1,8 +1,10 @@
+import React from 'react';
+
 import './skeleton.scss';
 
 const SkeletonChoose = () => {
     return (
-        <>
+        <React.Fragment>
             <div className="skeleton__title skeleton--wave"/>
             <div className="skeleton__flex">
                 <div className="skeleton__flex-left skeleton--wave"/>
@@ -16,7 +18,7 @@ const SkeletonChoose = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </React.Fragment>
     )
 };
 
