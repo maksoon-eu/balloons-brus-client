@@ -7,12 +7,20 @@ import { motion } from "framer-motion";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import loadingImg from '../../resources/loading.svg';
+import close from '../../resources/close.svg'
 
 const ScaleModal = observer(({changeModal, setChangeModal, showAnimation, setShowAnimation, activeItem}) => {
 
     const refChange = useRef(null);
 
     useClickOut(refChange, changeModal, false, false, true, setShowAnimation, false, setChangeModal)
+
+    const closeAnimation = () => {
+        setShowAnimation(false)
+        setTimeout(() => {
+            setChangeModal(false)
+        }, 400)
+    }
 
     return (
         <motion.div 
@@ -45,6 +53,9 @@ const ScaleModal = observer(({changeModal, setChangeModal, showAnimation, setSho
                     alt='img'
                     className="scale__img"
                 />  
+                <div className="info__modal-close" onClick={closeAnimation}>
+                    <img src={close} alt="" />
+                </div>
             </div>
         </motion.div>
     )

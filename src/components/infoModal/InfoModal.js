@@ -10,6 +10,8 @@ import { changeReviews } from "../../http/reviewApi";
 
 import ChooseImg from "../chooseImg/ChooseImg";
 
+import "./infoModal.scss";
+
 const InfoModal = observer(({changeModal, setChangeModal, showAnimation, setShowAnimation, store, changeImg, setChangeImg, activeItem}) => {
     const [imgFile, setImgFile] = useState();
     const [inputError, setInputError] = useState(false);
