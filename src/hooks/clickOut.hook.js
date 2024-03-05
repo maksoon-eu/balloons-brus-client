@@ -13,7 +13,6 @@ export const useClickOut = (refModal, openModal, setOpenModal, bodyPosition = fa
                 }
 
                 if (itemChange) {
-                    console.log(2)
                     setShowAnimation(false)
                     setTimeout(() => {
                         setChangeModal(false)

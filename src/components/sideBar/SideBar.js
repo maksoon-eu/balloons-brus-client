@@ -3,17 +3,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { fetchTypes } from "../../http/itemsApi";
+import { useLocation } from 'react-router-dom';
 
 import downArrow from '../../resources/down-arrow.svg';
 
 import './sideBar.scss'
 
-const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price = false, subType = false, clear = false, setSideOpened}) => {
+const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price = false, subType = false, clear = false, setSideOpened, priceInputs, setPriceInputs}) => {
     const isOpen = i === expanded;
-    const [priceInputs, setPriceInputs] = useState(['', '']);
     const [inputError, setInputError] = useState(false);
 
-    const {items} = useContext(Context) 
+    const location = useLocation();
+
+    const {items} = useContext(Context);
+
+    useEffect(() => {
+        if (location.pathname === '/catalog' && items.selectedPrice.priceLow) {
+            setPriceInputs([items.selectedPrice.priceLow, items.selectedPrice.priceMax])
+        }
+    }, [location.pathname])
 
     const onPriceInputs = (e) => {
         if (e.target.value.charAt(0) === ' ') {
@@ -49,7 +57,11 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
     }
 
     const clearAllFilters = () => {
-        if (!items.itemsLoading && items.selectedType && items.selectedSubType) {
+        if (!items.itemsLoading && ((items.selectedType && items.selectedSubType) || items.selectedPrice)) {
+            if (priceInputs) {
+                setPriceInputs(['', '']);
+            }
+            items.setSelectedPrice({})
             items.setSelectedType(null)
             items.setSelectedSubType(null)
             items.setUpdateList(true)
@@ -199,6 +211,7 @@ const Sidebar = observer(({setUpdateList}) => {
     const [sideOpened, setSideOpened] = useState(false);
     const [expanded, setExpanded] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [priceInputs, setPriceInputs] = useState(['', '']);
 
     const ref = useRef(null);
     const refBtn = useRef(null);
@@ -208,6 +221,7 @@ const Sidebar = observer(({setUpdateList}) => {
 
     useEffect(() => {
         if (items.types.length === 0) {
+        setLoading(true)
         fetchTypes()
             .then(data => {
                 items.setTypes(data)
@@ -244,7 +258,17 @@ const Sidebar = observer(({setUpdateList}) => {
 
     const typeList = items.types.map((item, i) => {
         return (
-            <LiItems setUpdateList={setUpdateList} typeId={item.id} subType={item.subType.length ? item.subType : false} key={item.id} name={item.name} i={i} setExpanded={setExpanded} expanded={expanded}/>
+            <LiItems 
+                setUpdateList={setUpdateList} 
+                typeId={item.id} 
+                subType={item.subType.length ? item.subType : false} 
+                key={item.id} 
+                name={item.name} 
+                i={i} 
+                setExpanded={setExpanded} 
+                expanded={expanded} 
+                setSideOpened={setSideOpened}
+            />
         )
     })
   
@@ -290,8 +314,28 @@ const Sidebar = observer(({setUpdateList}) => {
             <motion.div className="background" variants={sidebar} />
             <motion.ul variants={variantsUl} className="catalog__ul">
                 {typeList}
-                <LiItems setUpdateList={setUpdateList} name={'Цена'} price={true} i={items.types.length} setExpanded={setExpanded} expanded={expanded} setSideOpened={setSideOpened}/>
-                <LiItems setUpdateList={setUpdateList} name={'Отчистить все'} clear={true} i={items.types.length+1} setExpanded={setExpanded} expanded={expanded} setSideOpened={setSideOpened}/>
+                <LiItems 
+                    setUpdateList={setUpdateList} 
+                    name={'Цена'} 
+                    price={true} 
+                    i={items.types.length} 
+                    setExpanded={setExpanded} 
+                    expanded={expanded} 
+                    setSideOpened={setSideOpened}
+                    priceInputs={priceInputs}
+                    setPriceInputs={setPriceInputs}
+                />
+                <LiItems 
+                    setUpdateList={setUpdateList} 
+                    name={'Отчистить все'} 
+                    clear={true} 
+                    i={items.types.length+1} 
+                    setExpanded={setExpanded} 
+                    expanded={expanded} 
+                    setSideOpened={setSideOpened}
+                    priceInputs={priceInputs}
+                    setPriceInputs={setPriceInputs}
+                />
             </motion.ul>
         </motion.aside>
         </React.Fragment>

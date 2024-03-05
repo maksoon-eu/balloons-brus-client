@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 
+import AboutInfo from "../components/aboutInfo/AboutInfo";
+import SendMessage from "../components/sendMessage/SendMessage";
+
 const AboutPage = () => {
     return (
         <motion.div
@@ -8,7 +11,8 @@ const AboutPage = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4 }}
         >
-            About
+            <AboutInfo/>
+            <SendMessage/>
         </motion.div>
     )
 }

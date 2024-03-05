@@ -1,0 +1,9 @@
+.scale {
+    &__img {
+        border-radius: 10px;
+        max-height: 640px;
+        width: 300px;
+        object-fit: cover;
+        min-height: 450px;
+    }
+}

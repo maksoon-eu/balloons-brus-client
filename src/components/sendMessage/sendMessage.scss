@@ -1,5 +1,7 @@
+@import "../../style/variables.scss";
+
 .message {
-    background-color: #e2d5ff8a;
+    background-color: $secondary-color;
     margin: 20px -10px;
     margin-bottom: 40px;
     border-radius: 10px;

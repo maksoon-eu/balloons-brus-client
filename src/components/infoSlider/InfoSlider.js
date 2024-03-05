@@ -9,6 +9,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import InfoModal from "../infoModal/InfoModal";
 import SkeletonItem from '../skeleton/SkeletonItem';
+import ScaleModal from "../scaleModal/ScaleModal";
 
 import loadingImg from '../../resources/loading.svg';
 
@@ -20,8 +21,11 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 const InfoSlider = observer(({title, store, refs}) => {
     const [changeModal, setChangeModal] = useState(false);
     const [changeImg, setChangeImg] = useState(false);
-    const [showAnimation, setShowAnimation] = useState(false);
+    const [openScale, setOpenScale] = useState(false);
+    const [showAnimationInfo, setShowAnimationInfo] = useState(false);
+    const [showAnimationScale, setShowAnimationScale] = useState(false);
     const [activeItem, setActiveItem] = useState({});
+    const [activeScale, setActiveScale] = useState();
     
     const item = useContext(Context);
 
@@ -74,12 +78,12 @@ const InfoSlider = observer(({title, store, refs}) => {
         if (store === 'reviews') {
             if (!item.reviews.reviewsLoading) {
                 setChangeModal(true)
-                setShowAnimation(true)
+                setShowAnimationInfo(true)
             }
         } else {
             if (!item.works.worksLoading) {
                 setChangeModal(true)
-                setShowAnimation(true)
+                setShowAnimationInfo(true)
             }
         }
     }
@@ -103,9 +107,15 @@ const InfoSlider = observer(({title, store, refs}) => {
         setActiveItem(el)
     }
 
+    const onOpenScale = (item) => {
+        setOpenScale(true)
+        setShowAnimationScale(true)
+        setActiveScale(item)
+    }
+
     itemList = item[store][store].map(el => {
         return (
-            <div key={el.id} className="info">
+            <div key={el.id} className="info" onClick={() => onOpenScale(el.img)}>
                 <div className="info__inner">
                     {item.user.isAuth && 
                         <div className="market__item-icons">
@@ -169,14 +179,23 @@ const InfoSlider = observer(({title, store, refs}) => {
         <React.Fragment>
         {(changeModal || changeImg) && 
             <InfoModal 
-                changeModal={showAnimation} 
+                changeModal={changeModal} 
                 setChangeModal={setChangeModal} 
-                showAnimation={showAnimation} 
-                setShowAnimation={setShowAnimation} 
+                showAnimation={showAnimationInfo} 
+                setShowAnimation={setShowAnimationInfo} 
                 store={store} 
                 changeImg={changeImg} 
                 setChangeImg={setChangeImg} 
                 activeItem={activeItem}
+            />
+        }
+        {openScale && 
+            <ScaleModal
+                changeModal={openScale} 
+                setChangeModal={setOpenScale} 
+                showAnimation={showAnimationScale} 
+                setShowAnimation={setShowAnimationScale}
+                activeItem={activeScale}
             />
         }
         <div className="slider" ref={refs}>
