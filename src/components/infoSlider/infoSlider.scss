@@ -27,6 +27,12 @@
 
     &__item {
         height: 350px;
+        cursor: pointer;
+        transition: .15s linear;
+
+        &:hover {
+            transform: scale(1.05);
+        }
 
         img {
             object-fit: cover;

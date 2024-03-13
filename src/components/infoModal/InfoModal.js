@@ -27,49 +27,96 @@ const InfoModal = observer(({changeModal, setChangeModal, showAnimation, setShow
         useClickOut(refChange, changeModal, false, false, true, setShowAnimation, setRotationAngle, setChangeModal)
     }
 
+    const changeReviewsVariant = (formData) => {
+        item.reviews.setReviewsLoading(true)
+        changeReviews(activeItem.id, formData, rotationAngle)
+            .then(data => {
+                setShowAnimation(false)
+                setTimeout(() => {
+                    setChangeModal(false)
+                    setRotationAngle(0)
+                    setChangeImg(false)
+                }, 400)
+                setInputError(false)
+
+                item.reviews.setUpdateReviews(true)
+                item.reviews.setReviewsLoading(false)
+            })
+            .catch(e => {
+                setInputError('Ошибка сервера')
+            })
+    }
+
+    const changeWorkVariant = (formData) => {
+        item.works.setWorksLoading(true)
+        changeWork(activeItem.id, formData, rotationAngle)
+            .then(data => {
+                setShowAnimation(false)
+                setTimeout(() => {
+                    setChangeModal(false)
+                    setRotationAngle(0)
+                    setChangeImg(false)
+                }, 400)
+                setInputError(false)
+
+                item.works.setUpdateWorks(true)
+                item.works.setWorksLoading(false)
+                
+            })
+            .catch(e => {
+                setInputError('Ошибка сервера')
+            })
+    }
+
+    const createReviewVariant = (formData) => {
+        item.reviews.setReviewsLoading(true)
+        createReview(formData, rotationAngle)
+            .then(data => {
+                setShowAnimation(false)
+                setTimeout(() => {
+                    setChangeModal(false)
+                    setChangeImg(false)
+                }, 400)
+                setImgFile()
+                document.querySelector('.input-label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
+                item.reviews.setReviewsLoading(false)
+                item.reviews.setUpdateReviews(true)
+            })
+            .catch(e => {
+                item.reviews.setReviewsLoading(false)
+                setInputError('Ошибка сервера')
+            })
+    }
+
+    const createWorkVariant = (formData) => {
+        item.works.setWorksLoading(true)
+        createWork(formData, rotationAngle)
+            .then(data => {
+                setShowAnimation(false)
+                setTimeout(() => {
+                    setChangeModal(false)
+                    setChangeImg(false)
+                }, 400)
+                setImgFile()
+                document.querySelector('.input-label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
+                item.works.setWorksLoading(false)
+                item.works.setUpdateWorks(true)
+            })
+            .catch(e => {
+                item.works.setWorksLoading(false)
+                setInputError('Ошибка сервера')
+            })
+    }
+
     const onSubmit = () => {
         if (changeImg && (imgFile || rotationAngle)) {
             const formData = new FormData()
             formData.append('img', imgFile)
 
             if (store === 'reviews') {
-                item.reviews.setReviewsLoading(true)
-                changeReviews(activeItem.id, formData, rotationAngle)
-                    .then(data => {
-                        setShowAnimation(false)
-                        setTimeout(() => {
-                            setChangeModal(false)
-                            setRotationAngle(0)
-                            setChangeImg(false)
-                        }, 400)
-                        setInputError(false)
-
-                        item.reviews.setUpdateReviews(true)
-                        item.reviews.setReviewsLoading(false)
-                    })
-                    .catch(e => {
-                        setInputError('Ошибка сервера')
-                    })
+                changeReviewsVariant(formData)
             } else {
-                item.reviews.setReviewsLoading(true)
-
-                changeWork(activeItem.id, formData, rotationAngle)
-                    .then(data => {
-                        setShowAnimation(false)
-                        setTimeout(() => {
-                            setChangeModal(false)
-                            setRotationAngle(0)
-                            setChangeImg(false)
-                        }, 400)
-                        setInputError(false)
-
-                        item.works.setUpdateWorks(true)
-                        item.reviews.setReviewsLoading(false)
-                        
-                    })
-                    .catch(e => {
-                        setInputError('Ошибка сервера')
-                    })
+                changeWorkVariant(formData)
             }
         } else {
             if (!imgFile) {
@@ -83,41 +130,9 @@ const InfoModal = observer(({changeModal, setChangeModal, showAnimation, setShow
                 formData.append('img', imgFile)
 
                 if (store === 'reviews') {
-                    item.reviews.setReviewsLoading(true)
-                    createReview(formData, rotationAngle)
-                        .then(data => {
-                            setShowAnimation(false)
-                            setTimeout(() => {
-                                setChangeModal(false)
-                                setChangeImg(false)
-                            }, 400)
-                            setImgFile()
-                            document.querySelector('.input-label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
-                            item.reviews.setReviewsLoading(false)
-                            item.reviews.setUpdateReviews(true)
-                        })
-                        .catch(e => {
-                            item.reviews.setReviewsLoading(false)
-                            setInputError('Ошибка сервера')
-                        })
+                    createReviewVariant(formData)
                 } else {
-                    item.works.setWorksLoading(true)
-                    createWork(formData, rotationAngle)
-                        .then(data => {
-                            setShowAnimation(false)
-                            setTimeout(() => {
-                                setChangeModal(false)
-                                setChangeImg(false)
-                            }, 400)
-                            setImgFile()
-                            document.querySelector('.input-label').style.transform = 'translateY(0) translateX(-50%) scale(1)'
-                            item.works.setWorksLoading(false)
-                            item.works.setUpdateWorks(true)
-                        })
-                        .catch(e => {
-                            item.works.setWorksLoading(false)
-                            setInputError('Ошибка сервера')
-                        })
+                    createWorkVariant(formData)
                 }
             }
         }

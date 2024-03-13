@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { Context } from "../..";
 import { fetchTypes } from "../../http/itemsApi";
 import { useLocation } from 'react-router-dom';
+import { useClickOut } from "../../hooks/clickOut.hook";
 
 import downArrow from '../../resources/down-arrow.svg';
 
@@ -57,7 +58,7 @@ const LiItems = observer(({typeId = null, name, i, expanded, setExpanded, price 
     }
 
     const clearAllFilters = () => {
-        if (!items.itemsLoading && ((items.selectedType && items.selectedSubType) || items.selectedPrice)) {
+        if (!items.itemsLoading && ((items.selectedType && items.selectedSubType) || Object.keys(items.selectedPrice).length !== 0)) {
             if (priceInputs) {
                 setPriceInputs(['', '']);
             }
@@ -238,19 +239,7 @@ const Sidebar = observer(({setUpdateList}) => {
         height.current.height = ref.current.offsetHeight;
     }, []);
 
-    useEffect(() => {
-        const clickOutElement = (e) => {
-            if (sideOpened && ref.current && !ref.current.contains(e.target) && refBtn.current && !refBtn.current.contains(e.target)) {
-                setSideOpened(false)
-            }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [sideOpened])
+    useClickOut(ref, sideOpened, false, false, true, false, false, setSideOpened, true, refBtn);
 
     const onOpenSidebar = () => {
         setSideOpened(sideOpened => !sideOpened && loading ? sideOpened : !sideOpened)
@@ -275,7 +264,7 @@ const Sidebar = observer(({setUpdateList}) => {
     return (
         <React.Fragment>
         <motion.button ref={refBtn} className="catalog__button" onClick={onOpenSidebar} animate={sideOpened ? "open" : "closed"}>
-                <svg width="27" height="27" viewBox="0 0 23 23">
+            <svg width="27" height="27" viewBox="0 0 23 23">
                 <Path
                     variants={{
                     closed: { d: "M 2 2.5 L 20 2.5" },
@@ -296,7 +285,7 @@ const Sidebar = observer(({setUpdateList}) => {
                     open: { d: "M 3 2.5 L 17 16.346" }
                     }}
                 />
-                </svg>
+            </svg>
         </motion.button>
         <motion.aside
             className="catalog__nav"

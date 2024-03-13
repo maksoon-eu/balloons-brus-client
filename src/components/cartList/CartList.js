@@ -15,6 +15,7 @@ const CartList = observer(() => {
     useEffect(() => {
         if ((items.updateCart || items.cartItems.length === 0) && items.cart.length > 0) {
             items.setCartLoading(true);
+
             const itemsCart = items.cart.map(item => {
                 return item[0];
             });
@@ -35,15 +36,15 @@ const CartList = observer(() => {
     const cartList = items.cartItems.map(item => {
         return (
             <motion.li
-            layout
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: "spring" }}
-            className="cartItem"
-            key={item.id}
-        >
-            <CartItem item={item} />
-        </motion.li>
+                layout
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ type: "spring" }}
+                className="cartItem"
+                key={item.id}
+            >
+                <CartItem item={item} />
+            </motion.li>
         )
     })
 
@@ -64,9 +65,10 @@ const CartList = observer(() => {
                 className='cart__inner'
             >
                 {items.cartLoading ? skeletonList : items.cartItems.length === 0 ? <div className='cart__void'>Корзина пуста</div> :
-                <AnimatePresence mode='popLayout'>
-                    {cartList}
-                </AnimatePresence>}
+                    <AnimatePresence mode='popLayout'>
+                        {cartList}
+                    </AnimatePresence>
+                }
             </motion.div>
         </AnimatePresence>
         </div>

@@ -1,11 +1,17 @@
 import { useEffect } from "react"
 
-export const useClickOut = (refModal, openModal, setOpenModal, bodyPosition = false, itemChange = false, setShowAnimation = false, setRotationAngle = false, setChangeModal = false) => {
+export const useClickOut = (refModal, openModal, setOpenModal, bodyPosition = false, itemChange = false, setShowAnimation = false, setRotationAngle = false, setChangeModal = false, sidebar = false, refBtn = false) => {
     useEffect(() => {
         const clickOutElement = (e) => {
             if (openModal && refModal.current && !refModal.current.contains(e.target)) {
                 if (!itemChange) {
                     setOpenModal(false)
+                }
+
+                if (sidebar) {
+                    if (refBtn.current && !refBtn.current.contains(e.target)) {
+                        setOpenModal(false)
+                    }
                 }
                 
                 if (bodyPosition) {
