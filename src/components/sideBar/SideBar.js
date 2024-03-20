@@ -239,7 +239,7 @@ const Sidebar = observer(({setUpdateList}) => {
         height.current.height = ref.current.offsetHeight;
     }, []);
 
-    useClickOut(ref, sideOpened, setSideOpened, false, true, false, false, false, true, refBtn);
+    useClickOut(ref, sideOpened, setSideOpened, false, false, false, false, false, true, refBtn);
 
     const onOpenSidebar = () => {
         setSideOpened(sideOpened => !sideOpened && loading ? sideOpened : !sideOpened)
