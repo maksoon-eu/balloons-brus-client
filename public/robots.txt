@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /login
 Disallow: /admin
 Disallow: /cart
-Sitemap: https://sharyotbrusa.ru/sitemap.xml
+Sitemap: /sitemap.xml
