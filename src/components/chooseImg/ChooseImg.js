@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useUploadImg } from '../../hooks/uploadImg.hook';
-import { handleDragOver, handleDrop } from '../../hooks/DragAndDrop.hook';
+import { handleDragOver, handleDrop } from '../../hooks/dragAndDrop.hook';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import loadingImg from '../../resources/loading.svg';

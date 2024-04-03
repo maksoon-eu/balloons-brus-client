@@ -18,10 +18,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
-app.use((err, req, res, next) => {
-  fs.appendFileSync(path.join(__dirname, 'error.log'), `${new Date().toISOString()} - ${err.stack}\n`);
-});
-
 const server = https.createServer(options, app);
 
 server.listen(443, () => {
