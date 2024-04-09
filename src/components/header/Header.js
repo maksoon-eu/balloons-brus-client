@@ -37,28 +37,32 @@ const Header = observer(() => {
                         </div>
                     </div>
                 </div>
-                <div className="header__inner-btns" itemScope itemType="http://schema.org/SiteNavigationElement">
-                    <motion.div
-                        whileHover={{ scale: 1.05, translateY: -2 }}
-                        whileTap={{ scale: 0.9 }}
-                    >
-                        <NavLink 
-                            to='/catalog' 
-                            className={({ isActive }) => isActive ? "header__inner-catalog header__inner-catalog-active" : "header__inner-catalog"}
-                            itemProp="url"
-                        ><span itemProp="name">Каталог</span></NavLink>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.05, translateY: -2 }}
-                        whileTap={{ scale: 0.9 }}
-                    >
-                        <NavLink 
-                            to='/info' 
-                            className={({ isActive }) => isActive ? "header__inner-catalog header__inner-catalog-active" : "header__inner-catalog"}
-                            itemProp="url"
-                        ><span itemProp="name">Доставка</span></NavLink>
-                    </motion.div>
-                </div>
+                <nav itemScope itemType="http://schema.org/SiteNavigationElement">
+                    <ul className="header__inner-btns">
+                        <motion.li
+                            whileHover={{ scale: 1.05, translateY: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            <NavLink to='/catalog' 
+                                className={({ isActive }) => isActive ? "header__inner-catalog header__inner-catalog-active" : "header__inner-catalog"}
+                                itemProp="url"
+                            >
+                                <span itemProp="name">Каталог</span>
+                            </NavLink>
+                        </motion.li>
+                        <motion.li
+                            whileHover={{ scale: 1.05, translateY: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                        >
+                            <NavLink to='/info' 
+                                className={({ isActive }) => isActive ? "header__inner-catalog header__inner-catalog-active" : "header__inner-catalog"}
+                                itemProp="url"
+                            >
+                                <span itemProp="name">Доставка</span>
+                            </NavLink>
+                        </motion.li>
+                    </ul>
+                </nav>
                 <div className="header__inner-icons">
                 {user.isAuth && <div className="header__icons-admin">
                     <Link to='/admin'>

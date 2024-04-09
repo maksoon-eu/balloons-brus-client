@@ -5,12 +5,12 @@ import './navBar.scss';
 
 const NavBar = ({scrollToComponent, worksRef, reviewsRef, contactRef}) => {
     return (
-        <nav className="nav">
+        <div className="nav">
             <Link to='/catalog' className="nav__item">Каталог</Link>
             <div className="nav__item" onClick={() => {scrollToComponent(worksRef)}}>Работы</div>
             <div className="nav__item" onClick={() => {scrollToComponent(contactRef)}}>Контакты</div>
             <div className="nav__item" onClick={() => {scrollToComponent(reviewsRef)}}>Отзывы</div>
-        </nav>
+        </div>
     )
 }
 

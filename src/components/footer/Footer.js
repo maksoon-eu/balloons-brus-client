@@ -1,6 +1,9 @@
-import React from 'react';
+import { motion } from 'framer-motion';
+
 import instagram from '../../resources/instagram.svg';
 import logo from '../../resources/logo-footer.svg';
+import telegram from '../../resources/telegram.svg';
+import whatsapp from '../../resources/whatsapp.svg';
 import name from '../../resources/name.png';
 
 import './footer.scss';
@@ -35,11 +38,38 @@ const Footer = ({contactRef}) => {
                 </div>
                 <div className="footer__contact">
                     <div className="footer__media">
-                        <div className="footer__media-title">Мы в социальных сетях:</div>
+                        <div className="footer__media-title">Мы в соц. сетях:</div>
                         <div className="footer__media-flex">
-                            <a href="https://www.instagram.com/shary_ot_brusa?igsh=NGJjZXNuMTlyMmg%3D&utm_source=qr" className="footer__media-icon" target="_blank" rel="noopener noreferrer">
+                            <motion.a 
+                                href="https://www.instagram.com/shary_ot_brusa?igsh=NGJjZXNuMTlyMmg%3D&utm_source=qr"
+                                className="footer__media-icon" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                whileHover={{ scale: 1.05, translateY: -2 }}
+                                whileTap={{ scale: 0.9 }}
+                            >
                                 <img src={instagram} alt="" />
-                            </a>
+                            </motion.a>
+                            <motion.a 
+                                href="https://t.me/katyatsunami"
+                                className="footer__media-icon" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                whileHover={{ scale: 1.05, translateY: -2 }}
+                                whileTap={{ scale: 0.9 }}
+                            >
+                                <img src={telegram} alt="" />
+                            </motion.a>
+                            <motion.a 
+                                href="https://wa.me/79039399494" 
+                                className="footer__media-icon" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                whileHover={{ scale: 1.05, translateY: -2 }}
+                                whileTap={{ scale: 0.9 }}
+                            >
+                                <img src={whatsapp} alt="" />
+                            </motion.a>
                         </div>
                     </div>
                     <div className="header__inner-info footer__info">

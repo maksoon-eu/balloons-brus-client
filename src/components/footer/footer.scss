@@ -53,12 +53,16 @@
 
         &-flex {
             height: 32px;
+            display: flex;
+            justify-content: space-between;
+            max-width: 110px;
+            width: 100%;
+            margin-left: 5px;
         }
 
         &-icon {
             width: 30px;
             height: 30px;
-            margin-left: 10px;
 
             img {
                 width: 30px;
@@ -128,10 +132,7 @@
             font-size: 12px;
             display: flex;
             align-items: center;
-    
-            &-title {
-                margin-left: 20px;
-            }
+            margin-left: 10px;
         }
     }
 }

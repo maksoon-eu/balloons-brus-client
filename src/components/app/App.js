@@ -29,7 +29,7 @@ const App = observer(() => {
       user.setUser(true)
       user.setIsAuth(true)
     }).catch(e => {
-      console.log(e.message)
+      console.error(e.message)
     })
   }, [])
 
