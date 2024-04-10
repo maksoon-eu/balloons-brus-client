@@ -28,7 +28,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimat
             setInputError(false)
 
             items.setItemsLoading(true)
-            createSubType({id: typeId, name: input.toLowerCase()})
+            createSubType({id: typeId, name: input.toLowerCase().trimEnd()})
                 .then(data => {
                     items.setItemsLoading(false)
                     setShowAnimation(false)
@@ -42,9 +42,8 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimat
                     items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
-                    const errorMessage = e.response.data.message === 'name must be unique' ? 'Название уже существует' : e.response.data.message
                     items.setItemsLoading(false)
-                    setInputError(errorMessage)
+                    setInputError(e.response.data.message)
                 })
         }
     }
@@ -130,7 +129,7 @@ const CreateSubType = () => {
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
                 onClick={onSetModal}
-            >Создать Подкатегорию</motion.div>
+            >Создать подкатегорию</motion.div>
         </React.Fragment>
     )
 }

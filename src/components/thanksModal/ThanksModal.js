@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import close from '../../resources/close.svg'
 
-const ThanksModal = ({modalOpen, setModalOpen, refModal, order = false, change = false, setShowAnimation, showAnimation}) => {
+const ThanksModal = ({modalOpen, setModalOpen, refModal, order = false, change = false, setShowAnimation, showAnimation, confirm}) => {
 
     useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
 
@@ -38,7 +38,15 @@ const ThanksModal = ({modalOpen, setModalOpen, refModal, order = false, change =
             transition={{duration: .4}}
         >
             <div className={`info__modal-inner ${change ? 'info__modal-inner--center' : ''}`} ref={refModal}>
-                {change ? 
+                {confirm ? 
+                    <React.Fragment>
+                    <div className="info__modal-text">Вы уверены что хотите удалить? Также, безвозвратно удалятся все товары находящиеся внутри</div>
+                    <div className="info__modal-confirm">
+                        <div className="info__modal-btn">Да</div>
+                        <div className="info__modal-btn">Нет</div>
+                    </div>
+                    </React.Fragment>
+                : change ? 
                     <div className="info__modal-text">Товары в вашей корзине были изменены или удалены администратором, проверьте их еще раз перед заказом</div>
                 :
                     <React.Fragment>

@@ -5,7 +5,6 @@ export const useClickOut = (refModal, openModal, setOpenModal, bodyPosition = fa
         const clickOutElement = (e) => {
             if (openModal && refModal.current && !refModal.current.contains(e.target)) {
                 if (!itemChange && !sidebar) {
-                    console.log(1)
                     setOpenModal(false)
                 }
 

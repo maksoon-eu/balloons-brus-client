@@ -21,7 +21,7 @@ export const deleteSubType = async (id) => {
 }
 
 export const fetchTypes = async () => {
-    const {data} = await $host.get('api/type')
+    const {data} = await $authHost.get('api/type')
     return data
 }
 
@@ -31,17 +31,17 @@ export const createItem = async (item, rotate) => {
 }
 
 export const fetchItems = async (typeId, subTypeId, price, page, limit = 4, sort) => {
-    const {data} = await $host.get('api/item', {params: {typeId, subTypeId, price, page, limit, sort}})
+    const {data} = await $authHost.get('api/item', {params: {typeId, subTypeId, price, page, limit, sort}})
     return data
 }
 
 export const fetchOneItem = async (id) => {
-    const {data} = await $host.get(`api/item/${id}`)
+    const {data} = await $authHost.get(`api/item/${id}`)
     return data
 }
 
 export const fetchIdsItem = async (ids) => {
-    const {data} = await $host.get(`api/item/ids`, {params: {ids}})
+    const {data} = await $authHost.get(`api/item/ids`, {params: {ids}})
     return data
 }
 

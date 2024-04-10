@@ -1,8 +1,8 @@
-const TextInput = ({ value, onChange, label, id, classNames, name }) => (
+const TextInput = ({ value, onChange, label, id, classNames, name, typeInput = 'text' }) => (
     <div className={classNames}>
         <input 
             className='input-default' 
-            type="text" 
+            type={typeInput}
             id={id} 
             required 
             value={value} 

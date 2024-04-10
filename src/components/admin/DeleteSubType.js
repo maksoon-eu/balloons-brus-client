@@ -55,7 +55,8 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShow
                 })
                 .catch(e => {
                     items.setTypesLoading(false)
-                    setInputError('Ошибка сервера')
+                    console.log(e.response)
+                    setInputError(e.response.data.message)
                 })
         }
     }

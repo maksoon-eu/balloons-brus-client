@@ -48,9 +48,9 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
             setInputError(false)
 
             const formData = new FormData()
-            formData.append('name', inputs[0])
-            formData.append('price', inputs[1])
-            formData.append('description', inputs[2])
+            formData.append('name', inputs[0].trimEnd())
+            formData.append('price', inputs[1].trimEnd())
+            formData.append('description', inputs[2].trimEnd())
             formData.append('typeId', typeId)
             formData.append('subTypeId', JSON.stringify(subTypeId))
             formData.append('img', imgFile)
@@ -72,9 +72,8 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
                     setDropdownTypeCurrent(false)
                 })
                 .catch(e => {
-                    const errorMessage = e.response.data.message === 'name must be unique' ? 'Название уже существует' : e.response.data.message
                     items.setItemsLoading(false)
-                    setInputError(errorMessage)
+                    setInputError(e.response.data.message)
                 })
         }
     }
@@ -128,6 +127,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
                     id="price" 
                     classNames='create__modal-price'
                     name="1"
+                    typeInput="number"
                 />
                 <div className="create__modal-description">
                     <textarea 
@@ -202,7 +202,7 @@ const CreateItem = () => {
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
                 onClick={onSetModal}
-            >Создать Товар</motion.div>
+            >Создать товар</motion.div>
         </React.Fragment>
     )
 }

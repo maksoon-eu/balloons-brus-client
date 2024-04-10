@@ -58,7 +58,6 @@ const PopularSlider = observer(({id}) => {
                         setError(true)
                     })
             }
-
             setLoading(true)
             fetchItems(typeId, subTypeId, null, 1, 8)
                 .then(data => {

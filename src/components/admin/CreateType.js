@@ -24,7 +24,7 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
         } else {
             setInputError(false)
             items.setTypesLoading(true)
-            createType({name: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase()})
+            createType({name: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase().trimEnd()})
                 .then(data => {
                     items.setTypesLoading(false)
                     setShowAnimation(false)
@@ -36,9 +36,8 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
                     items.setUpdateTypes(!items.updateTypes)
                 })
                 .catch(e => {
-                    const errorMessage = e.response.data.message === 'name must be unique' ? 'Название уже существует' : e.response.data.message
                     items.setItemsLoading(false)
-                    setInputError(errorMessage)
+                    setInputError(e.response.data.message)
                 })
         }
     }
@@ -114,7 +113,7 @@ const CreateType = () => {
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
                 onClick={onSetModal}
-            >Создать Категорию</motion.div>
+            >Создать категорию</motion.div>
         </React.Fragment>
     )
 }

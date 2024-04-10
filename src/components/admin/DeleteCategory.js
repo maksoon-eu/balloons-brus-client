@@ -38,7 +38,7 @@ const DeleteTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAni
                 })
                 .catch(e => {
                     items.setTypesLoading(false)
-                    setInputError('Ошибка сервера')
+                    setInputError(e.response.data.message)
                 })
         }
     }
@@ -116,7 +116,7 @@ const DeleteType = () => {
                 whileTap={{ scale: 0.9 }}
                 className="create__btn"
                 onClick={onSetModal}
-            >Удалить Категорию</motion.div>
+            >Удалить категорию</motion.div>
         </React.Fragment>
     )
 }
