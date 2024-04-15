@@ -6,8 +6,8 @@ const app = express();
 const path = require('path');
 
 const options = {
-  key: fs.readFileSync('./sslcert/key.pem'),
-  cert: fs.readFileSync('./sslcert/fullchain.pem'),
+  key: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru/privkey.pem'),
+  cert: fs.readFileSync('./etc/letsencrypt/live/sharyotbrusa.ru/fullchain.pem'),
 };
 
 app.use(compression());
