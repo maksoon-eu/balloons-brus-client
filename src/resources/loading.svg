@@ -1,1 +1,108 @@
-<svg xml:space="preserve" viewBox="0 0 100 100" y="0" x="0" xmlns="http://www.w3.org/2000/svg" id="圖層_1" version="1.1" style="height: 100%; width: 100%; background: rgb(241, 242, 243);" width="200px" height="200px"><g class="ldl-scale" style="transform-origin: 50% 50%; transform: rotate(0deg) scale(0.8, 0.8);"><g class="ldl-ani"><g class="ldl-layer"><g class="ldl-ani" style="transform: scale(0.91); transform-origin: 50px 50px; animation: 1.11111s linear -0.740741s infinite normal forwards running breath-51da04b6-3163-4dfa-86a1-48d3f162c138;"><path stroke-miterlimit="10" stroke-width="3.5" stroke="#333" fill="#e15b64" d="M70.835 34.014c0 14.48-9.667 27.98-21.591 27.98s-21.591-13.501-21.591-27.98S37.319 10 49.244 10s21.591 9.535 21.591 24.014z" style="fill: rgb(197, 171, 255); stroke: rgb(51, 51, 51);"></path></g></g><g class="ldl-layer"><g class="ldl-ani" style="transform: scale(0.91); transform-origin: 50px 50px; animation: 1.11111s linear -0.925926s infinite normal forwards running breath-51da04b6-3163-4dfa-86a1-48d3f162c138;"><path stroke-miterlimit="10" stroke-width="3.5" stroke="#333" fill="#e15b64" d="M51.941 70.91h-5.394a2.62 2.62 0 0 1-2.515-3.356l1.685-5.764h7.053l1.685 5.764a2.62 2.62 0 0 1-2.514 3.356z" style="fill: rgb(197, 171, 255); stroke: rgb(51, 51, 51);"></path></g></g><g class="ldl-layer"><g class="ldl-ani" style="transform: scale(0.91); transform-origin: 50px 50px; animation: 1.11111s linear -1.11111s infinite normal forwards running breath-51da04b6-3163-4dfa-86a1-48d3f162c138;"><path stroke-miterlimit="10" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.5" stroke="#333" fill="none" d="M48.954 70.91c-.553 3.719-.769 7.24-.718 11 .025 1.853.142 3.773 1.002 5.414.86 1.641 2.658 2.929 4.487 2.634 1.899-.306 3.157-2.104 4.037-3.814.969-1.884 1.762-3.863 2.893-5.653 1.131-1.791 2.664-3.42 4.644-4.174.99-.377 2.146-.508 3.081-.011 1.604.853 1.83 3.015 1.894 4.831.064 1.816.406 3.995 2.075 4.712" style="stroke: rgb(51, 51, 51);"></path></g></g></g></g></svg>
+<svg xml:space="preserve" viewBox="0 0 100 100" y="0" x="0" xmlns="http://www.w3.org/2000/svg" id="圖層_1" version="1.1" style="height: 100%; width: 100%; background: rgb(241, 242, 243);" width="200px" height="200px">
+    <style>
+        @keyframes breath-animation {
+            0% {
+                transform: translate(0px, 0px) rotate(0deg) scale(0.91, 0.91) skew(0deg, 0deg);
+                opacity: 1;
+            }
+            4% {
+                transform: translate(0px, 0px) rotate(0deg) scale(0.91, 0.91);
+            }
+            8% {
+                animation-timing-function: cubic-bezier(0.69,0.60,0.35,0.27);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.91, 0.91);
+            }
+            14% {
+                transform: translate(0px, 0px) rotate(0deg) scale(0.93, 0.93);
+            }
+            18% {
+                transform: translate(0px, 0px) rotate(0deg) scale(0.94, 0.94);
+            }
+            22% {
+                animation-timing-function: cubic-bezier(0.67,0.66,0.34,0.33);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.96, 0.96);
+            }
+            26% {
+                transform: translate(0px, 0px) rotate(0deg) scale(0.97, 0.97);
+            }
+            30% {
+                transform: translate(0px, 0px) rotate(0deg) scale(0.99, 0.99);
+            }
+            34% {
+                animation-timing-function: cubic-bezier(0.65,0.71,0.32,0.38);
+                transform: translate(0px, 0px) rotate(0deg) scale(1.01, 1.01);
+            }
+            40% {
+                animation-timing-function: cubic-bezier(0.64,0.74,0.31,0.41);
+                transform: translate(0px, 0px) rotate(0deg) scale(1.02, 1.02);
+            }
+            46% {
+                animation-timing-function: cubic-bezier(0.60,0.91,0.23,0.63);
+                transform: translate(0px, 0px) rotate(0deg) scale(1.03, 1.03);
+            }
+            50% {
+                transform: translate(0px, 0px) rotate(0deg) scale(1.03, 1.03);
+            }
+            54% {
+                transform: translate(0px, 0px) rotate(0deg) scale(1.03, 1.03);
+            }
+            58% {
+                animation-timing-function: cubic-bezier(0.69,0.60,0.35,0.27);
+                transform: translate(0px, 0px) rotate(0deg) scale(1.03, 1.03);
+            }
+            64% {
+                transform: translate(0px, 0px) rotate(0deg) scale(1.01, 1.01);
+            }
+            68% {
+                transform: translate(0px, 0px) rotate(0deg) scale(1.00, 1.00);
+            }
+            72% {
+                animation-timing-function: cubic-bezier(0.67,0.66,0.34,0.33);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.98, 0.98);
+            }
+            76% {
+                animation-timing-function: cubic-bezier(0.66,0.68,0.33,0.35);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.97, 0.97);
+            }
+            82% {
+                animation-timing-function: cubic-bezier(0.65,0.71,0.32,0.38);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.94, 0.94);
+            }
+            88% {
+                animation-timing-function: cubic-bezier(0.65,0.73,0.31,0.40);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.92, 0.92);
+            }
+            94% {
+                animation-timing-function: cubic-bezier(0.63,0.80,0.28,0.48);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.91, 0.91);
+            }
+            100% {
+                animation-timing-function: cubic-bezier(0.63,0.80,0.28,0.48);
+                transform: translate(0px, 0px) rotate(0deg) scale(0.91, 0.91);
+            }
+        }
+    </style>
+    <g class="ldl-scale" style="transform-origin: 50% 50%; transform: rotate(0deg) scale(0.8, 0.8);">
+        <g class="ldl-ani">
+            <g class="ldl-layer">
+                <g class="ldl-ani" style="transform: scale(0.91); transform-origin: 50px 50px; animation: 1.11111s linear -0.740741s infinite normal forwards running breath-animation;"
+                >
+                    <path stroke-miterlimit="10" stroke-width="3.5" stroke="#333" fill="#e15b64" d="M70.835 34.014c0 14.48-9.667 27.98-21.591 27.98s-21.591-13.501-21.591-27.98S37.319 10 49.244 10s21.591 9.535 21.591 24.014z" style="fill: rgb(197, 171, 255); stroke: rgb(51, 51, 51);">
+                    </path>
+                </g>
+            </g>
+            <g class="ldl-layer">
+                <g class="ldl-ani" style="transform: scale(0.91); transform-origin: 50px 50px; animation: 1.11111s linear -0.925926s infinite normal forwards running breath-animation;">
+                    <path stroke-miterlimit="10" stroke-width="3.5" stroke="#333" fill="#e15b64" d="M51.941 70.91h-5.394a2.62 2.62 0 0 1-2.515-3.356l1.685-5.764h7.053l1.685 5.764a2.62 2.62 0 0 1-2.514 3.356z" style="fill: rgb(197, 171, 255); stroke: rgb(51, 51, 51);">
+                    </path>
+                </g>
+            </g>
+            <g class="ldl-layer">
+                <g class="ldl-ani" style="transform: scale(0.91); transform-origin: 50px 50px; animation: 1.11111s linear -1.11111s infinite normal forwards running breath-animation;">
+                    <path stroke-miterlimit="10" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.5" stroke="#333" fill="none" d="M48.954 70.91c-.553 3.719-.769 7.24-.718 11 .025 1.853.142 3.773 1.002 5.414.86 1.641 2.658 2.929 4.487 2.634 1.899-.306 3.157-2.104 4.037-3.814.969-1.884 1.762-3.863 2.893-5.653 1.131-1.791 2.664-3.42 4.644-4.174.99-.377 2.146-.508 3.081-.011 1.604.853 1.83 3.015 1.894 4.831.064 1.816.406 3.995 2.075 4.712" style="stroke: rgb(51, 51, 51);">
+                    </path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
