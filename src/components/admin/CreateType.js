@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
-import { createType } from "../../http/itemsApi";
+import { createType } from "../../http/typesApi";
 import { useClickOut } from '../../hooks/clickOut.hook';
 import { useInputsChange } from '../../hooks/inputs.hook';
 
@@ -16,26 +16,27 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
 
     useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
 
-    const {items} = useContext(Context);
+    const {items, types} = useContext(Context);
 
     const onSubmit = () => {
         if (input === '' ) {
             setInputError('Заполните все поля')
         } else {
             setInputError(false)
-            items.setTypesLoading(true)
+            types.setTypesLoading(true)
             createType({name: input.charAt(0).toUpperCase() + input.slice(1).toLowerCase().trimEnd()})
                 .then(data => {
-                    items.setTypesLoading(false)
+                    types.setTypesLoading(false)
                     setShowAnimation(false)
                     setTimeout(() => {
                         setModalOpen(false)
                         document.querySelector('body').style.position = 'relative';
                     }, 400)
                     setInput('')
-                    items.setUpdateTypes(!items.updateTypes)
+                    types.setUpdateTypes(!types.updateTypes)
                 })
                 .catch(e => {
+                    console.error(e)
                     items.setItemsLoading(false)
                     setInputError(e.response.data.message)
                 })
@@ -79,7 +80,7 @@ const TypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{items.typesLoading ? <span className="loader"></span> : "Создать"}</motion.div>
+                >{types.typesLoading ? <span className="loader"></span> : "Создать"}</motion.div>
             </div>
         </motion.div>
     )

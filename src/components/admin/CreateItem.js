@@ -25,11 +25,11 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
 
     useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, setRotationAngle, setModalOpen);
 
-    const {items} = useContext(Context);
+    const {items, types} = useContext(Context);
 
     useEffect(() => {
         setSubType([])
-        items.types.forEach(item => {
+        types.types.forEach(item => {
             if (item.id === typeId) {
                 setSubType(item.subType)
             }
@@ -72,6 +72,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
                     setDropdownTypeCurrent(false)
                 })
                 .catch(e => {
+                    console.error(e)
                     items.setItemsLoading(false)
                     setInputError(e.response.data.message)
                 })

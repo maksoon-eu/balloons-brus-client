@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useRef } from "react";
 import { Context } from "..";
-import { fetchTypes, fetchSliderType } from "../http/itemsApi";
+import { fetchTypes, fetchSliderType } from "../http/typesApi";
 import { motion } from "framer-motion";
 
 import NavBar from "../components/navBar/NavBar";
@@ -13,16 +13,16 @@ const MainPage = ({scrollToComponent, contactRef}) => {
     const worksRef = useRef(null);
     const reviewsRef = useRef(null);
 
-    const {items} = useContext(Context);
+    const {types} = useContext(Context);
 
     useEffect(() => {
-        if (items.types.length === 0) {
-            items.setTypesLoading(true)
+        if (types.types.length === 0) {
+            types.setTypesLoading(true)
             const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
 
             const fetchDataPromise = fetchTypes()
                 .then(data => {
-                    items.setTypes(data)
+                    types.setTypes(data)
                 })
                 .catch(e => {
                     console.error(e);
@@ -30,15 +30,16 @@ const MainPage = ({scrollToComponent, contactRef}) => {
 
             Promise.all([fetchDataPromise, timeoutPromise])
                 .finally(() => {
-                    items.setTypesLoading(false);
+                    types.setTypesLoading(false);
                 });
         }
-        if (items.sliderTypes.length === 0) {
+        if (types.sliderTypes.length === 0) {
             fetchSliderType()
                 .then(data => {
-                    items.setSliderTypes(data)
+                    types.setSliderTypes(data)
                 })
                 .catch(e => {
+                    console.error(e)
                 })
         }
     }, [])

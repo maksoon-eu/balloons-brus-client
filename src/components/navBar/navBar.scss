@@ -28,21 +28,34 @@
 
 @media (max-width: 630px) {
     .nav {
+        flex-wrap: wrap;
+
         &__item {
             font-size: 14px;
-            width: 110px;
-            height: 30px;
+            width: 120px;
+            height: 35px;
             border-radius: 5px;
         }
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 540px) {
+    .nav {
+        margin-bottom: 0px;
+
+        &__item {
+            width: 200px;
+            height: 35px;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@media (max-width: 440px) {
     .nav {
         &__item {
-            font-size: 12px;
-            width: 90px;
-            height: 25px;
+            width: 160px;
+            height: 30px;
         }
     }
 }

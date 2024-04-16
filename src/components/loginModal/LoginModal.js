@@ -26,14 +26,16 @@ const LoginModal = observer(() => {
     const signIn = async () => {
         if (userLogin !== '' && userPassword !== '') {
             setLoginLoading(true)
+
             try {
-                const data = await login(userLogin, userPassword)
+                await login(userLogin, userPassword)
                 setLoginLoading(false)
                 setToggleError(false)
                 user.setIsAuth(true)
                 navigate("/admin")
                 localStorage.setItem('login', userLogin)
             } catch(e) {
+                console.error(e)
                 setLoginError(e.response.data.message)
                 setToggleError(true)
                 setLoginLoading(false)
@@ -46,11 +48,12 @@ const LoginModal = observer(() => {
             if (userPasswordChange === userPasswordChangeAgain) {
                 setLoginLoading(true)
                 try {
-                    const data = await change(localStorage.getItem('login'), userPasswordChange)
+                    await change(localStorage.getItem('login'), userPasswordChange)
                     setToggleErrorPassword(false)
                     setChangePassword(false)
                     setLoginLoading(false)
                 } catch(e) {
+                    console.error(e)
                     setLoginErrorPassword(e.response.data.message)
                     setToggleErrorPassword(true)
                     setLoginLoading(false)

@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
-import { createSubType } from "../../http/itemsApi";
+import { createSubType } from "../../http/typesApi";
 import { useClickOut } from '../../hooks/clickOut.hook';
 import { useInputsChange } from '../../hooks/inputs.hook';
 
@@ -19,7 +19,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimat
 
     useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
 
-    const {items} = useContext(Context);
+    const {items, types} = useContext(Context);
 
     const onSubmit = () => {
         if (input === '' || !typeId) {
@@ -39,9 +39,10 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimat
                     setInput('')
                     setTypeId(false)
                     setDropdownCurrent(false)
-                    items.setUpdateTypes(!items.updateTypes)
+                    types.setUpdateTypes(!types.updateTypes)
                 })
                 .catch(e => {
+                    console.error(e)
                     items.setItemsLoading(false)
                     setInputError(e.response.data.message)
                 })
@@ -73,8 +74,8 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimat
             <div className="create__modal-content create__modal-content-middle" ref={refModal}>
                 <Dropdown
                     type="Выберите категорию" 
-                    typeList={items.types} 
-                    loading={items.typesLoading} 
+                    typeList={types.types} 
+                    loading={types.typesLoading} 
                     setState={setTypeId} 
                     state={typeId}
                     dropdownCurrent={dropdownCurrent}
@@ -95,7 +96,7 @@ const SubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimat
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{items.typesLoading ? <span className="loader"></span> : "Создать"}</motion.div>
+                >{types.typesLoading ? <span className="loader"></span> : "Создать"}</motion.div>
             </div>
         </motion.div>
     )

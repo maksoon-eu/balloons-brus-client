@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+
 import CartList from "../components/cartList/CartList";
 import OrderModal from "../components/orderModal/OrderModal";
 

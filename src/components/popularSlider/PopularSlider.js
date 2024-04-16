@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../..";
-import { fetchItems, changeSliderType } from "../../http/itemsApi";
+import { fetchItems } from "../../http/itemsApi";
+import { changeSliderType } from "../../http/typesApi";
 import { observer } from "mobx-react-lite";
 
 import Dropdown from "../dropdown/Dropdown";
@@ -16,7 +17,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const PopularSlider = observer(({id}) => {
-    const {items, user} = useContext(Context);
+    const {items, types, user} = useContext(Context);
 
     const navigate = useNavigate();
 
@@ -35,26 +36,27 @@ const PopularSlider = observer(({id}) => {
     const skeletonArr = ['', '', '', ''];
 
     useEffect(() => {
-        if (items.sliderTypes.length !== 0) {
-            setTypeId(items.sliderTypes.filter(item => item.id === id)[0].typeId)
-            setSubTypeId(items.sliderTypes.filter(item => item.id === id)[0].subTypeId)
+        if (types.sliderTypes.length !== 0) {
+            setTypeId(types.sliderTypes.filter(item => item.id === id)[0].typeId)
+            setSubTypeId(types.sliderTypes.filter(item => item.id === id)[0].subTypeId)
         }
-    }, [items.sliderTypes])
+    }, [types.sliderTypes])
 
     useEffect(() => {
         if (typeId && subTypeId && (items[`itemsSlider${id}`].length === 0 || updateList || items.updateList)) {
-            if (user.isAuth && typeId !== items.sliderTypes.filter(item => item.id === id)[0].typeId && subTypeId !== items.sliderTypes.filter(item => item.id === id)[0].subTypeId) {
+            if (user.isAuth && typeId !== types.sliderTypes.filter(item => item.id === id)[0].typeId && subTypeId !== types.sliderTypes.filter(item => item.id === id)[0].subTypeId) {
                 changeSliderType(id, {typeId, subTypeId})
                     .then(data => {
-                        items.sliderTypes.forEach(item => {
+                        types.sliderTypes.forEach(item => {
                             if (item.id === id) {
                                 item.typeId = typeId
                                 item.subTypeId = subTypeId
-                                items.setSliderTypes(items.sliderTypes)
+                                types.setSliderTypes(types.sliderTypes)
                             }
                         })
                     })
                     .catch(e => {
+                        console.error(e)
                         setError(true)
                     })
             }
@@ -80,7 +82,7 @@ const PopularSlider = observer(({id}) => {
         if (!typeId) {
             setSubType([])
         } else {
-            items.types.forEach(item => {
+            types.types.forEach(item => {
                 if (item.id === typeId) {
                     setDropdownTypeCurrent(item.name)
                     setSubType(item.subType)
@@ -92,10 +94,10 @@ const PopularSlider = observer(({id}) => {
                 }
             })
         }
-    }, [typeId, items.typesLoading])
+    }, [typeId, types.typesLoading])
 
     const navigateToCatalog = () => {
-        if (!loading && !items.typesLoading && dropdownTypeCurrent && dropdownSubTypeCurrent) {
+        if (!loading && !types.typesLoading && dropdownTypeCurrent && dropdownSubTypeCurrent) {
             items.setSelectedType(typeId)
             items.setSelectedSubType(subTypeId)
             items.setUpdateList(true)
@@ -145,12 +147,12 @@ const PopularSlider = observer(({id}) => {
 
     return (
         <div className="slider">
-            <div className="slider__title slider__title--hover" onClick={navigateToCatalog}>{items[`itemsSlider${id}`].length === 0 || items.typesLoading ? 'Загрузка...' : `${!dropdownTypeCurrent ? 'Не' : dropdownTypeCurrent} ${!dropdownSubTypeCurrent ? 'выбрано' : dropdownSubTypeCurrent}`}</div>
+            <div className="slider__title slider__title--hover" onClick={navigateToCatalog}>{items[`itemsSlider${id}`].length === 0 || types.typesLoading ? 'Загрузка...' : `${!dropdownTypeCurrent ? 'Не' : dropdownTypeCurrent} ${!dropdownSubTypeCurrent ? 'выбрано' : dropdownSubTypeCurrent}`}</div>
 
             {user.isAuth && <div className="slider__btn">
                 <Dropdown 
                     type="Категория" 
-                    typeList={items.types} 
+                    typeList={types.types} 
                     loading={loading} 
                     setState={setTypeId} 
                     state={typeId}
@@ -178,10 +180,10 @@ const PopularSlider = observer(({id}) => {
                     initial={{ opacity: 0}}
                     animate={{ opacity: 1}}
                     exit={{opacity: 0}}
-                    key={loading || items.typesLoading}
+                    key={loading || types.typesLoading}
                 >
                     <Slider {...settings}>
-                        {loading || items.typesLoading ? skeletonList : !loading && !items.typesLoading ? itemList : "Ошибка"}
+                        {loading || types.typesLoading ? skeletonList : !loading && !types.typesLoading ? itemList : "Ошибка"}
                     </Slider>
                 </motion.div>
             </AnimatePresence> : ''}

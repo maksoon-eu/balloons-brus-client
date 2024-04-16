@@ -39,8 +39,9 @@ const ChangeMainSlider = observer(({changeModal, setChangeModal, item, showAnima
                     setInputError(false)
                 })
                 .catch(e => {
+                    console.error(e)
                     setLoading(false)
-                    setInputError('Ошибка сервера')
+                    setInputError(e.response.data.message)
                 })
         }
     }

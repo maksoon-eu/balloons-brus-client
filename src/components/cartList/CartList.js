@@ -3,8 +3,8 @@ import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fetchIdsItem } from '../../http/itemsApi';
-import SkeletonCart from '../skeleton/SkeletonCart';
 
+import SkeletonCart from '../skeleton/SkeletonCart';
 import CartItem from '../cartItem/CartItem';
 
 import './cartList.scss';
@@ -27,6 +27,7 @@ const CartList = observer(() => {
                     items.setUpdateCart(false);
                 })
                 .catch(e => {
+                    console.error(e)
                     items.setCartLoading(false);
                     items.setUpdateCart(false);
                 });

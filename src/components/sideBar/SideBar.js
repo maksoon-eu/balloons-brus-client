@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
-import { fetchTypes } from "../../http/itemsApi";
+import { fetchTypes } from "../../http/typesApi";
 import { useLocation } from 'react-router-dom';
 import { useClickOut } from "../../hooks/clickOut.hook";
 
@@ -218,17 +218,18 @@ const Sidebar = observer(({setUpdateList}) => {
     const refBtn = useRef(null);
     const height = useRef({ width: 0, height: 0 });
 
-    const {items} = useContext(Context) 
+    const {types} = useContext(Context) 
 
     useEffect(() => {
-        if (items.types.length === 0) {
+        if (types.types.length === 0) {
         setLoading(true)
         fetchTypes()
             .then(data => {
-                items.setTypes(data)
+                types.setTypes(data)
                 setLoading(false)
             })
             .catch(e => {
+                console.error(e)
                 setLoading(false)
             })
         }
@@ -245,7 +246,7 @@ const Sidebar = observer(({setUpdateList}) => {
         setSideOpened(sideOpened => !sideOpened && loading ? sideOpened : !sideOpened)
     }
 
-    const typeList = items.types.map((item, i) => {
+    const typeList = types.types.map((item, i) => {
         return (
             <LiItems 
                 setUpdateList={setUpdateList} 
@@ -307,7 +308,7 @@ const Sidebar = observer(({setUpdateList}) => {
                     setUpdateList={setUpdateList} 
                     name={'Цена'} 
                     price={true} 
-                    i={items.types.length} 
+                    i={types.types.length} 
                     setExpanded={setExpanded} 
                     expanded={expanded} 
                     setSideOpened={setSideOpened}
@@ -318,7 +319,7 @@ const Sidebar = observer(({setUpdateList}) => {
                     setUpdateList={setUpdateList} 
                     name={'Отчистить все'} 
                     clear={true} 
-                    i={items.types.length+1} 
+                    i={types.types.length + 1} 
                     setExpanded={setExpanded} 
                     expanded={expanded} 
                     setSideOpened={setSideOpened}

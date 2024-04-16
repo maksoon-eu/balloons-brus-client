@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from './components/app/App';
 
 import ItemStore from './store/ItemStore';
+import TypeStore from './store/TypeStore';
 import UserStore from './store/UserStore';
 import WorkStore from './store/WorkStore';
 import ReviewStore from './store/ReviewStore';
@@ -19,6 +20,7 @@ root.render(
     // <React.StrictMode>
     <Context.Provider value={{
       user: new UserStore(),
+      types: new TypeStore(),
       items: new ItemStore(),
       works: new WorkStore(),
       reviews: new ReviewStore(),

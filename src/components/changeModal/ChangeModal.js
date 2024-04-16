@@ -56,8 +56,9 @@ const ChangeModal = observer(({changeModal, setChangeModal, item, showAnimation,
                     setLoading(false)
                 })
                 .catch(e => {
+                    console.error(e)
                     setLoading(false)
-                    setInputError('Ошибка сервера')
+                    setInputError(e.response.data.message)
                 })
         }
     }

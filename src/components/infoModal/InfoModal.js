@@ -43,7 +43,8 @@ const InfoModal = observer(({changeModal, setChangeModal, showAnimation, setShow
                 item.reviews.setReviewsLoading(false)
             })
             .catch(e => {
-                setInputError('Ошибка сервера')
+                console.error(e)
+                setInputError(e.response.data.message)
             })
     }
 
@@ -64,7 +65,8 @@ const InfoModal = observer(({changeModal, setChangeModal, showAnimation, setShow
                 
             })
             .catch(e => {
-                setInputError('Ошибка сервера')
+                console.error(e)
+                setInputError(e.response.data.message)
             })
     }
 

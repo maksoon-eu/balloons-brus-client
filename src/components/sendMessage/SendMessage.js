@@ -35,7 +35,7 @@ const SendMessage = () => {
                     setModalOpen(true)
                 })
                 .catch(e => {
-                    console.log(e.message)
+                    console.error(e)
                     setLoading(false)
                 })
         }

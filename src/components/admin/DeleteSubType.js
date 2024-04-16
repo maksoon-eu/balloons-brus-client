@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
-import { deleteSubType } from "../../http/itemsApi";
+import { deleteSubType } from "../../http/typesApi";
 import { useClickOut } from '../../hooks/clickOut.hook';
 
 import Dropdown from '../dropdown/Dropdown';
@@ -19,11 +19,11 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShow
 
     useClickOut(refModal, modalOpen, false, false, true, setShowAnimation, false, setModalOpen);
 
-    const {items} = useContext(Context);
+    const {types} = useContext(Context);
 
     useEffect(() => {
         setSubType([])
-        items.types.forEach(item => {
+        types.types.forEach(item => {
             if (item.id === typeId) {
                 setSubType(item.subType)
             }
@@ -40,10 +40,10 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShow
             setInputError('Заполните все поля')
         } else {
             setInputError(false)
-            items.setTypesLoading(true)
+            types.setTypesLoading(true)
             deleteSubType(subTypeId)
                 .then(data => {
-                    items.setTypesLoading(false)
+                    types.setTypesLoading(false)
                     setModalOpen(false)
                     document.querySelector('body').style.position = 'relative';
                     setTypeId(false)
@@ -51,11 +51,11 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShow
                     setSubType([])
                     setDropdownTypeCurrent(false)
                     setDropdownSubTypeCurrent(false)
-                    items.setUpdateTypes(!items.updateTypes)
+                    types.setUpdateTypes(!types.updateTypes)
                 })
                 .catch(e => {
-                    items.setTypesLoading(false)
-                    console.log(e.response)
+                    console.error(e)
+                    types.setTypesLoading(false)
                     setInputError(e.response.data.message)
                 })
         }
@@ -86,8 +86,8 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShow
             <div className="create__modal-content create__modal-content-middle" ref={refModal}>
                 <Dropdown 
                     type="Выберите категорию" 
-                    typeList={items.types} 
-                    loading={items.typesLoading} 
+                    typeList={types.types} 
+                    loading={types.typesLoading} 
                     setState={setTypeId} 
                     state={typeId}
                     dropdownCurrent={dropdownTypeCurrent}
@@ -97,7 +97,7 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShow
                 <Dropdown 
                     type="Выберите подкатегорию" 
                     typeList={subType} 
-                    loading={items.typesLoading} 
+                    loading={types.typesLoading} 
                     setState={setSubTypeId} 
                     state={subTypeId}
                     dropdownCurrent={dropdownSubTypeCurrent}
@@ -110,7 +110,7 @@ const DeleteSubTypeModal = observer(({modalOpen, refModal, setModalOpen, setShow
                     whileHover={{ scale: 1.05, translateY: -3 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onSubmit}
-                >{items.typesLoading ? <span className="loader"></span> : "Удалить"}</motion.div>
+                >{types.typesLoading ? <span className="loader"></span> : "Удалить"}</motion.div>
             </div>
         </motion.div>
     )

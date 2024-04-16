@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Context } from "..";
-import { fetchTypes } from "../http/itemsApi";
+import { fetchTypes } from "../http/typesApi";
 import { motion } from "framer-motion";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import DeleteType from "../components/admin/DeleteCategory";
 import DeleteSubType from "../components/admin/DeleteSubType";
 
 const AdminPage = observer(() => {
-    const {items, user} = useContext(Context);
+    const {types, user} = useContext(Context);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,11 +23,11 @@ const AdminPage = observer(() => {
 
     useEffect(() => {
         fetchTypes().then(data => {
-            items.setTypes(data)
-            items.setTypesLoading(false)
+            types.setTypes(data)
+            types.setTypesLoading(false)
         })
-        items.setUpdateList(true)
-    }, [items.updateTypes])
+        types.setUpdateList(true)
+    }, [types.updateTypes])
 
     return (
         <motion.div
