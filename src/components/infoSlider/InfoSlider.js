@@ -136,7 +136,7 @@ const InfoSlider = observer(({title, store, refs}) => {
                             width='100%' height='100%'
                             placeholderSrc={loadingImg}
                             effect="blur"
-                            src={`https://storage.sharyotbrusa.ru/${el.img}`}
+                            src={`${process.env.REACT_APP_STORAGE_URL}${el.img}`}
                             alt='img'
                         />
                     </div>

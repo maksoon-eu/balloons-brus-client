@@ -6,6 +6,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import loadingImg from '../../resources/loading.svg';
 
+import './chooseImg.scss';
+
 const ChooseImg = ({rotationAngle, setRotationAngle, setImgFile, setInputError, itemId, itemImg, classNames, changeImg, create = false}) => {
     const [userImageSrc, setUserImageSrc] = useState(false);
 
@@ -30,7 +32,7 @@ const ChooseImg = ({rotationAngle, setRotationAngle, setImgFile, setInputError, 
                     width='100%' height='100%'
                     placeholderSrc={loadingImg}
                     effect="blur"
-                    src={userImageSrc || `https://storage.sharyotbrusa.ru/${itemImg}`}
+                    src={userImageSrc || `${process.env.REACT_APP_STORAGE_URL}${itemImg}`}
                     ref={refImg}
                     alt='img'
                     className="create__img create__img--opacity"
@@ -52,7 +54,7 @@ const ChooseImg = ({rotationAngle, setRotationAngle, setImgFile, setInputError, 
                 onInput={(e) => create ? useUploadImg(e, refImg, setImgFile, setInputError, false, true) : useUploadImg(e, refImg, setImgFile, setInputError, setUserImageSrc, !changeImg)} 
                 id={`img${itemId}`}
             />
-            <div className="create__choose">
+            <div className="choose">
                 <svg width="30px" height="26px" viewBox="0 0 22 18" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <g id="Icons" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                         <g id="Rounded" transform="translate(-713.000000, -2903.000000)">

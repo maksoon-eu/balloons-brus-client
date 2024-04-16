@@ -165,25 +165,4 @@
             opacity: 1;
         }
     }
-
-    &__choose {
-        width: 140px;
-        height: 86px;
-        border-radius: 10px;
-        background-color: #fff;
-        opacity: .95;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate3D(-50%, -50%, 0);
-        z-index: 5;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        svg {
-            transition: .15s linear;
-        }
-    }
 }

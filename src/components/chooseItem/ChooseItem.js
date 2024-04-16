@@ -74,7 +74,7 @@ const ChooseItem = observer(() => {
                                         width='100%' height='100%'
                                         placeholderSrc={loadingImg}
                                         effect="blur"
-                                        src={`https://storage.sharyotbrusa.ru/${items.item.img}`}
+                                        src={`${process.env.REACT_APP_STORAGE_UR}${items.item.img}`}
                                         alt='img'
                                     />
                                 </div>

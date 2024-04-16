@@ -25,7 +25,7 @@ const CartItem = ({item}) => {
                     width='100%' height='100%'
                     placeholderSrc={loading}
                     effect="blur"
-                    src={`https://storage.sharyotbrusa.ru/${item.img}`}
+                    src={`${process.env.REACT_APP_STORAGE_URL}${item.img}`}
                     alt='img'
                 />
             </Link>

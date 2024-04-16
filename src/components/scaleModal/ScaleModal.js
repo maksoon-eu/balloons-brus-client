@@ -49,7 +49,7 @@ const ScaleModal = observer(({changeModal, setChangeModal, showAnimation, setSho
                     width='100%' height='100%'
                     placeholderSrc={loadingImg}
                     effect="blur"
-                    src={`https://storage.sharyotbrusa.ru/${activeItem}`}
+                    src={`${process.env.REACT_APP_STORAGE_URL}${activeItem}`}
                     alt='img'
                     className="scale__img"
                 />  
