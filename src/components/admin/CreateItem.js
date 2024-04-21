@@ -144,8 +144,8 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
                 </div>
                 <Dropdown 
                     type="Выберите категорию" 
-                    typeList={items.types} 
-                    loading={items.typesLoading} 
+                    typeList={types.types} 
+                    loading={types.typesLoading} 
                     setState={setTypeId} 
                     state={typeId}
                     dropdownCurrent={dropdownTypeCurrent}
@@ -155,7 +155,7 @@ const ItemModal = observer(({modalOpen, refModal, setModalOpen, setShowAnimation
                 <Dropdown 
                     type="Выберите подкатегорию" 
                     typeList={subType} 
-                    loading={items.typesLoading} 
+                    loading={types.typesLoading} 
                     setState={setSubTypeId} 
                     state={subTypeId}
                     dropdownCurrent={dropdownSubTypeCurrent}

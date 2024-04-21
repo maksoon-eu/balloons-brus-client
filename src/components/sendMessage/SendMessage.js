@@ -7,6 +7,8 @@ import { useInputsChange } from "../../hooks/inputs.hook";
 import ThanksModal from "../thanksModal/ThanksModal";
 import TextInput from "../textInput/TextInput";
 
+import promo from '../../resources/promo.svg';
+
 import './sendMessage.scss';
 
 const SendMessage = () => {
@@ -97,6 +99,9 @@ const SendMessage = () => {
                         onClick={onSendMessage}
                     >{loading ? <span className="loader"></span> : 'Отправить'}</motion.button>
                 </div>
+            </div>
+            <div className="message__img">
+                <img src={promo} alt="" />
             </div>
         </div>
         </React.Fragment>

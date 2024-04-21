@@ -141,32 +141,12 @@
     }
 }
 
-@media (max-width: 730px) {
+@media (max-width: 1024px) {
     .skeleton {
         &__item {
-            height: 300px;
-            max-width: 200px;
-        }
-    }
-}
-
-@media (max-width: 445px) {
-    .skeleton {
-        &__item {
-            height: 237px;
-            max-width: 165px;
-        }
-
-        &__cart {
-            height: 280px;
-        }
-    }
-}
-
-@media (max-width: 630px) {
-    .skeleton {
-        &__cart {
-            height: 160px;
+            &-mainSlider {
+                height: 300px;
+            }
         }
     }
 }
@@ -175,7 +155,7 @@
     .skeleton {
         &__flex {
             &-left {
-                height: auto;
+                height: 620px;
             }
             &-availability {
                 height: 27px;
@@ -191,6 +171,38 @@
     }
 }
 
+@media (max-width: 767px) {
+    .skeleton {
+        &__item {
+            &-mainSlider {
+                height: 200px;
+            }
+        }
+    }
+}
+
+@media (max-width: 730px) {
+    .skeleton {
+        &__item {
+            height: 300px;
+            max-width: 200px;
+        }
+    }
+}
+
+@media (max-width: 630px) {
+    .skeleton {
+        &__flex {
+            &-left {
+                height: auto;
+            }
+        }
+        &__cart {
+            height: 160px;
+        }
+    }
+}
+
 @media (max-width: 540px) {
     .skeleton {
         &__item {
@@ -201,9 +213,6 @@
         }
 
         &__flex {
-            &-left {
-                height: auto;
-            }
             &-availability {
                 height: 27px;
             }
@@ -218,22 +227,15 @@
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 445px) {
     .skeleton {
         &__item {
-            &-mainSlider {
-                height: 300px;
-            }
+            height: 237px;
+            max-width: 165px;
         }
-    }
-}
 
-@media (max-width: 767px) {
-    .skeleton {
-        &__item {
-            &-mainSlider {
-                height: 200px;
-            }
+        &__cart {
+            height: 280px;
         }
     }
 }

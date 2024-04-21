@@ -23,7 +23,6 @@ const Catalog = observer(() => {
     const {items} = useContext(Context);
 
     const skeletonArr = ['', '', '', '', '', '', '', '', '', '', '', ''];
-    let itemList = [];
 
     useEffect(() => {
         if (!items.itemsLoading ) {
@@ -38,7 +37,7 @@ const Catalog = observer(() => {
     }, [items.itemsLoading]);
 
     useEffect(() => {
-        if (itemList.length === 0 || items.updateList) {
+        if ((items.items.length === 0 && items.itemsLoading) || items.updateList) {
             items.setItemsLoading('loading')
             const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -93,7 +92,7 @@ const Catalog = observer(() => {
         }
     }
 
-    itemList = items.items.map(item => (
+    const itemList = items.items.map(item => (
         <CatalogItem key={item.id} item={item} setChangeModal={setChangeModal} setShowAnimation={setShowAnimation} setActiveItem={setActiveItem} />
     ));
 
@@ -139,7 +138,7 @@ const Catalog = observer(() => {
                 </motion.div>
             </AnimatePresence>
             </React.Fragment>
-            {items.totalCount % 4 === 0 && items.totalCount !== 0 &&
+            {items.totalCount % 12 === 0 && items.totalCount !== 0 &&
                 <motion.div 
                     className="load__more"
                     whileHover={{ scale: 1.05, translateY: -3 }}

@@ -10,7 +10,7 @@ import './dropdown.scss';
 const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCurrent, setDropdownCurrent, setInputError = false, multiple = false, subTypeId = null, setSubTypeId = null, setUpdateList = false, slider = false}) => {
     const [dropdownToggle, setDropdownToggle] = useState(false);
 
-    const {items} = useContext(Context);
+    const {types} = useContext(Context);
 
     const ref = useRef(null)
 
@@ -24,7 +24,7 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
 
     const onDropdownActive = () => {
         if (!loading) {
-            if ((slider && !items.typeLoading) || !slider) {
+            if ((slider && !types.typeLoading) || !slider) {
                 if (setInputError) {
                     setInputError(false)
                 }
@@ -55,7 +55,7 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
         }
     }
 
-    const types = typeList.map(item => {
+    const typesList = typeList.map(item => {
         return (
             <li key={item.id} onClick={(e) => onSetCurrentDropdown(e, item.id)} className={`dropdown__menu-item ${multiple ? (state.includes(item.id) ? 'active' : '') : (state === item.id ? 'active' : '')}`}>{item.name}</li>
         )
@@ -72,7 +72,7 @@ const Dropdown = observer(({type, typeList, loading, setState, state, dropdownCu
                     onClick={() => {setDropdownCurrent(false); setState(multiple ? [] : null)}} 
                     className={`dropdown__menu-item ${multiple ? (state.length === 0 ? 'active' : '') : (!state ? 'active' : '')}`}>{type}
                 </li>
-                {types.length ? types : <div className="dropdown__menu-item">Подкатегории отсутствуют</div>}
+                {typesList.length ? typesList : <div className="dropdown__menu-item">Подкатегории отсутствуют</div>}
             </ul>
         </div>
     );

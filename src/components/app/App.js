@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { check } from "../../http/userApi";
 import { Context } from "../..";
@@ -15,6 +15,7 @@ import AboutPage from "../../page/AboutPage";
 import LoginPage from "../../page/LoginPage";
 import Footer from "../footer/Footer";
 import BottomPanel from "../bottomPanel/BottomPanel";
+import NotFoundPage from "../../page/NotFoundPage";
 
 import '../../style/style.scss';
 
@@ -59,7 +60,7 @@ const App = observer(() => {
             <Route path="/catalog/:id" element={<ItemPage/>}/>
             <Route path="/info" element={<AboutPage/>}/>
             <Route path="/login" element={<LoginPage/>}/>
-            <Route path="*" element={<Navigate to="/" replace />}/>
+            <Route path="*" element={<NotFoundPage/>}/>
           </Routes>
         </AnimatePresence>
         <BottomPanel/>

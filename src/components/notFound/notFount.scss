@@ -1,0 +1,34 @@
+.notFound {
+    &__img {
+        max-width: 100%;
+        width: 100%;
+        max-height: 400px;
+
+        img {
+            max-width: 100%;
+            width: 100%;
+            max-height: 400px;
+        }
+    }
+
+    &__title {
+        font-size: 26px;
+        font-weight: 900;
+        text-align: center;
+    }
+
+    &__btns {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 460px) {
+    .notFound {
+        &__btns {
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    }
+}

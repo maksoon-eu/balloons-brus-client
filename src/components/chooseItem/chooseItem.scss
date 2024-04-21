@@ -147,7 +147,7 @@
 
 @media (max-width: 900px) {
     .chooseItem {
-        min-height: 670px;
+        min-height: 700px;
     }
 }
 
@@ -173,7 +173,7 @@
 
 @media (max-width: 620px) {
     .chooseItem {
-        min-height: 630px;
+        min-height: 530px;
 
         &__item {
             margin-bottom: 20px;
@@ -225,7 +225,7 @@
 
 @media (max-width: 540px) {
     .chooseItem {
-        min-height: 440px;
+        min-height: 368px;
 
         &-img {
             box-shadow: 5px 5px 12px 0px rgba(0, 0, 0, 0.4);

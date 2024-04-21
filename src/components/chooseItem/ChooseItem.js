@@ -5,7 +5,7 @@ import { addToCart, calcMinus, calcPlus } from "../../helpers/Helpers";
 import { fetchOneItem } from "../../http/itemsApi";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Context } from "../.."; 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
 import SimilarSlider from "../similarSlider/SimilarSlider";
@@ -22,6 +22,8 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import './chooseItem.scss';
 
 const ChooseItem = observer(() => {
+    const navigate = useNavigate();
+
     const {items} = useContext(Context);
     const flag = items.cart.findIndex(el => el[0] === items.item.id);
     
@@ -36,7 +38,11 @@ const ChooseItem = observer(() => {
 
         const fetchDataPromise = fetchOneItem(id)
             .then(data => {
-                items.setItem(data)
+                if (!data) {
+                    navigate("/notfound")
+                } else {
+                    items.setItem(data)
+                }
                     
             })
             .catch(e => {
@@ -65,7 +71,7 @@ const ChooseItem = observer(() => {
                     exit={{opacity: 0}}
                     key={loading}
                 >
-                    {loading || items.item.length === 0  ? <SkeletonChoose /> :
+                    {loading || items.item.length === 0 ? <SkeletonChoose /> :
                         <div>
                             <div className="chooseItem__item-name">{items.item.name.length > 25 ? items.item.name.slice(0, 25)+ '...' : items.item.name}</div>
                             <div className="chooseItem__item">
@@ -74,7 +80,7 @@ const ChooseItem = observer(() => {
                                         width='100%' height='100%'
                                         placeholderSrc={loadingImg}
                                         effect="blur"
-                                        src={`${process.env.REACT_APP_STORAGE_UR}${items.item.img}`}
+                                        src={`${process.env.REACT_APP_STORAGE_URL}${items.item.img}`}
                                         alt='img'
                                     />
                                 </div>

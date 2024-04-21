@@ -4,6 +4,8 @@ export default class ItemStore {
     constructor() {
         this._items = []
         this._item = []
+        this._selectedType = null
+        this._selectedSubType = null
         this._cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []
         this._cartItems = []
         this._updateCart = false
@@ -75,6 +77,14 @@ export default class ItemStore {
     setTotalPrice(price) {
         this._totalPrice = price
     }
+    setSelectedType(type) {
+        this.setPage(1)
+        this._selectedType = type
+    }
+    setSelectedSubType(subType) {
+        this.setPage(1)
+        this._selectedSubType = subType
+    }
 
     get updateList() {
         return this._updateList
@@ -129,5 +139,11 @@ export default class ItemStore {
     }
     get limit() {
         return this._limit
+    }
+    get selectedType() {
+        return this._selectedType
+    }
+    get selectedSubType() {
+        return this._selectedSubType
     }
 }
