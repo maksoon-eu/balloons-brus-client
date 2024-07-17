@@ -7,7 +7,7 @@ const path = require('path');
 
 const options = {
   key: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru-0002/privkey.pem'),
-  cert: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru-002/fullchain.pem'),
+  cert: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru-0002/fullchain.pem'),
 };
 
 app.use(compression());
