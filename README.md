@@ -1,4 +1,4 @@
-Balloons Brus 🎈
+Balloons Brus Frontend 🎈
 
 Description
   Balloons Brus is an online store designed for selling a variety of balloons for all occasions. The store provides a smooth, responsive shopping experience, built with React, Redux, and SCSS to ensure high performance, modern design, and scalable state management.
@@ -12,7 +12,7 @@ Features
   
 Installation
   Clone the repository:
-  git clone https://github.com/your-username/BalloonsBrus.git
+  git clone https://github.com/maksoon-eu/balloons-brus-client.git
 
 Usage
   Balloons Brus allows users to:
