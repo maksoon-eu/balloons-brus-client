@@ -1,4 +1,11 @@
-export const useUploadImg = (e, inputImg = false, setImgFile, setInputError, setUserImageSrc = false, changeImg = false) => {
+export const useUploadImg = (
+    e,
+    inputImg = false,
+    setImgFile,
+    setInputError,
+    setUserImageSrc = false,
+    changeImg = false
+) => {
     const file = e.target.files[0];
     setImgFile(file);
 
@@ -8,7 +15,7 @@ export const useUploadImg = (e, inputImg = false, setImgFile, setInputError, set
         if (setUserImageSrc) {
             setUserImageSrc(imageUrl);
         } else {
-            inputImg.current.setAttribute("src", imageUrl);
+            inputImg.current.setAttribute('src', imageUrl);
         }
 
         if (changeImg && inputImg) {
@@ -18,4 +25,4 @@ export const useUploadImg = (e, inputImg = false, setImgFile, setInputError, set
     }
 
     e.target.value = null;
-}
+};

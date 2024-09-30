@@ -1,40 +1,51 @@
-import { useEffect } from "react"
+import { useEffect } from 'react';
 
-export const useClickOut = (refModal, openModal, setOpenModal, bodyPosition = false, itemChange = false, setShowAnimation = false, setRotationAngle = false, setChangeModal = false, sidebar = false, refBtn = false) => {
+export const useClickOut = (
+    refModal,
+    openModal,
+    setOpenModal,
+    bodyPosition = false,
+    itemChange = false,
+    setShowAnimation = false,
+    setRotationAngle = false,
+    setChangeModal = false,
+    sidebar = false,
+    refBtn = false
+) => {
     useEffect(() => {
         const clickOutElement = (e) => {
             if (openModal && refModal.current && !refModal.current.contains(e.target)) {
                 if (!itemChange && !sidebar) {
-                    setOpenModal(false)
+                    setOpenModal(false);
                 }
 
                 if (sidebar) {
                     if (refBtn.current && !refBtn.current.contains(e.target)) {
-                        setOpenModal(false)
+                        setOpenModal(false);
                     }
                 }
-                
+
                 if (bodyPosition) {
                     document.querySelector('body').style.position = 'relative';
                 }
 
                 if (itemChange) {
-                    setShowAnimation(false)
+                    setShowAnimation(false);
                     setTimeout(() => {
-                        setChangeModal(false)
+                        setChangeModal(false);
                         if (setRotationAngle) {
-                            setRotationAngle(0)
+                            setRotationAngle(0);
                         }
                         document.querySelector('body').style.position = 'relative';
-                    }, 400)
+                    }, 400);
                 }
             }
-        }
-    
-        document.addEventListener("mousedown", clickOutElement)
-    
-        return function() {
-          document.removeEventListener("mousedown", clickOutElement)
-        }
-    }, [openModal])
-}
+        };
+
+        document.addEventListener('mousedown', clickOutElement);
+
+        return function () {
+            document.removeEventListener('mousedown', clickOutElement);
+        };
+    }, [openModal]);
+};

@@ -1,6 +1,6 @@
 export const handleDragOver = (e) => {
     e.preventDefault();
-}
+};
 
 export const handleDrop = (e, refImg, changeImg = false, setUserImageSrc = false) => {
     e.preventDefault();
@@ -11,7 +11,7 @@ export const handleDrop = (e, refImg, changeImg = false, setUserImageSrc = false
         if (changeImg) {
             setUserImageSrc(imageUrl);
         } else {
-            refImg.current.setAttribute("src", imageUrl);
+            refImg.current.setAttribute('src', imageUrl);
         }
 
         if (!changeImg) {
@@ -27,4 +27,4 @@ export const handleDrop = (e, refImg, changeImg = false, setUserImageSrc = false
         const changeEvent = new Event('change', { bubbles: true });
         input.dispatchEvent(changeEvent);
     }
-}
+};

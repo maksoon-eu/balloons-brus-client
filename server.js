@@ -6,20 +6,20 @@ const app = express();
 const path = require('path');
 
 const options = {
-  key: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru-0002/privkey.pem'),
-  cert: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru-0002/fullchain.pem'),
+    key: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru-0002/privkey.pem'),
+    cert: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru-0002/fullchain.pem'),
 };
 
 app.use(compression());
 
-app.use(express.static(path.resolve(__dirname, 'build')))
+app.use(express.static(path.resolve(__dirname, 'build')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
-})
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 const server = https.createServer(options, app);
 
 server.listen(443, () => {
-  console.log(`Server started on port 443`)
+    console.log(`Server started on port 443`);
 });
