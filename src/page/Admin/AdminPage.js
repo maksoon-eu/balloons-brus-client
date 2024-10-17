@@ -12,7 +12,7 @@ import DeleteSubType from '../../components/admin/DeleteSubType';
 import Smooth from '../../components/smooth/Smooth';
 
 const AdminPage = observer(() => {
-    const { types, user } = useContext(Context);
+    const { types, user, items } = useContext(Context);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const AdminPage = observer(() => {
             types.setTypes(data);
             types.setTypesLoading(false);
         });
-        types.setUpdateList(true);
+        items.setUpdateList(true);
     }, [types.updateTypes]);
 
     return (
