@@ -37,7 +37,10 @@ const App = observer(() => {
                 user.setIsAuth(true);
             })
             .catch((e) => {
-                console.error(e.message);
+                console.error("Ошибка авторизации:", e.message);
+                localStorage.removeItem('token');
+                user.setUser(false);
+                user.setIsAuth(false);
             });
     }, []);
 
@@ -57,8 +60,8 @@ const App = observer(() => {
 
     return (
         <div className="app">
+            <Header />
             <Suspense fallback="">
-                <Header />
                 <AnimatePresence mode="wait">
                     <Routes>
                         {user.isAuth && <Route path="/admin" element={<AdminPageAsync />} />}
@@ -80,8 +83,8 @@ const App = observer(() => {
                     </Routes>
                 </AnimatePresence>
                 <BottomPanel />
-                <Footer contactRef={contactRef} />
             </Suspense>
+            <Footer contactRef={contactRef} />
         </div>
     );
 });
