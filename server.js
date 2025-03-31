@@ -5,10 +5,10 @@ const compression = require('compression');
 const app = express();
 const path = require('path');
 
-// const options = {
-//     key: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru/privkey.pem'),
-//     cert: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru/fullchain.pem'),
-// };
+const options = {
+    key: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru/privkey.pem'),
+    cert: fs.readFileSync('../etc/letsencrypt/live/sharyotbrusa.ru/fullchain.pem'),
+};
 
 app.use(compression());
 
@@ -18,8 +18,8 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-// const server = https.createServer(options, app);
+const server = https.createServer(options, app);
 
-app.listen(443, () => {
+server.listen(443, () => {
     console.log(`Server started on port 443`);
 });
